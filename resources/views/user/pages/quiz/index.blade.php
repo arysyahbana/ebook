@@ -6,128 +6,126 @@
             <div class="flex justify-between">
                 <div class="min-h-full w-full">
                     <div class="flex items-center">
-                        <div class="bg-[#F3F3F3] flex w-[10%] pb-4">
+                        <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
                             <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg" data-aos="zoom-in" data-aos-duration="1700">
-                                <div class="text-6xl font-bold text-white">01</div>
+                                <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">01</div>
                             </div>
                         </div>
                         <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Vektor ABCD</p>
                     </div>
 
-                    <div class="px-12 pt-5 pb-12 text-slate-800">
-                        <div class="border-l-4 border-sky-500 pl-6 mt-6">
-                            <table width="100%">
-                                {{-- soal 1 --}}
-                                <tr>
-                                    <td>
-                                        <div class="flex gap-3">
-                                            <div>1.</div>
-                                            <div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                <div class="mt-2 space-y-2">
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_1" value="a" class="w-4 h-4 text-blue-500">
-                                                        <span>a. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_1" value="b" class="w-4 h-4 text-blue-500">
-                                                        <span>b. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_1" value="c" class="w-4 h-4 text-blue-500">
-                                                        <span>c. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_1" value="d" class="w-4 h-4 text-blue-500">
-                                                        <span>d. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_1" value="e" class="w-4 h-4 text-blue-500">
-                                                        <span>e. Lorem</span>
-                                                    </label>
-                                                </div>
+                    <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
+                        <div class="border-l-4 border-sky-500 pl-3 sm:pl-6 mt-6 space-y-10">
+                            <!-- Soal 1 -->
+                            <div class="flex flex-col md:flex-row gap-5">
+                                <div class="flex-1">
+                                    <div class="flex gap-3">
+                                        <div>1.</div>
+                                        <div class="flex-1">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                            <div class="mt-2 space-y-2">
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_1" value="a" class="w-4 h-4 text-blue-500">
+                                                    <span>a. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_1" value="b" class="w-4 h-4 text-blue-500">
+                                                    <span>b. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_1" value="c" class="w-4 h-4 text-blue-500">
+                                                    <span>c. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_1" value="d" class="w-4 h-4 text-blue-500">
+                                                    <span>d. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_1" value="e" class="w-4 h-4 text-blue-500">
+                                                    <span>e. Lorem</span>
+                                                </label>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="flex items-center ps-5 text-sm">
-                                        <label for="fileUpload" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
-                                            Upload
-                                        </label>
-                                        <input type="file" id="fileUpload" class="hidden" name="upload_jawaban_1">
-                                    </td>
-                                </tr>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <label for="fileUpload1" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
+                                        Upload
+                                    </label>
+                                    <input type="file" id="fileUpload1" class="hidden" name="upload_jawaban_1">
+                                </div>
+                            </div>
 
-                                {{-- soal 2 --}}
-                                <tr>
-                                    <td class="pt-10">
-                                        <div class="flex gap-3">
-                                            <div>2.</div>
-                                            <div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                <div class="mt-2 space-y-2">
-                                                    <textarea class="textarea textarea-bordered bg-[#F3F3F3]" rows="4" cols="100" name="jawaban_2"></textarea>
-                                                </div>
+                            <!-- Soal 2 -->
+                            <div class="flex flex-col md:flex-row gap-5">
+                                <div class="flex-1">
+                                    <div class="flex gap-3">
+                                        <div>2.</div>
+                                        <div class="flex-1">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                            <div class="mt-2">
+                                                <textarea class="textarea textarea-bordered bg-[#F3F3F3] w-full md:w-[90%]" rows="4" name="jawaban_2"></textarea>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="flex items-center ps-5 text-sm pt-10">
-                                        <label for="fileUpload" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
-                                            Upload
-                                        </label>
-                                        <input type="file" id="fileUpload" class="hidden" name="upload_jawaban_2">
-                                    </td>
-                                </tr>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <label for="fileUpload2" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
+                                        Upload
+                                    </label>
+                                    <input type="file" id="fileUpload2" class="hidden" name="upload_jawaban_2">
+                                </div>
+                            </div>
 
-                                {{-- soal 3 --}}
-                                <tr>
-                                    <td class="pt-10">
-                                        <div class="flex gap-3">
-                                            <div>3.</div>
-                                            <div>
-                                                <div class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
-                                                    <img src="{{ asset('dist/assets/img/banner.jpg') }}" alt="" class="w-full h-full object-cover">
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                <div class="mt-2 space-y-2">
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_3" value="a" class="w-4 h-4 text-blue-500">
-                                                        <span>a. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_3" value="b" class="w-4 h-4 text-blue-500">
-                                                        <span>b. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_3" value="c" class="w-4 h-4 text-blue-500">
-                                                        <span>c. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_3" value="d" class="w-4 h-4 text-blue-500">
-                                                        <span>d. Lorem</span>
-                                                    </label>
-                                                    <label class="flex items-center gap-2">
-                                                        <input type="radio" name="jawaban_3" value="e" class="w-4 h-4 text-blue-500">
-                                                        <span>e. Lorem</span>
-                                                    </label>
-                                                </div>
+                            <!-- Soal 3 -->
+                            <div class="flex flex-col md:flex-row gap-5">
+                                <div class="flex-1">
+                                    <div class="flex gap-3">
+                                        <div>3.</div>
+                                        <div class="flex-1">
+                                            <div class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
+                                                <img src="{{ asset('dist/assets/img/banner.jpg') }}" alt="" class="w-full h-full object-cover">
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                            <div class="mt-2 space-y-2">
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_3" value="a" class="w-4 h-4 text-blue-500">
+                                                    <span>a. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_3" value="b" class="w-4 h-4 text-blue-500">
+                                                    <span>b. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_3" value="c" class="w-4 h-4 text-blue-500">
+                                                    <span>c. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_3" value="d" class="w-4 h-4 text-blue-500">
+                                                    <span>d. Lorem</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" name="jawaban_3" value="e" class="w-4 h-4 text-blue-500">
+                                                    <span>e. Lorem</span>
+                                                </label>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="flex items-center ps-5 text-sm pt-10">
-                                        <label for="fileUpload" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
-                                            Upload
-                                        </label>
-                                        <input type="file" id="fileUpload" class="hidden" name="upload_jawaban_3">
-                                    </td>
-                                </tr>
-                            </table>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <label for="fileUpload3" class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
+                                        Upload
+                                    </label>
+                                    <input type="file" id="fileUpload3" class="hidden" name="upload_jawaban_3">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flex justify-end gap-3 text-sm mt-6">
                             <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300" onclick="openModal('my_modal_1')">Selesai</a>
-                            {{-- <a href="#" class="bg-gray-200 text-sky-500 px-5 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300">Quiz</a> --}}
                         </div>
                     </div>
+
                 </div>
 
                 <div class="bg-[#F3F3F3] min-h-full min-w-2"></div>

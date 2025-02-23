@@ -6,9 +6,9 @@
             <div class="flex justify-between">
                 <div class="min-h-full w-full">
                     <div class="flex items-center">
-                        <div class="bg-[#F3F3F3] flex w-[10%] pb-4">
+                        <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
                             <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg" data-aos="zoom-in" data-aos-duration="1700">
-                                <div class="text-6xl font-bold text-white">02</div>
+                                <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">02</div>
                             </div>
                         </div>
                         <p class="text-5xl font-semibold text-sky-500 px-12">Vektor BCDE</p>

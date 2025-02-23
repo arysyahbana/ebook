@@ -5,14 +5,14 @@
         <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-duration="1500">
             <div class="flex justify-between">
                 <div class="min-h-full w-full">
-                    <div class="flex items-center">
-                        <div class="bg-[#F3F3F3] flex w-[10%] pb-4">
+                    <div class="flex lg:items-center">
+                        <div class="bg-[#F3F3F3] flex w-[10%] pb-2 lg:pb-4">
                             <div class="bg-gradient-to-b from-amber-500 to-yellow-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg" data-aos="zoom-in" data-aos-duration="1700">
-                                <img src="{{ asset('dist/assets/img/cupwhite.svg') }}" alt="" class="w-16">
+                                <img src="{{ asset('dist/assets/img/cupwhite.svg') }}" alt="" class="lg:w-16">
                             </div>
                         </div>
-                        <div class="flex justify-between w-full items-center">
-                            <div class="flex flex-col ">
+                        <div class="flex justify-between w-full items-center pt-5 lg:pt-0">
+                            <div class="flex flex-col">
                                 <p class="text-3xl font-semibold text-slate-600 px-12">Ary Syahbana</p>
                                 <p class="text-lg px-12 mt-1">20076034</p>
                             </div>

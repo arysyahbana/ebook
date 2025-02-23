@@ -6,7 +6,7 @@
             <div class="flex justify-between">
                 <div class="min-h-full w-full">
                     <div class="flex items-center">
-                        <div class="bg-[#F3F3F3] flex w-[10%] pb-4">
+                        <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
                             <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg" data-aos="zoom-in" data-aos-duration="1700">
                                 <img src="{{ asset('dist/assets/img/profile.svg') }}" alt="" class="w-16">
                             </div>
