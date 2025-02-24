@@ -17,7 +17,7 @@
     <div class="h-full shadow-xl">
 
         {{-- Navbar --}}
-        @include('user.Layouts.navbar')
+        @include('user.layouts.navbar')
 
         {{-- Banner --}}
         <section class="relative overflow-hidden min-h-[650px]">
