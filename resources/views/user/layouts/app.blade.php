@@ -31,12 +31,13 @@
     </div>
 
     <main class="container mx-auto mb-20">
-        @if ($page == 'Materi1' || $page == 'Materi2' || $page == 'Materi3')
+        @if ($page == 'Materi1' || $page == 'Materi2' || $page == 'Materi3' || $page == 'Quizall')
             <section class="mt-12">
                 <div class="flex flex-wrap gap-2 justify-center text-slate-800 text-sm">
                     <a href="{{ route('index') }}" class="{{ $page == 'Materi1' ? 'bg-sky-500 text-white' : 'bg-slate-300' }} hover:bg-sky-500 hover:text-white shadow px-4 py-2 transition-all duration-300 ease-in-out hover:scale-110 rounded-2xl"><i class="fas fa-book"></i>&nbsp;&nbsp;Materi 1</a>
                     <a href="{{ route('materi2') }}" class="{{ $page == 'Materi2' ? 'bg-sky-500 text-white' : 'bg-slate-300' }} hover:bg-sky-500 hover:text-white shadow px-4 py-2 transition-all duration-300 ease-in-out hover:scale-110 rounded-2xl"><i class="fas fa-book"></i>&nbsp;&nbsp;Materi 2</a>
                     <a href="{{ route('materi3') }}" class="{{ $page == 'Materi3' ? 'bg-sky-500 text-white' : 'bg-slate-300' }} hover:bg-sky-500 hover:text-white shadow px-4 py-2 transition-all duration-300 ease-in-out hover:scale-110 rounded-2xl"><i class="fas fa-book"></i>&nbsp;&nbsp;Materi 3</a>
+                    <a href="{{ route('quiz.all') }}" class="{{ $page == 'Quizall' ? 'bg-sky-500 text-white' : 'bg-slate-300' }} hover:bg-sky-500 hover:text-white shadow px-4 py-2 transition-all duration-300 ease-in-out hover:scale-110 rounded-2xl"><i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Seluruh Materi</a>
                 </div>
             </section>
         @endif

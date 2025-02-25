@@ -11,4 +11,9 @@ class QuizController extends Controller
         $page = 'Quiz';
         return view('user.pages.quiz.index', compact('page'));
     }
+    public function quizall()
+    {
+        $page = 'Quizall';
+        return view('user.pages.quiz.quizall', compact('page'));
+    }
 }

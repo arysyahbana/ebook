@@ -51,6 +51,7 @@ Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('index
 Route::get('/my-history', [LeaderboardController::class, 'myhistory'])->name('index.my.history');
 
 Route::get('/quiz', [QuizController::class, 'index'])->name('index.quiz');
+Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('quiz.all');
 
 // Admin
 Route::get('/dashboard', [DashboardController::class, 'index'])

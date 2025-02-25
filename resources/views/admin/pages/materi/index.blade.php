@@ -70,6 +70,22 @@
                                                                 label="Judul Materi" name="judul_materi"
                                                                 value="Vector" />
 
+                                                            <div class="mb-3">
+                                                                <label for="formFile" class="form-label">Video Materi
+                                                                    Sebelumnya</label>
+                                                                <br>
+                                                                <div class="text-center">
+                                                                    <div class="overflow-hidden rounded mx-auto">
+                                                                        <video class="w-100 h-100 object-fit-cover" controls>
+                                                                            <source src="{{ asset('dist/assets/img/vid.mp4') }}" type="video/mp4">
+                                                                            Browser Anda tidak mendukung tag video.
+                                                                        </video>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                             <x-admin.input type="file" placeholder="Video Materi Baru" label="Video Materi" name="video_materi" />
+
                                                             <label>Isi Materi</label>
                                                             <textarea class="form-control mb-3" name="isi_materi" id="edit_isi_materi" cols="20" rows="5">
                                                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore fugiat quisquam dolor nisi inventore unde. Voluptates, inventore! Voluptatibus, eos temporibus!
@@ -137,6 +153,8 @@
                         <x-admin.input type="text" placeholder="Nama Materi" label="Nama Materi" name="nama_materi" />
 
                         <x-admin.input type="text" placeholder="Judul Materi" label="Judul Materi" name="judul_materi" />
+
+                        <x-admin.input type="file" placeholder="Video Materi" label="Video Materi" name="video_materi" />
 
                         <label>Isi Materi</label>
                         <textarea class="form-control mb-3" name="isi_materi" id="isi_materi" cols="20" rows="5"></textarea>

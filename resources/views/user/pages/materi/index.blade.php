@@ -15,14 +15,17 @@
                     </div>
 
                     <div class="px-12 pt-5 pb-12">
+                        <div class="overflow-hidden h-full w-full rounded-xl mx-auto my-12">
+                            <video class="w-full h-full object-cover" controls>
+                                <source src="{{ asset('dist/assets/img/vid.mp4') }}" type="video/mp4">
+                                Browser Anda tidak mendukung tag video.
+                            </video>
+                        </div>
+
                         <div class="border-l-4 border-sky-500 pl-6 mt-6">
                             <p class="text-slate-600 text-base leading-relaxed">
                                 Lorem ipsum odor amet, consectetuer adipiscing elit. Dis aliquet parturient nisi tristique ligula fusce aptent. Risus imperdiet lectus auctor auctor placerat iaculis auctor inceptos. Cursus enim parturient eros ante diam maximus sodales parturient finibus. Molestie non gravida aenean non tristique varius amet penatibus. Senectus auctor habitasse morbi euismod, congue pharetra. Urna imperdiet ad vestibulum taciti varius amet fames volutpat. Nec natoque nibh varius fringilla hac bibendum, montes senectus pretium. Blandit aptent rhoncus mi aliquam; cursus condimentum etiam. Efficitur orci varius sodales congue lacinia mauris diam. Proin felis consectetur viverra sodales tortor. Sodales iaculis praesent congue vivamus viverra. Auctor mauris ultrices maximus maecenas; nunc proin adipiscing. Erat montes litora posuere curae metus. Morbi potenti placerat primis habitasse luctus duis. Fames aptent augue proin class parturient quam. Interdum mauris nec morbi neque adipiscing molestie fringilla venenatis et. Leo vel natoque eu molestie eu mus dignissim!
                             </p>
-                        </div>
-
-                        <div class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl p mx-auto my-12">
-                            <img src="{{ asset('dist/assets/img/banner.jpg') }}" alt="" class="w-full h-full object-cover">
                         </div>
 
                         <div class="border-l-4 border-sky-500 pl-6 mt-6">
