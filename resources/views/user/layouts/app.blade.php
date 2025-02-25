@@ -21,11 +21,11 @@
 
         {{-- Banner --}}
         <section class="relative overflow-hidden min-h-[650px]">
-            <img src="{{ asset('dist/assets/img/banner.jpg') }}" alt="" class="absolute inset-0 w-full h-full lg:h-screen object-cover z-10">
+            <img src="{{ $settings ? asset('dist/assets/img/cover/'.$settings->cover) : '' }}" alt="" class="absolute inset-0 w-full h-full lg:h-screen object-cover z-10">
             <div class="absolute inset-0 bg-black bg-opacity-30 z-20"></div>
             <div class="relative z-30 flex flex-col items-center justify-center h-full text-white text-center min-h-[650px]">
-                <h1 class="text-4xl lg:text-6xl font-bold drop-shadow-lg" data-aos="fade-up" data-aos-duration="1000">Lorem ipsum odor</h1>
-                <p class="mt-1" data-aos="fade-down" data-aos-duration="1200">Lorem ipsum odor amet, consectetuer adipiscing elit</p>
+                <h1 class="text-4xl lg:text-6xl font-bold drop-shadow-lg" data-aos="fade-up" data-aos-duration="1000">{{$settings->judul??''}}</h1>
+                <p class="mt-1" data-aos="fade-down" data-aos-duration="1200">{{$settings->deskripsi??''}}</p>
             </div>
         </section>
     </div>

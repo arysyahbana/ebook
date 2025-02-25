@@ -1,30 +1,15 @@
 <?php
 
-use App\Helpers\GlobalFunction;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\MateriController as AdminMateriController;
 use App\Http\Controllers\Admin\QuizController as AdminQuizController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KamarController;
-use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LeaderboardController;
-use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\MateriController;
-use App\Http\Controllers\ObjekWisataController;
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\PaketController;
-use App\Http\Controllers\PenginapanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\TransportasiController;
 use App\Http\Controllers\UserController;
-use App\Models\Kamar;
-use App\Models\Lokasi;
-use App\Models\ObjekWisata;
-use App\Models\PaketTour;
-use App\Models\Penginapan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +46,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::prefix('settings')->group(function () {
         Route::get('/show', [SettingController::class, 'index'])->name('setting.show');
+        Route::post('/store', [SettingController::class,'store'])->name('setting.store');
+        Route::post('/update/{id}', [SettingController::class,'update'])->name('setting.update');
+        Route::get('/destroy/{id}', [SettingController::class,'destroy'])->name('setting.destroy');
     });
 
     Route::prefix('materi')->group(function () {
