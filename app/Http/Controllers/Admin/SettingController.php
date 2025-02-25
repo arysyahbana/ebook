@@ -28,7 +28,7 @@ class SettingController extends Controller
     public function index()
     {
         $page = 'Setting';
-        $index = Setting::all();
+        $index = Setting::first();
         return view('admin.pages.setting.index', compact('page', 'index'));
     }
 
