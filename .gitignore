@@ -3,10 +3,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/dist/img/kamar
-/public/dist/img/objek-wisata
-/public/dist/img/paket-tour
-/public/dist/img/penginapan
+/public/dist/assets/img/*
 /storage/*.key
 /vendor
 .env
