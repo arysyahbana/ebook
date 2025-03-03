@@ -12,4 +12,10 @@ class HistoryController extends Controller
         $page = 'History';
         return view('admin.pages.history.index', compact('page'));
     }
+
+    public function detail()
+    {
+        $page = 'History';
+        return view('admin.pages.history.detail', compact('page'));
+    }
 }

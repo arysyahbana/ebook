@@ -65,6 +65,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
     Route::prefix('history')->group(function () {
         Route::get('/show', [HistoryController::class, 'index'])->name('history.show');
+        Route::get('/detail', [HistoryController::class, 'detail'])->name('history.detail');
     });
 
     Route::prefix('users')->group(function () {
