@@ -12,4 +12,16 @@ class MateriController extends Controller
         $page = 'Materi';
         return view('admin.pages.materi.index', compact('page'));
     }
+
+    public function create()
+    {
+        $page = 'Materi';
+        return view('admin.pages.materi.add', compact('page'));
+    }
+
+    public function edit()
+    {
+        $page = 'Materi';
+        return view('admin.pages.materi.edit', compact('page'));
+    }
 }

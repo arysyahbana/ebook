@@ -46,17 +46,21 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::prefix('settings')->group(function () {
         Route::get('/show', [SettingController::class, 'index'])->name('setting.show');
-        Route::post('/store', [SettingController::class,'store'])->name('setting.store');
-        Route::post('/update/{id}', [SettingController::class,'update'])->name('setting.update');
-        Route::get('/destroy/{id}', [SettingController::class,'destroy'])->name('setting.destroy');
+        Route::post('/store', [SettingController::class, 'store'])->name('setting.store');
+        Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
+        Route::get('/destroy/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');
     });
 
     Route::prefix('materi')->group(function () {
         Route::get('/show', [AdminMateriController::class, 'index'])->name('materi.show');
+        Route::get('/create', [AdminMateriController::class, 'create'])->name('materi.create');
+        Route::get('/edit', [AdminMateriController::class, 'edit'])->name('materi.edit');
     });
 
     Route::prefix('quiz')->group(function () {
         Route::get('/show', [AdminQuizController::class, 'index'])->name('quiz.show');
+        Route::get('/create', [AdminQuizController::class, 'create'])->name('quiz.create');
+        Route::get('/edit', [AdminQuizController::class, 'edit'])->name('quiz.edit');
     });
 
     Route::prefix('history')->group(function () {

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,8 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $settings = Setting::first();
-        View::share('settings', $settings);
+        // $settings = Setting::first();
+        // View::share('settings', $settings);
         // if ((bool) env('HTTPS', true)) {
         //     $this->app['url']->forceScheme('https');
         // } else {
@@ -30,5 +31,12 @@ class AppServiceProvider extends ServiceProvider
         // }
 
         // $this->app['request']->server->set('HTTPS', env('HTTPS'));
+
+        if (Schema::hasTable('settings')) {
+            $settings = Setting::first();
+            View::share('settings', $settings);
+        } else {
+            View::share('settings', null);
+        }
     }
 }

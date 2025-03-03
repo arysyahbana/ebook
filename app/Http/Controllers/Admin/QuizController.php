@@ -12,4 +12,16 @@ class QuizController extends Controller
         $page = 'Quiz';
         return view('admin.pages.quiz.index', compact('page'));
     }
+
+    public function create()
+    {
+        $page = 'Quiz';
+        return view('admin.pages.quiz.add', compact('page'));
+    }
+
+    public function edit()
+    {
+        $page = 'Quiz';
+        return view('admin.pages.quiz.edit', compact('page'));
+    }
 }
