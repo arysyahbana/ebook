@@ -18,39 +18,43 @@
                         <div class="table-responsive p-0">
                             <x-admin.table id="datatable">
                                 @slot('header')
-                                    <tr>
-                                        <x-admin.th>No</x-admin.th>
-                                        <x-admin.th>Nama Materi</x-admin.th>
-                                        <x-admin.th>Judul Materi</x-admin.th>
-                                        <x-admin.th>Isi Materi</x-admin.th>
-                                        <x-admin.th>Action</x-admin.th>
-                                    </tr>
+                                <tr>
+                                    <x-admin.th>No</x-admin.th>
+                                    <x-admin.th>Nama Materi</x-admin.th>
+                                    <x-admin.th>Judul Materi</x-admin.th>
+                                    <x-admin.th>Isi Materi</x-admin.th>
+                                    <x-admin.th>Video Materi Materi</x-admin.th>
+                                    <x-admin.th>Action</x-admin.th>
+                                </tr>
                                 @endslot
+                                @foreach ($materi as $data)
                                     <tr>
-                                        <x-admin.td>1</x-admin.td>
-                                        <x-admin.td>
-                                            nama materi
-                                        </x-admin.td>
-                                        <x-admin.td>Vector ABCD</x-admin.td>
+                                        <x-admin.td>{{$loop->iteration}}</x-admin.td>
+                                        <x-admin.td>{{$data->nama_materi}} </x-admin.td>
+                                        <x-admin.td>{{$data->judul_materi}} </x-admin.td>
                                         <x-admin.td
                                             style="word-wrap: break-word; word-break: break-word; white-space: normal; min-width: 300px">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, officia ex? Esse maxime quam doloribus numquam, alias iusto nihil nam.
+                                            {!!$data->isi_materi!!}
                                         </x-admin.td>
                                         <x-admin.td>
-                                            <a href="{{ route('materi.edit') }}" class="btn bg-gradient-info">
+                                            <a href="{{ asset('dist/assets/video/materi/' . $data->video_materi) }}" target="_blank">
+                                                {{$data->video_materi}}
+                                            </a>
+                                        </x-admin.td>
+                                        <x-admin.td>
+                                            <a href="{{ route('materi.edit', $data->id) }}" class="btn bg-gradient-info">
                                                 <i class="fa fa-pencil"></i>
                                                 <span class="text-capitalize ms-1">Edit</span>
                                             </a>
                                             <a href="#" class="btn bg-gradient-danger" data-bs-toggle="modal"
                                                 data-bs-target="#hapusMateri"><i class="fa fa-trash"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Hapus</span></a>
+                                                    aria-hidden="true"></i><span class="text-capitalize ms-1">Hapus</span></a>
                                         </x-admin.td>
 
                                         <!-- Modal Hapus Materi -->
-                                        <div class="modal fade" id="hapusMateri"
-                                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                            aria-labelledby="hapusMateriLabel" aria-hidden="true">
+                                        <div class="modal fade" id="hapusMateri" data-bs-backdrop="static"
+                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="hapusMateriLabel"
+                                            aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-scrollable">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -65,8 +69,7 @@
                                                         <p>Yakin ingin menghapus data?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a href="#"
-                                                            type="submit" class="btn btn-sm btn-danger">Hapus</a>
+                                                        <a href="{{ route('materi.destroy', $data->id) }}" type="submit" class="btn btn-sm btn-danger">Hapus</a>
                                                         <button type="button" class="btn btn-sm btn-secondary"
                                                             data-bs-dismiss="modal">Batal</button>
                                                     </div>
@@ -74,42 +77,12 @@
                                             </div>
                                         </div>
                                     </tr>
+                                @endforeach
 
                             </x-admin.table>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Add Materi -->
-    <div class="modal fade" id="addMateri" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="addMateriLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addMateriLabel">Tambah Data Materi</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="#" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <x-admin.input type="text" placeholder="Nama Materi" label="Nama Materi" name="nama_materi" />
-
-                        <x-admin.input type="text" placeholder="Judul Materi" label="Judul Materi" name="judul_materi" />
-
-                        <x-admin.input type="file" placeholder="Video Materi" label="Video Materi" name="video_materi" />
-
-                        <label>Isi Materi</label>
-                        <textarea class="form-control mb-3" name="isi_materi" id="isi_materi" cols="20" rows="5"></textarea>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-success">Simpan</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

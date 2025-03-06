@@ -9,9 +9,11 @@
                 <h6>Tambah Materi</h6>
                 <div class="card mb-4">
                     <div class="card-body px-5 pt-4 pb-2">
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{route('materi.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
+                                <x-admin.input type="number" placeholder="Ex 1,2,3" label="Materi Ke-" name="id" value="{{$newId}}"/>
+                                
                                 <x-admin.input type="text" placeholder="Nama Materi" label="Nama Materi" name="nama_materi" />
 
                                 <x-admin.input type="text" placeholder="Judul Materi" label="Judul Materi" name="judul_materi" />

@@ -399,69 +399,6 @@
         </div>
     </div>
 
-    <!-- Modal Add Quiz -->
-    <div class="modal fade" id="addQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="addQuizLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addQuizLabel">Tambah Data Quiz</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="#" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <Label>Tipe Soal</Label>
-                        <select class="form-select mb-3" aria-label="Default select example" name="type"
-                            id="type">
-                            <option selected hidden value="">--- Pilih Kategori ---</option>
-                            <option value="Objektif">Objektif</option>
-                            <option value="Objektif Bergambar">Objektif Bergambar</option>
-                            <option value="Uraian">Uraian</option>
-                            <option value="Uraian Bergambar">Uraian Bergambar</option>
-                        </select>
-
-                        <Label>Materi</Label>
-                        <select class="form-select mb-3" aria-label="Default select example" name="type"
-                            id="type">
-                            <option selected hidden value="">--- Pilih Kategori ---</option>
-                            <option value="Materi 1">Materi 1</option>
-                            <option value="Materi 2">Materi 2</option>
-                            <option value="Materi 3">Materi 3</option>
-                            <option value="Semua Materi">Semua Materi</option>
-                        </select>
-
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">File</label>
-                            <input class="form-control" type="file" id="formFile" name="file">
-                        </div>
-
-                        <label>Soal</label>
-                        <textarea class="form-control mb-3" name="soal" id="soal" cols="20" rows="5"></textarea>
-
-                        {{-- <label>Jawaban</label>
-                        <textarea class="form-control mb-3" name="jawaban" id="jawaban" cols="20" rows="5"></textarea> --}}
-
-                        <label>Jawaban</label>
-                        <div id="answerContainer">
-                            <div class="d-flex gap-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="jawaban_1" value="a" id="jawaban_1_a">
-                                    <input type="text" class="form-control d-inline answer-input" name="jawaban_text_a" placeholder="Jawaban a">
-                                </div>
-                                <button type="button" id="addanswer" class="btn btn-primary">+</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-success">Simpan</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let answerContainer = document.getElementById("answerContainer");

@@ -54,13 +54,19 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::prefix('materi')->group(function () {
         Route::get('/show', [AdminMateriController::class, 'index'])->name('materi.show');
         Route::get('/create', [AdminMateriController::class, 'create'])->name('materi.create');
-        Route::get('/edit', [AdminMateriController::class, 'edit'])->name('materi.edit');
+        Route::post('/store', [AdminMateriController::class, 'store'])->name('materi.store');
+        Route::get('/edit/{id}', [AdminMateriController::class, 'edit'])->name('materi.edit');
+        Route::post('/update/{id}', [AdminMateriController::class, 'update'])->name('materi.update');
+        Route::get('/destroy/{id}', [AdminMateriController::class, 'destroy'])->name('materi.destroy');
     });
 
     Route::prefix('quiz')->group(function () {
         Route::get('/show', [AdminQuizController::class, 'index'])->name('quiz.show');
         Route::get('/create', [AdminQuizController::class, 'create'])->name('quiz.create');
+        Route::post('/store', [AdminQuizController::class, 'store'])->name('quiz.store');
         Route::get('/edit', [AdminQuizController::class, 'edit'])->name('quiz.edit');
+        // Route::post('/update/{id}', [AdminQuizController::class, 'update'])->name('quiz.update');
+        // Route::get('/destroy/{id}', [AdminQuizController::class, 'destroy'])->name('quiz.destroy');
     });
 
     Route::prefix('history')->group(function () {

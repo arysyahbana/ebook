@@ -9,11 +9,10 @@
                 <h6>Tambah Data Quiz</h6>
                 <div class="card mb-4">
                     <div class="card-body px-5 pt-5 pb-2">
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('quiz.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <Label>Tipe Soal</Label>
-                            <select class="form-select mb-3" aria-label="Default select example" name="type"
-                                id="type">
+                            <select class="form-select mb-3" aria-label="Default select example" name="tipe_soal" id="type">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
                                 <option value="Objektif">Objektif</option>
                                 <option value="Objektif Bergambar">Objektif Bergambar</option>
@@ -22,13 +21,12 @@
                             </select>
 
                             <Label>Materi</Label>
-                            <select class="form-select mb-3" aria-label="Default select example" name="type"
-                                id="type">
+                            <select class="form-select mb-3" aria-label="Default select example" name="materi" id="materi">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
-                                <option value="Materi 1">Materi 1</option>
-                                <option value="Materi 2">Materi 2</option>
-                                <option value="Materi 3">Materi 3</option>
-                                <option value="Semua Materi">Semua Materi</option>
+                                @foreach ($materi as $data )
+                                    <option value="{{ $data->id }}">{{ $data->nama_materi }}</option>
+                                @endforeach
+                                <option value="semuaMateri">Semua Materi</option>
                             </select>
 
                             <div class="mb-3" id="file">
@@ -40,21 +38,23 @@
                             <textarea class="form-control mb-3" name="soal" id="soal" cols="20" rows="5"></textarea>
 
                             <label>Skor</label>
-                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0" placeholder="Masukkan skor">
+                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0"
+                                placeholder="Masukkan skor">
 
                             {{-- <label>Jawaban</label>
-                            <textarea class="form-control mb-3" name="jawaban" id="jawaban" cols="20" rows="5"></textarea> --}}
+                            <textarea class="form-control mb-3" name="jawaban" id="jawaban" cols="20" rows="5"></textarea>
+                            --}}
 
                             <div id="answerContainer">
-                                <label>Jawaban</label>
                                 <div class="d-flex gap-3">
                                     <div class="form-check col-6">
-                                        <input class="form-check-input" type="radio" name="jawaban_1" value="a" id="jawaban_1_a">
-                                        <input type="text" class="form-control d-inline answer-input" name="jawaban_text_a">
+                                        <input class="form-check-input" type="radio" name="jawaban_benar" value="a">
+                                        <input type="text" class="form-control d-inline answer-input" name="pilihan[a]">
                                     </div>
-                                    <button type="button" id="addanswer" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <button type="button" id="addanswer" class="btn btn-primary"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
+
                             <div class="card-footer d-flex justify-content-end">
                                 <button type="submit" class="btn btn-sm btn-success">Simpan</button>
                             </div>
@@ -70,24 +70,25 @@
             let answerContainer = document.getElementById("answerContainer");
             let addAnswerButton = document.getElementById("addanswer");
             let answerIndex = 1; // Mulai dari 'b' karena 'a' sudah ada
-
+    
             addAnswerButton.addEventListener("click", function () {
                 let letter = String.fromCharCode(97 + answerIndex); // Konversi ke huruf a, b, c, ...
-
                 let newAnswer = document.createElement("div");
                 newAnswer.classList.add("d-flex", "gap-3", "mt-2");
+    
                 newAnswer.innerHTML = `
                     <div class="form-check col-6">
-                        <input class="form-check-input" type="radio" name="jawaban_1" value="${letter}" id="jawaban_1_${letter}">
-                        <input type="text" class="form-control d-inline answer-input" name="jawaban_text_${letter}">
+                        <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
+                        <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]">
                     </div>
-                    <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
                 `;
-
+    
                 answerContainer.appendChild(newAnswer);
                 answerIndex++;
             });
-
+    
+            // Menghapus jawaban yang ditambahkan
             answerContainer.addEventListener("click", function (e) {
                 if (e.target.classList.contains("remove-answer")) {
                     e.target.parentElement.remove();
@@ -95,6 +96,8 @@
             });
         });
     </script>
+    
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

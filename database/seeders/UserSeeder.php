@@ -27,5 +27,6 @@ class UserSeeder extends Seeder
                 'remember_token' => null,
             ],
         ]);
+
     }
 }

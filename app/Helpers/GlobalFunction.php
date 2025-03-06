@@ -45,4 +45,26 @@ class GlobalFunction
             })
             ->paginate(2);
     }
+
+    public static function saveVideo($video, $name, $path = '')
+    {
+        if ($video == null) {
+            return null;
+        }
+        $extension = $video->getClientOriginalExtension();
+        $filename = $name . '.' . $extension;
+        $path = public_path('dist/assets/video/' . $path);
+        $video->move($path, $filename);
+        return $filename;
+    }
+
+    public static function deleteVideo($filename, $path = '')
+    {
+        $path = public_path('dist/assets/video/' . $path);
+        if (file_exists($path . $filename)) {
+            unlink($path . $filename);
+        } else {
+            // return false;
+        }
+    }
 }
