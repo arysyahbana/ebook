@@ -12,6 +12,10 @@ class Quiz extends Model
 
     protected $fillable = ['tipe_soal', 'materi', 'file', 'soal', 'skor', 'pilihan', 'jawaban_benar'];
 
+    protected $casts = [
+        'pilihan' => 'array',
+    ];    
+
     public function rMateri(){
         return $this->belongsTo(Materi::class,'materi','id');
     }
