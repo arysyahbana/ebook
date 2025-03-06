@@ -11,4 +11,8 @@ class Quiz extends Model
     protected $table = 'quizzes';
 
     protected $fillable = ['tipe_soal', 'materi', 'file', 'soal', 'skor', 'pilihan', 'jawaban_benar'];
+
+    public function rMateri(){
+        return $this->belongsTo(Materi::class,'materi','id');
+    }
 }

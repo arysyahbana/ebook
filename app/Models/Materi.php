@@ -10,4 +10,9 @@ class Materi extends Model
     use HasFactory;
 
     protected $fillable = ['id','nama_materi','judul_materi','video_materi','isi_materi'];
+
+    public function rQuiz(){
+        return $this->hasMany(Quiz::class,'materi');
+
+    }
 }

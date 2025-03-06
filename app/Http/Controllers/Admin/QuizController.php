@@ -37,7 +37,8 @@ class QuizController extends Controller
     public function index()
     {
         $page = 'Quiz';
-        return view('admin.pages.quiz.index', compact('page'));
+        $quiz = Materi::with('rQuiz')->get();
+        return view('admin.pages.quiz.index', compact('page','quiz'));
     }
 
     public function create()
