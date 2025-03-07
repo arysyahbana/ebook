@@ -1,6 +1,6 @@
 @extends('admin.app')
 
-@section('title', 'SIOP')
+@section('title', 'Ebook')
 
 @section('content')
     <div class="row">

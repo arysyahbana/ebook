@@ -12,6 +12,7 @@
     @include('admin.Layouts.css')
     <script src="{{ asset('dist/assets/js/iziToast.min.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">

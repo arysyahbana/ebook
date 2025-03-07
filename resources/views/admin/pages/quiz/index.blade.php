@@ -231,4 +231,14 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+                radio.addEventListener("click", function (event) {
+                    event.preventDefault(); // Mencegah perubahan pilihan
+                });
+            });
+        });
+    </script>
 @endsection

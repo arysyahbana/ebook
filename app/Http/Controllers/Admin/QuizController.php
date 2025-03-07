@@ -20,7 +20,7 @@ class QuizController extends Controller
             'file' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'soal' => 'required',
             'skor' => 'required|integer',
-            'pilihan.*' => 'sometimes|array',
+            'pilihan' => 'sometimes|array',
             'jawaban_benar' => 'sometimes',
         ], [
             'tipe_soal.required' => 'Tipe soal wajib diisi.',
