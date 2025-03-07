@@ -12,14 +12,15 @@ use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
-    private function validateData(Request $request){
+    private function validateData(Request $request)
+    {
         return $request->validate([
             'tipe_soal' => 'required',
             'materi' => 'required',
             'file' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'soal' => 'required',
             'skor' => 'required|integer',
-            'pilihan'=> 'sometimes|array',
+            'pilihan.*' => 'sometimes|array',
             'jawaban_benar' => 'sometimes',
         ], [
             'tipe_soal.required' => 'Tipe soal wajib diisi.',
@@ -32,24 +33,25 @@ class QuizController extends Controller
             'skor.integer' => 'Skor harus berupa angka.',
             'pilihan.array' => 'Pilihan harus berupa array.',
             'jawaban_benar.required' => 'Jawaban benar wajib diisi.',
-        ]); 
+        ]);
     }
     public function index()
     {
         $page = 'Quiz';
         $quiz = Materi::with('rQuiz')->get();
-        return view('admin.pages.quiz.index', compact('page','quiz'));
+        return view('admin.pages.quiz.index', compact('page', 'quiz'));
     }
 
     public function create()
     {
         $page = 'Quiz';
-        $materi = Materi::select('id','nama_materi')->get();
-        return view('admin.pages.quiz.add', compact('page','materi'));
+        $materi = Materi::select('id', 'nama_materi')->get();
+        return view('admin.pages.quiz.add', compact('page', 'materi'));
     }
 
-    public function store(Request $request){
-        try{
+    public function store(Request $request)
+    {
+        try {
             $data = $this->validateData($request);
             if ($request->hasFile('file')) {
                 $randName = Str::uuid()->toString();
@@ -57,8 +59,8 @@ class QuizController extends Controller
                 $data['file'] = $fileName;
             }
             Quiz::create($data);
-            return redirect()->route('quiz.show')->with('success','Data berhasil disimpan.');
-        }catch(Exception $e){
+            return redirect()->route('quiz.show')->with('success', 'Data berhasil disimpan.');
+        } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
     }

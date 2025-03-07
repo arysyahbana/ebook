@@ -14,6 +14,7 @@
                     </div>
                     <div class="card-body px-5 pt-3 pb-2">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
+
                             @foreach ($quiz as $data)
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{$data->id}}-tab"
@@ -21,6 +22,7 @@
                                         role="tab">Materi {{$data->id}}</button>
                                 </li>
                             @endforeach
+
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="semua-materi-tab" data-bs-toggle="tab"
                                     data-bs-target="#semuamateri" type="button" role="tab">Semua Materi</button>
@@ -29,10 +31,9 @@
 
                         <div class="tab-content mt-3">
                             @foreach ($quiz as $data)
-                                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="materi-{{$data->id}}"
-                                    role="tabpanel">
-                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="materi-{{$data->id}}" role="tabpanel">
                                         @foreach ($data->rQuiz as $quiz)
+                                        <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
                                             <!-- Soal 3 -->
                                             <div class="d-flex flex-column flex-md-row gap-3">
                                                 <div class="flex-grow-1">
@@ -46,26 +47,29 @@
                                                                         class="w-100 h-100 object-cover">
                                                                 </div>
                                                             @endif
+
                                                             <p>{{$quiz->soal}}</p>
                                                             @if($quiz->tipe_soal == 'Uraian' || $quiz->tipe_soal == 'Uraian Bergambar')
                                                                 <div class="mt-2">
                                                                     <textarea class="form-control bg-light w-100 w-md-75" rows="4"
                                                                         name="jawaban"></textarea>
                                                                 </div>
-                                                            @endif
-                                                            <div class="mt-2">
+
+                                                            @else
                                                                 @foreach ($quiz->pilihan as $key => $jawaban)
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="jawaban"
-                                                                            value="{{$key}}" @checked($quiz->jawaban_benar == $key)>
-                                                                        <label class="form-check-label">{{$jawaban}}</label>
+                                                                    <div class="mt-2">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="jawaban{{ $quiz->id }}"
+                                                                                value="{{$key}}" @checked($quiz->jawaban_benar == $key)>
+                                                                            <label class="form-check-label">{{$jawaban}}</label>
+                                                                        </div>
                                                                     </div>
                                                                 @endforeach
-                                                                </div>
-                                                            </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div>
                                                     <a href="{{ route('quiz.edit') }}" class="btn bg-gradient-warning">
                                                         <i class="fa fa-edit" aria-hidden="true"></i>
@@ -78,10 +82,9 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                            <hr class="my-4">
+                                        </div>
                                         @endforeach
-
-                                        <hr class="my-4">
-                                    </div>
                                 </div>
 
                                 <!-- Modal Hapus Quiz -->
@@ -108,6 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             @endforeach
 
                             <div class="tab-pane fade" id="semuamateri" role="tabpanel">
@@ -189,6 +193,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
