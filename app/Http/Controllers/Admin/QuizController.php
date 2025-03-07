@@ -51,8 +51,6 @@ class QuizController extends Controller
     public function store(Request $request){
         try{
             $data = $this->validateData($request);
-            $convertJson = json_encode($data['pilihan']);
-            $data['pilihan'] = $convertJson;
             if ($request->hasFile('file')) {
                 $randName = Str::uuid()->toString();
                 $fileName = GlobalFunction::saveImage($request->file('file'), $randName, 'quiz');
