@@ -9,25 +9,23 @@
                 <h6>Edit Data Quiz</h6>
                 <div class="card mb-4">
                     <div class="card-body px-5 pt-5 pb-2">
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('quiz.update', $quiz->id) }}" method="post" enctype="multipart/form-data" id="quizForm">
                             @csrf
-                            <Label>Tipe Soal</Label>
-                            <select class="form-select mb-3" aria-label="Default select example" name="type"
-                                id="type">
+
+                            <label for="tipe_soal">Tipe Soal</label>
+                            <select class="form-select mb-3" name="tipe_soal" id="tipe_soal">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
-                                <option value="Objektif">Objektif</option>
-                                <option value="Objektif Bergambar">Objektif Bergambar</option>
-                                <option value="Uraian">Uraian</option>
-                                <option value="Uraian Bergambar">Uraian Bergambar</option>
+                                @foreach(['Objektif', 'Objektif Bergambar', 'Uraian', 'Uraian Bergambar'] as $option)
+                                    <option value="{{ $option }}" @selected($quiz->tipe_soal == $option)>{{ $option }}</option>
+                                @endforeach
                             </select>
 
-                            <Label>Materi</Label>
-                            <select class="form-select mb-3" aria-label="Default select example" name="type"
-                                id="type">
+                            <label for="materi">Materi</label>
+                            <select class="form-select mb-3" name="materi">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
-                                <option value="Materi 1">Materi 1</option>
-                                <option value="Materi 2">Materi 2</option>
-                                <option value="Materi 3">Materi 3</option>
+                                @foreach ($materi as $data)
+                                    <option value="{{ $data->id }}" @selected($quiz->materi == $data->id)>{{ $data->nama_materi }}</option>
+                                @endforeach
                                 <option value="Semua Materi">Semua Materi</option>
                             </select>
 
@@ -36,25 +34,26 @@
                                 <input class="form-control" type="file" id="formFile" name="file">
                             </div>
 
-                            <label>Soal</label>
-                            <textarea class="form-control mb-3" name="soal" id="soal" cols="20" rows="5"></textarea>
+                            <label for="soal">Soal</label>
+                            <textarea class="form-control mb-3" name="soal" id="soal" cols="20" rows="5">{{ trim($quiz->soal) }}</textarea>
 
-                            <label>Skor</label>
-                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0" placeholder="Masukkan skor">
-
-                            {{-- <label>Jawaban</label>
-                            <textarea class="form-control mb-3" name="jawaban" id="jawaban" cols="20" rows="5"></textarea> --}}
+                            <label for="skor">Skor</label>
+                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0" placeholder="Masukkan skor" value="{{ $quiz->skor }}">
 
                             <div id="answerContainer">
                                 <label>Jawaban</label>
-                                <div class="d-flex gap-3">
-                                    <div class="form-check col-6">
-                                        <input class="form-check-input" type="radio" name="jawaban_1" value="a" id="jawaban_1_a">
-                                        <input type="text" class="form-control d-inline answer-input" name="jawaban_text_a">
+                                @foreach ($quiz->pilihan ?? [] as $key => $jawaban)
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <div class="form-check col-6">
+                                            <input class="form-check-input" type="radio" name="jawaban_benar" value="{{ $key }}" @checked($quiz->jawaban_benar == $key)>
+                                            <input type="text" class="form-control d-inline answer-input" name="pilihan[{{ $key }}]" value="{{ $jawaban }}">
+                                        </div>
+                                        <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
                                     </div>
-                                    <button type="button" id="addanswer" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                </div>
+                                @endforeach
+                                <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i> Tambah Jawaban</button>
                             </div>
+
                             <div class="card-footer d-flex justify-content-end">
                                 <button type="submit" class="btn btn-sm btn-success">Simpan</button>
                             </div>
@@ -65,66 +64,56 @@
         </div>
     </div>
 
+    <x-admin.modal id="warningModal" title="Peringatan" label="warningModalLabel">
+        Anda harus memilih salah satu jawaban sebagai kunci jawaban sebelum menyimpan!
+    </x-admin.modal>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let answerContainer = document.getElementById("answerContainer");
-            let addAnswerButton = document.getElementById("addanswer");
-            let answerIndex = 1; // Mulai dari 'b' karena 'a' sudah ada
+            const tipeSoalSelect = document.getElementById("tipe_soal");
+            const fileDiv = document.getElementById("file");
+            const answerContainer = document.getElementById("answerContainer");
+            const addAnswerButton = document.getElementById("addAnswer");
+            const form = document.getElementById("quizForm");
+            const warningModal = new bootstrap.Modal(document.getElementById("warningModal"));
+
+            function toggleFields() {
+                const selectedType = tipeSoalSelect.value;
+                fileDiv.style.display = selectedType.includes("Bergambar") ? "block" : "none";
+                answerContainer.style.display = selectedType.includes("Objektif") ? "block" : "none";
+            }
+
+            form.addEventListener("submit", function (event) {
+                const selectedType = tipeSoalSelect.value;
+                const selectedAnswer = document.querySelector('input[name="jawaban_benar"]:checked');
+                if (["Objektif", "Objektif Bergambar"].includes(selectedType) && !selectedAnswer) {
+                    event.preventDefault();
+                    warningModal.show();
+                }
+            });
+
+            tipeSoalSelect.addEventListener("change", toggleFields);
+            toggleFields();
 
             addAnswerButton.addEventListener("click", function () {
-                let letter = String.fromCharCode(97 + answerIndex); // Konversi ke huruf a, b, c, ...
-
-                let newAnswer = document.createElement("div");
-                newAnswer.classList.add("d-flex", "gap-3", "mt-2");
+                const letter = String.fromCharCode(97 + document.querySelectorAll(".answer-input").length);
+                const newAnswer = document.createElement("div");
+                newAnswer.classList.add("d-flex", "gap-3", "align-items-center", "mt-2");
                 newAnswer.innerHTML = `
                     <div class="form-check col-6">
-                        <input class="form-check-input" type="radio" name="jawaban_1" value="${letter}" id="jawaban_1_${letter}">
-                        <input type="text" class="form-control d-inline answer-input" name="jawaban_text_${letter}">
+                        <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
+                        <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]" placeholder="Jawaban ${letter.toUpperCase()}">
                     </div>
-                    <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
                 `;
-
                 answerContainer.appendChild(newAnswer);
-                answerIndex++;
             });
 
             answerContainer.addEventListener("click", function (e) {
-                if (e.target.classList.contains("remove-answer")) {
-                    e.target.parentElement.remove();
+                if (e.target.closest(".remove-answer")) {
+                    e.target.closest(".d-flex").remove();
                 }
             });
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const typeSelect = document.getElementById("type");
-            const fileDiv = document.getElementById("file");
-            const answerContainer = document.getElementById("answerContainer");
-
-            function toggleFields() {
-                const selectedType = typeSelect.value;
-
-                if (selectedType === "Objektif") {
-                    fileDiv.style.display = "none";
-                    answerContainer.style.display = "block";
-                } else if (selectedType === "Objektif Bergambar") {
-                    fileDiv.style.display = "block";
-                    answerContainer.style.display = "block";
-                } else if (selectedType === "Uraian") {
-                    fileDiv.style.display = "none";
-                    answerContainer.style.display = "none";
-                } else if (selectedType === "Uraian Bergambar") {
-                    fileDiv.style.display = "block";
-                    answerContainer.style.display = "none";
-                } else {
-                    fileDiv.style.display = "none";
-                    answerContainer.style.display = "none";
-                }
-            }
-
-            typeSelect.addEventListener("change", toggleFields);
-            toggleFields(); // Panggil saat halaman dimuat untuk menangani nilai default
         });
     </script>
 @endsection

@@ -65,8 +65,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         Route::get('/create', [AdminQuizController::class, 'create'])->name('quiz.create');
         Route::post('/store', [AdminQuizController::class, 'store'])->name('quiz.store');
         Route::get('/edit', [AdminQuizController::class, 'edit'])->name('quiz.edit');
-        // Route::post('/update/{id}', [AdminQuizController::class, 'update'])->name('quiz.update');
-        // Route::get('/destroy/{id}', [AdminQuizController::class, 'destroy'])->name('quiz.destroy');
+        Route::post('/update/{id}', [AdminQuizController::class, 'update'])->name('quiz.update');
+        Route::get('/destroy', [AdminQuizController::class, 'destroy'])->name('quiz.destroy');
     });
 
     Route::prefix('history')->group(function () {

@@ -49,6 +49,7 @@ class MateriController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             $data = $this->validateData($request);
             $checkIdMateri = Materi::where('id',$data['id'])->first();
@@ -59,6 +60,7 @@ class MateriController extends Controller
                 $videoName = GlobalFunction::saveVideo($request->file('video_materi'), 'materi_'.$data['id'], 'materi');
                 $data['video_materi'] = $videoName;
             }
+            // dd($data);die;
             DB::table('materis')->insert($data);
             return redirect()->route('materi.show')->with('success', 'Data berhasil disimpan.');
         } catch (Exception $e) {
@@ -89,17 +91,20 @@ class MateriController extends Controller
 
     public function destroy($id)
     {
-        try{
-            $materi = Materi::where('id', $id)->first();
-            if (!$materi) {
-                return back()->with('error', 'Materi tidak ditemukan');
+        try {
+            $materi = Materi::findOrFail($id);
+            if ($materi->video_materi) {
+                GlobalFunction::deleteVideo($materi->video_materi, 'materi/');
             }
-            if($materi->video_materi){
-                GlobalFunction::deleteVideo($materi->video_materi,'materi/');
+            foreach ($materi->rQuiz as $quiz) {
+                if ($quiz->file) {
+                    GlobalFunction::deleteImage($quiz->file, 'quiz/');
+                }
+                $quiz->delete();
             }
             $materi->delete();
             return redirect()->route('materi.show')->with('success', 'Data berhasil dihapus.');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
     }

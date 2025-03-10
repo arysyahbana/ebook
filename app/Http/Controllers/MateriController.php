@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class MateriController extends Controller
 {
     public function index()
     {
+        $materi = Materi::all();
         $page = 'Materi1';
-        return view('user.pages.materi.index', compact('page'));
+        return view('user.pages.materi.index', compact('page','materi'));
     }
 
     public function materi2()

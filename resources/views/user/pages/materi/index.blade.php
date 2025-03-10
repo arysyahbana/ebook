@@ -47,8 +47,7 @@
                         </div>
 
                         <div class="flex justify-end gap-3 text-sm mt-6">
-                            <a href="{{ route('index.quiz') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300">Quiz</a>
-                            {{-- <a href="#" class="bg-gray-200 text-sky-500 px-5 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300">Quiz</a> --}}
+                            <a href="{{ route('index.quiz') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 @guest pointer-events-none opacity-50 @endguest">Quiz</a>
                         </div>
                     </div>
                 </div>
