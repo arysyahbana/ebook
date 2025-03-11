@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="flex justify-end gap-3 text-sm mt-6">
-                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600transition-all duration-300" onclick="openModal('my_modal_1')">Selesai</a>
+                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300" onclick="openModal('my_modal_1')">Selesai</a>
                         </div>
                     </div>
 
