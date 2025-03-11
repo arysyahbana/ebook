@@ -11,7 +11,7 @@
                                 <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">01</div>
                             </div>
                         </div>
-                        <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Vektor ABCD</p>
+                        <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz {{ $materi->judul_materi }}</p>
                     </div>
 
                     <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
@@ -122,8 +122,8 @@
                         </div>
 
                         <div class="flex justify-end gap-3 text-sm mt-6">
-                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300" onclick="openModal('my_modal_1')">Selesai</a>
-                        </div>
+                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600Selesai</a>
+                        </div> transition-all duration-300" onclick="openModal('my_modal_1')">
                     </div>
 
                 </div>
@@ -153,8 +153,8 @@
             <h3 class="text-lg text-center mb-8">Selamat Anda Lulus</h3>
             <h1 class="text-center text-8xl font-bold mb-12">90</h1>
             <div class="flex justify-center items-center gap-3">
-                <a href="{{ route('index.quiz') }}" class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
-                <a href="{{ route('materi2') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
+                {{-- <a href="{{ route('index.quiz') }}" class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a> --}}
+                {{-- <a href="{{ route('materi2') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a> --}}
             </div>
         </div>
     </div>

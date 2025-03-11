@@ -29,13 +29,11 @@ use Illuminate\Support\Facades\Route;
 
 // Guest
 Route::get('/', [MateriController::class, 'index'])->name('index');
-Route::get('/materi2', [MateriController::class, 'materi2'])->name('materi2');
-Route::get('/materi3', [MateriController::class, 'materi3'])->name('materi3');
 
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('index.leaderboard');
 Route::get('/my-history', [LeaderboardController::class, 'myhistory'])->name('index.my.history');
 
-Route::get('/quiz', [QuizController::class, 'index'])->name('index.quiz');
+Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('index.quiz');
 Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('quiz.all');
 
 // Admin
