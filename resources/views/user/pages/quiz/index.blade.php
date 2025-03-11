@@ -122,8 +122,8 @@
                         </div>
 
                         <div class="flex justify-end gap-3 text-sm mt-6">
-                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600Selesai</a>
-                        </div> transition-all duration-300" onclick="openModal('my_modal_1')">
+                            <a href="#" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600transition-all duration-300" onclick="openModal('my_modal_1')">Selesai</a>
+                        </div>
                     </div>
 
                 </div>
@@ -135,7 +135,7 @@
     </div>
 
     <!-- Modal Pertama -->
-    <div id="my_modal_1" class="modal">
+    {{-- <div id="my_modal_1" class="modal">
         <div class="modal-box bg-white text-slate-800">
             <h3 class="text-lg font-bold">Akhiri Quiz</h3>
             <img src="{{ asset('dist/assets/img/clock.gif') }}" alt="" class="w-36 mx-auto">
@@ -145,19 +145,19 @@
                     onclick="closeAndOpenModal()">Yakin</button>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Modal Kedua -->
-    <div id="my_modal_2" class="modal">
+    {{-- <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
             <h3 class="text-lg text-center mb-8">Selamat Anda Lulus</h3>
             <h1 class="text-center text-8xl font-bold mb-12">90</h1>
             <div class="flex justify-center items-center gap-3">
-                {{-- <a href="{{ route('index.quiz') }}" class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a> --}}
-                {{-- <a href="{{ route('materi2') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a> --}}
+                <a href="{{ route('index.quiz') }}" class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
+                <a href="{{ route('materi2') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     {{-- js modal --}}
     <script>
