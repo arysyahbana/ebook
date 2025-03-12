@@ -36,9 +36,9 @@ Route::middleware(['auth', 'role:Mahasiswa'])->group(function () {
     Route::get('/my-history', [LeaderboardController::class, 'myhistory'])->name('index.my.history');
 
     Route::prefix('user')->group(function () {
-        Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('index.quiz');
-        Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('quiz.all');
-        Route::post('/quiz-store', [QuizController::class, 'store'])->name('quiz.store');
+        Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('user.index.quiz');
+        Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('user.quiz.all');
+        Route::post('/quiz-store', [QuizController::class, 'store'])->name('user.quiz.store');
     });
 });
 

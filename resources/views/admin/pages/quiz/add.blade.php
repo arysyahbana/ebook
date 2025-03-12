@@ -15,7 +15,7 @@
                             <label for="type">Tipe Soal</label>
                             <select class="form-select mb-3" name="tipe_soal" id="type">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
-                                @foreach (["Objektif", "Objektif Bergambar", "Uraian", "Uraian Bergambar"] as $tipe)
+                                @foreach (["Objektif", "Objektif Bergambar"] as $tipe)
                                     <option value="{{ $tipe }}" @selected(old('tipe_soal') == $tipe)>{{ $tipe }}</option>
                                 @endforeach
                             </select>
@@ -44,7 +44,6 @@
                                 placeholder="Masukkan skor" value="{{ old('skor') }}">
 
                             <div id="answerContainer">
-                                <label class="form-label">Jawaban</label>
                                 <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
                                     Tambah Jawaban</button>
                             </div>

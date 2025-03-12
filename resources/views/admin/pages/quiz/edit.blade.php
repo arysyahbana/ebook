@@ -15,7 +15,7 @@
                             <label for="tipe_soal">Tipe Soal</label>
                             <select class="form-select mb-3" name="tipe_soal" id="tipe_soal">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
-                                @foreach(['Objektif', 'Objektif Bergambar', 'Uraian', 'Uraian Bergambar'] as $option)
+                                @foreach(['Objektif', 'Objektif Bergambar'] as $option)
                                     <option value="{{ $option }}" @selected($quiz->tipe_soal == $option)>{{ $option }}</option>
                                 @endforeach
                             </select>

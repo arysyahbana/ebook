@@ -21,7 +21,9 @@ class QuizController extends Controller
         return view('user.pages.quiz.quizall', compact('page'));
     }
 
-    public function store(Request $request){
-        dd($request->all());die;
+    public function store(Request $request)
+    {
+        // dd($request->all());die;
+        return response()->json($request->all());
     }
 }

@@ -75,7 +75,7 @@
 
 
                                     <div class="flex justify-end gap-3 text-sm mt-6">
-                                        <a href="{{ route('index.quiz',$data->id) }}"
+                                        <a href="{{ route('user.index.quiz',$data->id) }}"
                                             class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 @guest pointer-events-none opacity-50 @endguest">Quiz</a>
                                     </div>
                                 </div>
@@ -93,83 +93,85 @@
 
             {{-- quiz all --}}
             <div class="hidden p-4 rounded-lg" id="styled-quizall" role="tabpanel" aria-labelledby="quizall-tab">
-                @foreach ($quizSemuaMateri as $semuaMateri)
-                    <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up"
-                        data-aos-duration="1500">
-                        <div class="flex justify-between">
-                            <div class="min-h-full w-full">
-                                <div class="flex items-center">
-                                    <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
-                                        <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
-                                            data-aos="zoom-in" data-aos-duration="1700">
-                                            <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white"><i
-                                                    class="fas fa-book"></i></div>
-                                        </div>
+                <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-duration="1500">
+                    <div class="flex justify-between">
+                        <div class="min-h-full w-full">
+                            <div class="flex items-center">
+                                <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
+                                    <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
+                                        data-aos="zoom-in" data-aos-duration="1700">
+                                        <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white"><i
+                                                class="fas fa-book"></i></div>
                                     </div>
-                                    <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Seluruh Materi</p>
                                 </div>
+                                <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Seluruh Materi</p>
+                            </div>
 
-                                <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
-                                    <div class="border-l-4 border-sky-500 pl-3 sm:pl-6 mt-6 space-y-10">
-                                        <!-- Soal 1 -->
-                                        <div class="flex flex-col md:flex-row gap-5">
-                                            <div class="flex-1">
-                                                <div class="flex gap-3">
-                                                    <div>{{ $loop->iteration }}</div>
+                            <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
+                                <div class="border-l-4 border-sky-500 pl-3 sm:pl-6 mt-6 space-y-10">
+                                   <form id="quizForm">
+                                        @csrf
+                                        @foreach ($quizSemuaMateri as $semuaMateri)
+                                            <input type="hidden" id="materi_id" value="{{ $semuaMateri->materi }}">
+                                            @if ($semuaMateri->tipe_soal == 'Objektif' || $semuaMateri->tipe_soal == 'Objektif Bergambar')
+                                                <div class="flex flex-col md:flex-row gap-5 mb-10">
                                                     <div class="flex-1">
-                                                        @if ($semuaMateri->file)
-                                                            <div
-                                                                class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
-                                                                <img src="{{ asset('dist/assets/img/quiz/'.$semuaMateri->file) }}"
-                                                                    alt="" class="w-full h-full object-cover">
+                                                        <div class="flex gap-3">
+                                                            <div>{{ $loop->iteration }}</div>
+                                                            <div class="flex-1">
+                                                                @if ($semuaMateri->file)
+                                                                    <div
+                                                                        class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
+                                                                        <img src="{{ asset('dist/assets/img/quiz/'.$semuaMateri->file) }}"
+                                                                            alt="" class="w-full h-full object-cover">
+                                                                    </div>
+                                                                @endif
+                                                                <p>{{ $semuaMateri->soal }}</p>
+                                                                @if ($semuaMateri->tipe_soal == 'Objektif' || $semuaMateri->tipe_soal == 'Objektif Bergambar')
+                                                                    @foreach ($semuaMateri->pilihan as $key => $jawaban)
+                                                                        <div class="mt-2 space-y-2">
+                                                                            <label class="flex items-center gap-2">
+                                                                                <input type="radio" name="jawaban{{ $semuaMateri->id }}"
+                                                                                    value="{{ $key }}" class="w-4 h-4 text-blue-500">
+                                                                                <span>{{$jawaban}}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @else
+                                                                    <p>Belum ada soal</p>
+                                                                @endif
                                                             </div>
-                                                        @endif
-                                                        <p>{{ $semuaMateri->soal }}</p>
-                                                        @if ($semuaMateri->tipe_soal == 'Uraian' || $semuaMateri->tipe_soal == 'Uraian Bergambar')
-                                                            <div class="mt-2">
-                                                                <textarea class="textarea textarea-bordered bg-[#F3F3F3] w-full md:w-[90%]" rows="4" name="jawaban_uraian{{ $semuaMateri->id }}"></textarea>
-                                                            </div>
-                                                        @else
-                                                            @foreach ($semuaMateri->pilihan as $key => $jawaban)
-                                                                <div class="mt-2 space-y-2">
-                                                                    <label class="flex items-center gap-2">
-                                                                        <input type="radio" name="jawaban"
-                                                                            value="{{ $key }}" class="w-4 h-4 text-blue-500">
-                                                                        <span>{{$jawaban}}</span>
-                                                                    </label>
-                                                                </div>
-                                                            @endforeach
-                                                        @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-start">
+                                                        <label for="fileUpload{{ $semuaMateri->id }}"
+                                                            class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
+                                                            Upload
+                                                        </label>
+                                                        <input type="file" id="fileUpload{{ $semuaMateri->id }}" class="hidden"
+                                                            name="upload_jawaban_{{ $semuaMateri->id }}">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flex items-start">
-                                                <label for="fileUpload{{ $semuaMateri->id }}"
-                                                    class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
-                                                    Upload
-                                                </label>
-                                                <input type="file" id="fileUpload{{ $semuaMateri->id }}" class="hidden"
-                                                    name="upload_jawaban_{{ $semuaMateri->id }}">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex justify-end gap-3 text-sm mt-6">
-                                        <a href="#"
-                                            class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300"
-                                            onclick="openModal('my_modal_1')">Selesai</a>
-                                    </div>
+                                            @endif
+                                        @endforeach
+                                   </form>
                                 </div>
 
+                                <div class="flex justify-end gap-3 text-sm mt-6">
+                                    <a href="#"
+                                        class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300"
+                                        onclick="openModal('my_modal_1')">Selesai</a>
+                                </div>
                             </div>
 
-                            <div class="bg-[#F3F3F3] min-h-full min-w-2"></div>
-                            <div
-                                class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl min-h-full min-w-6 border rounded-e-lg">
-                            </div>
+                        </div>
+
+                        <div class="bg-[#F3F3F3] min-h-full min-w-2"></div>
+                        <div
+                            class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl min-h-full min-w-6 border rounded-e-lg">
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
             {{-- end quiz all --}}
 
@@ -178,14 +180,19 @@
 
     <!-- Modal Pertama -->
     <div id="my_modal_1" class="modal">
-        <div class="modal-box bg-white text-slate-800">
+        <div class="modal-box bg-white text-slate-800 relative">
             <h3 class="text-lg font-bold">Akhiri Quiz</h3>
             <img src="{{ asset('dist/assets/img/clock.gif') }}" alt="" class="w-36 mx-auto">
             <p class="text-center">Yakin ingin akhiri quiz?</p>
             <div class="modal-action">
+                <button class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300" onclick="closeModal('my_modal_1')">
+                    Tidak
+                </button>
                 <button
                     class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300"
-                    onclick="closeAndOpenModal()">Yakin</button>
+                    onclick="submitQuiz()">
+                    Yakin
+                </button>
             </div>
         </div>
     </div>
@@ -210,11 +217,49 @@
             document.getElementById(id).classList.add("modal-open");
         }
 
-        function closeAndOpenModal() {
-            document.getElementById("my_modal_1").classList.remove("modal-open"); // Tutup modal pertama
-            setTimeout(() => {
-                document.getElementById("my_modal_2").classList.add("modal-open"); // Buka modal kedua
-            }, 300); // Delay biar smooth
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("modal-open");
+        }
+
+        function submitQuiz() {
+            let formData = new FormData(document.getElementById("quizForm"));
+            let materi_id = document.getElementById("materi_id").value;
+            let jawaban = [];
+
+            document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
+                let quiz_id = el.name.replace("jawaban", "");
+                let pilihan = el.value;
+                let fileInput = document.querySelector(`input[name='upload_jawaban_${quiz_id}']`);
+                let file_upload = fileInput && fileInput.files.length > 0;
+
+                jawaban.push({
+                    quiz_id: quiz_id,
+                    pilihan: pilihan,
+                    file_upload: file_upload
+                });
+            });
+
+            let data = {
+                materi_id: materi_id,
+                jawaban: jawaban
+            };
+
+            fetch("{{ route('user.quiz.store') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                closeModal("my_modal_1");
+                setTimeout(() => {
+                    openModal("my_modal_2");
+                }, 300);
+            })
+            .catch(error => console.error("Error:", error));
         }
 
         function switchTab(tabId) {
