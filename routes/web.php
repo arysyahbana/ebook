@@ -31,10 +31,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MateriController::class, 'index'])->name('index');
 
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('index.leaderboard');
-Route::get('/my-history', [LeaderboardController::class, 'myhistory'])->name('index.my.history');
 
-Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('index.quiz');
-Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('quiz.all');
+Route::middleware(['auth', 'role:Mahasiswa'])->group(function () {
+    Route::get('/my-history', [LeaderboardController::class, 'myhistory'])->name('index.my.history');
+
+    Route::prefix('user')->group(function () {
+        Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('index.quiz');
+        Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('quiz.all');
+        Route::post('/quiz-store', [QuizController::class, 'store'])->name('quiz.store');
+    });
+});
 
 // Admin
 Route::get('/dashboard', [DashboardController::class, 'index'])
