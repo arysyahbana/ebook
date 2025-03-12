@@ -51,13 +51,7 @@
                                                             @endif
 
                                                             <p>{{$quiz->soal}}</p>
-                                                            @if($quiz->tipe_soal == 'Uraian' || $quiz->tipe_soal == 'Uraian Bergambar')
-                                                                <div class="mt-2">
-                                                                    <textarea class="form-control bg-light w-100 w-md-75" rows="4"
-                                                                        name="jawaban"></textarea>
-                                                                </div>
-
-                                                            @else
+                                                            @if($quiz->tipe_soal == 'Objektif' || $quiz->tipe_soal == 'Objektif Bergambar')
                                                                 @foreach ($quiz->pilihan as $key => $jawaban)
                                                                     <div class="mt-2">
                                                                         <div class="form-check">
@@ -68,6 +62,8 @@
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
+                                                            @else
+                                                                <p>Belum ada soal</p>
                                                             @endif
                                                         </div>
                                                     </div>

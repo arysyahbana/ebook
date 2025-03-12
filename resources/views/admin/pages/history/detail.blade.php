@@ -8,11 +8,7 @@
             <div class="col-12">
                 <h6>Detail History</h6>
                 <div class="card mb-4">
-                    <div class="card-header pb-0 d-flex justify-content-end">
-                        <a href="{{ route('users.download') }}" class="btn bg-gradient-success"><i
-                                class="bi bi-plus-circle"></i><span class="text-capitalize ms-1">Unduh Rekap Data</span></a>
-                    </div>
-                    <div class="card-body px-5 pt-0 pb-2">
+                    <div class="card-body p-5">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="materi1-tab" data-bs-toggle="tab" data-bs-target="#materi1" type="button" role="tab">Materi 1</button>
@@ -31,282 +27,343 @@
                         <div class="tab-content mt-3">
                             <div class="tab-pane fade show active" id="materi1" role="tabpanel">
                                 <div class="table-responsive p-0">
-                                    <x-admin.table>
-                                        @slot('header')
-                                            <tr>
-                                                <x-admin.th>No</x-admin.th>
-                                                <x-admin.th>Soal</x-admin.th>
-                                                <x-admin.th>Jawaban</x-admin.th>
-                                                <x-admin.th>Kunci Jawaban</x-admin.th>
-                                                <x-admin.th>Skor</x-admin.th>
-                                            </tr>
-                                        @endslot
+                                    {{-- soal 1 --}}
+                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex gap-2">
+                                                    <div>1</div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="overflow-hidden rounded mb-3"
+                                                            style="max-width: 30rem; max-height: 30rem;">
+                                                            <img src="{{ asset('dist/assets/img/quiz/060eb26a-2281-4e1f-a40f-300c528e6bbb.png') }}" alt=""
+                                                                class="w-100 h-100 object-cover">
+                                                        </div>
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique magnam expedita ab at eos eveniet magni soluta perferendis ex temporibus.</p>
+                                                        <div class="mt-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban1" id="j1a">
+                                                                <label class="form-check-label" for="j1a">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban1" id="j1b" checked>
+                                                                <label class="form-check-label" for="j1b">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-check-lg text-success h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban1" id="j1c">
+                                                                <label class="form-check-label" for="j1c">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban1" id="j1d">
+                                                                <label class="form-check-label" for="j1d">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban1" id="j1e">
+                                                                <label class="form-check-label" for="j1e">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
+                                            <div>
+                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                                    <h5 class="mb-0">Skor</h5>
+                                                    <span class="badge bg-success fs-4 mt-1">20</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    {{-- end soal 1 --}}
 
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 0 </x-admin.td>
+                                    {{-- soal 2 --}}
+                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex gap-2">
+                                                    <div>2</div>
+                                                    <div class="flex-grow-1">
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique magnam expedita ab at eos eveniet magni soluta perferendis ex temporibus.</p>
+                                                        <div class="mt-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban2" id="j2a">
+                                                                <label class="form-check-label" for="j2a">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-check-lg text-success h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban2" id="j2b">
+                                                                <label class="form-check-label" for="j2b">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban2" id="j2c">
+                                                                <label class="form-check-label" for="j2c">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban2" id="j2d" checked>
+                                                                <label class="form-check-label" for="j2d">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawaban2" id="j2e">
+                                                                <label class="form-check-label" for="j2e">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                    </x-admin.table>
+                                            <div>
+                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                                    <h5 class="mb-0">Skor</h5>
+                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    {{-- end soal 2 --}}
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="materi2" role="tabpanel">
                                 <div class="table-responsive p-0">
-                                    <x-admin.table>
-                                        @slot('header')
-                                            <tr>
-                                                <x-admin.th>No</x-admin.th>
-                                                <x-admin.th>Soal</x-admin.th>
-                                                <x-admin.th>Jawaban</x-admin.th>
-                                                <x-admin.th>Kunci Jawaban</x-admin.th>
-                                                <x-admin.th>Skor</x-admin.th>
-                                            </tr>
-                                        @endslot
+                                    {{-- soal--}}
+                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex gap-2">
+                                                    <div>1</div>
+                                                    <div class="flex-grow-1">
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique magnam expedita ab at eos eveniet magni soluta perferendis ex temporibus.</p>
+                                                        <div class="mt-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri2" id="j2a">
+                                                                <label class="form-check-label" for="j2a">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-check-lg text-success h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri2" id="j2b">
+                                                                <label class="form-check-label" for="j2b">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri2" id="j2c">
+                                                                <label class="form-check-label" for="j2c">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri2" id="j2d" checked>
+                                                                <label class="form-check-label" for="j2d">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri2" id="j2e">
+                                                                <label class="form-check-label" for="j2e">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 0 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                    </x-admin.table>
+                                            <div>
+                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                                    <h5 class="mb-0">Skor</h5>
+                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    {{-- end soal --}}
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="materi3" role="tabpanel">
                                 <div class="table-responsive p-0">
-                                    <x-admin.table>
-                                        @slot('header')
-                                            <tr>
-                                                <x-admin.th>No</x-admin.th>
-                                                <x-admin.th>Soal</x-admin.th>
-                                                <x-admin.th>Jawaban</x-admin.th>
-                                                <x-admin.th>Kunci Jawaban</x-admin.th>
-                                                <x-admin.th>Skor</x-admin.th>
-                                            </tr>
-                                        @endslot
+                                    {{-- soal --}}
+                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex gap-2">
+                                                    <div>1</div>
+                                                    <div class="flex-grow-1">
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique magnam expedita ab at eos eveniet magni soluta perferendis ex temporibus.</p>
+                                                        <div class="mt-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri3" id="j2a">
+                                                                <label class="form-check-label" for="j2a">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-check-lg text-success h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri3" id="j2b">
+                                                                <label class="form-check-label" for="j2b">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri3" id="j2c">
+                                                                <label class="form-check-label" for="j2c">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri3" id="j2d" checked>
+                                                                <label class="form-check-label" for="j2d">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanMateri3" id="j2e">
+                                                                <label class="form-check-label" for="j2e">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 0 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                    </x-admin.table>
+                                            <div>
+                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                                    <h5 class="mb-0">Skor</h5>
+                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    {{-- end soal --}}
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="semuamateri" role="tabpanel">
                                 <div class="table-responsive p-0">
-                                    <x-admin.table>
-                                        @slot('header')
-                                            <tr>
-                                                <x-admin.th>No</x-admin.th>
-                                                <x-admin.th>Soal</x-admin.th>
-                                                <x-admin.th>Jawaban</x-admin.th>
-                                                <x-admin.th>Kunci Jawaban</x-admin.th>
-                                                <x-admin.th>Skor</x-admin.th>
-                                            </tr>
-                                        @endslot
+                                     {{-- soal --}}
+                                    <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex gap-2">
+                                                    <div>1</div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="overflow-hidden rounded mb-3"
+                                                            style="max-width: 30rem; max-height: 30rem;">
+                                                            <img src="{{ asset('dist/assets/img/quiz/060eb26a-2281-4e1f-a40f-300c528e6bbb.png') }}" alt=""
+                                                                class="w-100 h-100 object-cover">
+                                                        </div>
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique magnam expedita ab at eos eveniet magni soluta perferendis ex temporibus.</p>
+                                                        <div class="mt-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanSemua" id="a">
+                                                                <label class="form-check-label" for="a">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanSemua" id="b" checked>
+                                                                <label class="form-check-label" for="b">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-check-lg text-success h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanSemua" id="c">
+                                                                <label class="form-check-label" for="c">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanSemua" id="d">
+                                                                <label class="form-check-label" for="d">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jawabanSemua" id="e">
+                                                                <label class="form-check-label" for="e">asdasdad</label>
+                                                                &nbsp;
+                                                                <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 0 </x-admin.td>
-
-                                            </tr>
-                                            <tr>
-                                                <x-admin.td>1</x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, dolor. </x-admin.td>
-                                                <x-admin.td> Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, earum? </x-admin.td>
-                                                <x-admin.td> a. Lorem ipsum dolor sit amet. </x-admin.td>
-                                                <x-admin.td> 20 </x-admin.td>
-
-                                            </tr>
-                                    </x-admin.table>
+                                            <div>
+                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                                    <h5 class="mb-0">Skor</h5>
+                                                    <span class="badge bg-success fs-4 mt-1">20</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                    {{-- end soal --}}
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="table-responsive p-0">
-                            <x-admin.table id="datatable">
-                                @slot('header')
-                                    <tr>
-                                        <x-admin.th>No</x-admin.th>
-                                        <x-admin.th>Quiz</x-admin.th>
-                                        <x-admin.th>Nilai</x-admin.th>
-                                        <x-admin.th>Action</x-admin.th>
-                                    </tr>
-                                @endslot
-
-                                    <tr>
-                                        <x-admin.td>1</x-admin.td>
-                                        <x-admin.td>Vector ABCD</x-admin.td>
-                                        <x-admin.td>90</x-admin.td>
-                                        <x-admin.td>
-                                            <a href="#" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                                                data-bs-target="#detail"><i class="fa fa-eye"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Detail</span></a>
-                                        </x-admin.td>
-
-                                    </tr>
-                                    <tr>
-                                        <x-admin.td>2</x-admin.td>
-                                        <x-admin.td>Vector BCDE</x-admin.td>
-                                        <x-admin.td>90</x-admin.td>
-                                        <x-admin.td>
-                                            <a href="#" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                                                data-bs-target="#detail"><i class="fa fa-eye"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Detail</span></a>
-                                        </x-admin.td>
-
-                                    </tr>
-                                    <tr>
-                                        <x-admin.td>3</x-admin.td>
-                                        <x-admin.td>Vector CDEF</x-admin.td>
-                                        <x-admin.td>90</x-admin.td>
-                                        <x-admin.td>
-                                            <a href="#" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                                                data-bs-target="#detail"><i class="fa fa-eye"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Detail</span></a>
-                                        </x-admin.td>
-
-                                    </tr>
-                                    <tr>
-                                        <x-admin.td>4</x-admin.td>
-                                        <x-admin.td>Semua Materi</x-admin.td>
-                                        <x-admin.td>90</x-admin.td>
-                                        <x-admin.td>
-                                            <a href="#" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                                                data-bs-target="#detail"><i class="fa fa-eye"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Detail</span></a>
-                                        </x-admin.td>
-
-                                    </tr>
-                            </x-admin.table>
-                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Detail -->
-    <div class="modal fade" id="detail" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="detailLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="detailLabel">Detail Quiz Vektor ABCD</h1>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">X</button>
-                </div>
-
-                <div class="modal-body">
-                    <table class="table text-center text-sm text-dark">
-                    <thead>
-                        <tr class="table-primary">
-                            <th scope="col">No</th>
-                            <th scope="col">Soal</th>
-                            <th scope="col">Jawaban</th>
-                            <th scope="col">Kunci</th>
-                            <th scope="col">Skor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem ea voluptates, recusandae est quo suscipit neque ipsam quasi accusamus eaque provident aspernatur autem tenetur sint nulla temporibus modi, sed quidem.</td>
-                            <td>90</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Vector BCDE</td>
-                            <td>90</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Vector CDEF</td>
-                            <td>90</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Semua Materi</td>
-                            <td>90</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+                radio.addEventListener("click", function (event) {
+                    event.preventDefault(); // Mencegah perubahan pilihan
+                });
+            });
+        });
+    </script>
 @endsection
