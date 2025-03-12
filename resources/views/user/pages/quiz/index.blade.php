@@ -18,7 +18,7 @@
 
                     <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
                         <div class="border-l-4 border-sky-500 pl-3 sm:pl-6 mt-6 space-y-10">
-                            <form id="quizForm">
+                            <form id="quizForm" enctype="multipart/form-data">
                                 @csrf
                                 @foreach ($quiz as $data)
                                     <input type="hidden" id="materi_id" value="{{ $data->materi }}">
@@ -58,12 +58,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="flex items-start">
-                                                <label for="fileUpload{{ $data->id }}"
-                                                    class="bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer">
+                                            <div class="flex flex-col gap-3">
+                                                <div id="previewContainer{{ $data->id }}" class="ml-3 hidden overflow-hidden">
+                                                    <img id="previewImage{{ $data->id }}" src="" alt="Preview" class="w-24 h-24 rounded-lg shadow-md object-cover">
+                                                </div>
+
+                                                <div class="flex justify-start md:justify-end">
+                                                    <label for="fileUpload{{ $data->id }}"
+                                                    class="bg-orange-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer text-center">
                                                     Upload
-                                                </label>
-                                                <input type="file" id="fileUpload{{ $data->id }}" class="hidden" name="upload_jawaban_{{ $data->id }}">
+                                                    </label>
+                                                    <input type="file" id="fileUpload{{ $data->id }}" class="hidden" name="upload_jawaban_{{ $data->id }}"
+                                                        accept="image/*" onchange="previewImage(event, {{ $data->id }})">
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -130,45 +137,85 @@
             document.getElementById(id).classList.remove("modal-open");
         }
 
+        function previewImage(event, id) {
+            let fileInput = event.target;
+            let previewContainer = document.getElementById(`previewContainer${id}`);
+            let previewImage = document.getElementById(`previewImage${id}`);
+
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.classList.remove("hidden"); // Tampilkan preview
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+
         function submitQuiz() {
-            let formData = new FormData(document.getElementById("quizForm"));
             let materi_id = document.getElementById("materi_id").value;
             let jawaban = [];
+            let fileReadPromises = [];
 
+            // Iterasi semua radio button yang dipilih
             document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
                 let quiz_id = el.name.replace("jawaban", "");
                 let pilihan = el.value;
+
+                // Cek apakah ada file yang diupload
                 let fileInput = document.querySelector(`input[name='upload_jawaban_${quiz_id}']`);
                 let file_upload = fileInput && fileInput.files.length > 0;
 
-                jawaban.push({
-                    quiz_id: quiz_id,
+                let jawabanItem = {
+                    nomor: parseInt(quiz_id),
                     pilihan: pilihan,
                     file_upload: file_upload
-                });
+                };
+
+                // Jika ada file, baca sebagai Data URL
+                if (file_upload) {
+                    let file = fileInput.files[0];
+                    let filePromise = new Promise((resolve) => {
+                        let reader = new FileReader();
+                        reader.onload = function(e) {
+                            jawabanItem.file = e.target.result; // Simpan file sebagai Data URL
+                            resolve();
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                    fileReadPromises.push(filePromise);
+                }
+
+                jawaban.push(jawabanItem);
             });
 
-            let data = {
-                materi_id: materi_id,
-                jawaban: jawaban
-            };
+            // Tunggu semua file dibaca
+            Promise.all(fileReadPromises).then(() => {
+                // Buat objek data untuk dikirim
+                let data = {
+                    materi_id: parseInt(materi_id),
+                    jawaban: jawaban
+                };
 
-            fetch("{{ route('user.quiz.store') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                closeModal("my_modal_1");
-                setTimeout(() => {
-                    openModal("my_modal_2");
-                }, 300);
-            })
-            .catch(error => console.error("Error:", error));
+                // Kirim data dengan fetch
+                fetch("{{ route('user.quiz.store') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    closeModal("my_modal_1");
+                    setTimeout(() => {
+                        openModal("my_modal_2");
+                    }, 300);
+                })
+                .catch(error => console.error("Error:", error));
+            });
         }
     </script>
 
