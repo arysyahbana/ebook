@@ -8,28 +8,33 @@
                 data-tabs-active-classes="text-sky-500 hover:text-sky-500 border-sky-500"
                 data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300"
                 role="tablist">
-                @foreach ($materi as $data)
+                @foreach ($materiData as $data)
                     {{-- materi 1 --}}
                     <li class="me-2" role="presentation">
-                        <button class="inline-block p-4 border-b-2 rounded-t-lg {{ $loop->first ? 'active' : '' }}"
+                        <button
+                            class="inline-block p-4 border-b-2 rounded-t-lg {{ $data->isActive ? 'active' : 'opacity-50 cursor-not-allowed' }}"
                             id="materi{{ $data->id }}-styled-tab" data-tabs-target="#styled-materi-{{ $data->id }}"
-                            type="button" role="tab" aria-controls="materi1" aria-selected="false"><i
-                                class="fas fa-book"></i>&nbsp;&nbsp;{{ $data->nama_materi }}</button>
+                            type="button" role="tab" aria-controls="materi{{ $data->id }}"
+                            aria-selected="{{ $data->isActive ? 'true' : 'false' }}"
+                            {{ $data->isDisabled ? 'disabled' : '' }}
+                            title="{{ $data->isDisabled ? 'Selesaikan materi sebelumnya terlebih dahulu' : '' }}">
+                            <i class="fas fa-book"></i>&nbsp;&nbsp;{{ $data->nama_materi }}
+                        </button>
                     </li>
                     {{-- end materi 1 --}}
                 @endforeach
 
                 @if ($materi->isNotEmpty())
-                    {{-- <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="semua-materi-tab" data-bs-toggle="tab" data-bs-target="#semuamateri"
-                            type="button" role="tab">Semua Materi</button>
-                    </li> --}}
                     {{-- quiz all --}}
                     <li role="presentation">
                         <button
-                            class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 @guest pointer-events-none opacity-50" disabled @endguest id="quizall-styled-tab"
-                            data-tabs-target="#styled-quizall" type="button" role="tab" aria-controls="quizall"
-                            aria-selected="false"><i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Semua Materi</button>
+                            class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300
+                        {{ $quizSemuaMateriDisabled ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            id="quizall-styled-tab" data-tabs-target="#styled-quizall" type="button" role="tab"
+                            aria-controls="quizall" aria-selected="false" {{ $quizSemuaMateriDisabled ? 'disabled' : '' }}
+                            title="{{ $quizSemuaMateriDisabled ? 'Selesaikan semua materi terlebih dahulu' : '' }}">
+                            <i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Semua Materi
+                        </button>
                     </li>
                     {{-- end quiz all --}}
                 @endif
@@ -39,61 +44,72 @@
 
         <div id="default-styled-tab-content">
             @foreach ($materi as $data)
-                {{-- materi 1 --}}
-                <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
-                    aria-labelledby="materi{{ $data->id }}-tab">
-                    <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up"
-                        data-aos-duration="1500">
-                        <div class="flex justify-between">
-                            <div class="min-h-full w-full">
-                                <div class="flex items-center">
-                                    <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
-                                        <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
-                                            data-aos="zoom-in" data-aos-duration="1700">
-                                            <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">01</div>
+                @guest
+                    <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
+                        aria-labelledby="materi{{ $data->id }}-tab">
+                        <h1>
+                            Silahkan Login Dulu bos
+                        </h1>
+                    </div>
+                @else
+                    {{-- materi 1 --}}
+                    <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
+                        aria-labelledby="materi{{ $data->id }}-tab">
+                        <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up"
+                            data-aos-duration="1500">
+                            <div class="flex justify-between">
+                                <div class="min-h-full w-full">
+                                    <div class="flex items-center">
+                                        <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
+                                            <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
+                                                data-aos="zoom-in" data-aos-duration="1700">
+                                                <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">01</div>
+                                            </div>
+                                        </div>
+                                        <p class="text-5xl font-semibold text-sky-500 px-12">{{ $data->judul_materi }}</p>
+                                    </div>
+
+                                    <div class="px-12 pt-5 pb-12">
+                                        @if ($data->video_materi)
+                                            <div class="overflow-hidden h-full w-full rounded-xl mx-auto my-12">
+                                                <video class="w-full h-full object-cover" controls>
+                                                    <source
+                                                        src="{{ asset('dist/assets/video/materi/' . $data->video_materi) }}"
+                                                        type="video/mp4">
+                                                    Browser Anda tidak mendukung tag video.
+                                                </video>
+                                            </div>
+                                        @endif
+
+                                        <div class="border-l-4 border-sky-500 pl-6 mt-6">
+                                            <p class="text-slate-600 text-base leading-relaxed">
+                                                {!! $data->isi_materi !!}
+                                            </p>
+                                        </div>
+
+
+                                        <div class="flex justify-end gap-3 text-sm mt-6">
+                                            <a href="{{ route('user.index.quiz', $data->id) }}"
+                                                class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 @guest pointer-events-none opacity-50 @endguest">Quiz</a>
                                         </div>
                                     </div>
-                                    <p class="text-5xl font-semibold text-sky-500 px-12">{{ $data->judul_materi }}</p>
                                 </div>
 
-                                <div class="px-12 pt-5 pb-12">
-                                    @if ($data->video_materi)
-                                        <div class="overflow-hidden h-full w-full rounded-xl mx-auto my-12">
-                                            <video class="w-full h-full object-cover" controls>
-                                                <source src="{{ asset('dist/assets/video/materi/' . $data->video_materi) }}"
-                                                    type="video/mp4">
-                                                Browser Anda tidak mendukung tag video.
-                                            </video>
-                                        </div>
-                                    @endif
-
-                                    <div class="border-l-4 border-sky-500 pl-6 mt-6">
-                                        <p class="text-slate-600 text-base leading-relaxed">
-                                            {!! $data->isi_materi !!}
-                                        </p>
-                                    </div>
-
-
-                                    <div class="flex justify-end gap-3 text-sm mt-6">
-                                        <a href="{{ route('user.index.quiz',$data->id) }}"
-                                            class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 @guest pointer-events-none opacity-50 @endguest">Quiz</a>
-                                    </div>
+                                <div class="bg-[#F3F3F3] min-h-full min-w-2"></div>
+                                <div
+                                    class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl min-h-full min-w-6 border rounded-e-lg">
                                 </div>
-                            </div>
-
-                            <div class="bg-[#F3F3F3] min-h-full min-w-2"></div>
-                            <div
-                                class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl min-h-full min-w-6 border rounded-e-lg">
                             </div>
                         </div>
                     </div>
-                </div>
-                {{-- end materi 1 --}}
+                    {{-- end materi 1 --}}
+                @endguest
             @endforeach
 
             {{-- quiz all --}}
             <div class="hidden p-4 rounded-lg" id="styled-quizall" role="tabpanel" aria-labelledby="quizall-tab">
-                <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-duration="1500">
+                <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up"
+                    data-aos-duration="1500">
                     <div class="flex justify-between">
                         <div class="min-h-full w-full">
                             <div class="flex items-center">
@@ -109,7 +125,7 @@
 
                             <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
                                 <div class="border-l-4 border-sky-500 pl-3 sm:pl-6 mt-6 space-y-10">
-                                   <form id="quizForm">
+                                    <form id="quizForm">
                                         @csrf
                                         @foreach ($quizSemuaMateri as $semuaMateri)
                                             <input type="hidden" id="materi_id" value="{{ $semuaMateri->materi }}">
@@ -122,8 +138,9 @@
                                                                 @if ($semuaMateri->file)
                                                                     <div
                                                                         class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
-                                                                        <img src="{{ asset('dist/assets/img/quiz/'.$semuaMateri->file) }}"
-                                                                            alt="" class="w-full h-full object-cover">
+                                                                        <img src="{{ asset('dist/assets/img/quiz/' . $semuaMateri->file) }}"
+                                                                            alt=""
+                                                                            class="w-full h-full object-cover">
                                                                     </div>
                                                                 @endif
                                                                 <p>{{ $semuaMateri->soal }}</p>
@@ -131,9 +148,11 @@
                                                                     @foreach ($semuaMateri->pilihan as $key => $jawaban)
                                                                         <div class="mt-2 space-y-2">
                                                                             <label class="flex items-center gap-2">
-                                                                                <input type="radio" name="jawaban{{ $semuaMateri->id }}"
-                                                                                    value="{{ $key }}" class="w-4 h-4 text-blue-500">
-                                                                                <span>{{$jawaban}}</span>
+                                                                                <input type="radio"
+                                                                                    name="jawaban{{ $semuaMateri->id }}"
+                                                                                    value="{{ $key }}"
+                                                                                    class="w-4 h-4 text-blue-500">
+                                                                                <span>{{ $jawaban }}</span>
                                                                             </label>
                                                                         </div>
                                                                     @endforeach
@@ -144,23 +163,29 @@
                                                         </div>
                                                     </div>
                                                     <div class="flex flex-col gap-3">
-                                                        <div id="previewContainer{{ $semuaMateri->id }}" class="ml-3 hidden overflow-hidden">
-                                                            <img id="previewImage{{ $semuaMateri->id }}" src="" alt="Preview" class="w-24 h-24 rounded-lg shadow-md object-cover">
+                                                        <div id="previewContainer{{ $semuaMateri->id }}"
+                                                            class="ml-3 hidden overflow-hidden">
+                                                            <img id="previewImage{{ $semuaMateri->id }}" src=""
+                                                                alt="Preview"
+                                                                class="w-24 h-24 rounded-lg shadow-md object-cover">
                                                         </div>
 
                                                         <div class="flex justify-start md:justify-end">
                                                             <label for="fileUpload{{ $semuaMateri->id }}"
-                                                            class="bg-orange-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer text-center">
-                                                            Upload
+                                                                class="bg-orange-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer text-center">
+                                                                Upload
                                                             </label>
-                                                            <input type="file" id="fileUpload{{ $semuaMateri->id }}" class="hidden" name="upload_jawaban_{{ $semuaMateri->id }}"
-                                                                accept="image/*" onchange="previewImage(event, {{ $semuaMateri->id }})">
+                                                            <input type="file" id="fileUpload{{ $semuaMateri->id }}"
+                                                                class="hidden"
+                                                                name="upload_jawaban_{{ $semuaMateri->id }}"
+                                                                accept="image/*"
+                                                                onchange="previewImage(event, {{ $semuaMateri->id }})">
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endif
                                         @endforeach
-                                   </form>
+                                    </form>
                                 </div>
 
                                 <div class="flex justify-end gap-3 text-sm mt-6">
@@ -191,7 +216,9 @@
             <img src="{{ asset('dist/assets/img/clock.gif') }}" alt="" class="w-36 mx-auto">
             <p class="text-center">Yakin ingin akhiri quiz?</p>
             <div class="modal-action">
-                <button class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300" onclick="closeModal('my_modal_1')">
+                <button
+                    class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300"
+                    onclick="closeModal('my_modal_1')">
                     Tidak
                 </button>
                 <button
@@ -290,21 +317,21 @@
 
                 // Kirim data dengan fetch
                 fetch("{{ route('user.quiz.store') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    closeModal("my_modal_1");
-                    setTimeout(() => {
-                        openModal("my_modal_2");
-                    }, 300);
-                })
-                .catch(error => console.error("Error:", error));
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        closeModal("my_modal_1");
+                        setTimeout(() => {
+                            openModal("my_modal_2");
+                        }, 300);
+                    })
+                    .catch(error => console.error("Error:", error));
             });
         }
 

@@ -29,26 +29,26 @@
                                                     <div>{{ $loop->iteration }}</div>
                                                     <div class="flex-1">
                                                         @if ($data->file)
-                                                            <div
-                                                                class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
-                                                                <img src="{{ asset('dist/assets/img/quiz/' . $data->file) }}"
-                                                                    alt="" class="w-full h-full object-cover">
+                                                            <div class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
+                                                                <img src="{{ asset('dist/assets/img/quiz/' . $data->file) }}" alt=""
+                                                                    class="w-full h-full object-cover">
                                                             </div>
                                                         @endif
 
                                                         <p>{{ $data->soal }}</p>
 
-                                                        {{-- @if ($data->tipe_soal == 'Uraian' || $data->tipe_soal == 'Uraian Bergambar')
-                                                            <div class="mt-2">
-                                                                <textarea class="textarea textarea-bordered bg-[#F3F3F3] w-full md:w-[90%]" rows="4"
-                                                                    name="jawaban_uraian{{ $data->id }}"></textarea>
-                                                            </div>
+                                                        {{-- @if ($data->tipe_soal == 'Uraian' || $data->tipe_soal == 'Uraian
+                                                        Bergambar')
+                                                        <div class="mt-2">
+                                                            <textarea
+                                                                class="textarea textarea-bordered bg-[#F3F3F3] w-full md:w-[90%]"
+                                                                rows="4" name="jawaban_uraian{{ $data->id }}"></textarea>
+                                                        </div>
                                                         @else --}}
                                                         @foreach ($data->pilihan as $key => $jawaban)
                                                             <div class="mt-2 space-y-2">
                                                                 <label class="flex items-center gap-2">
-                                                                    <input type="radio" name="jawaban{{ $data->id }}"
-                                                                        value="{{ $key }}"
+                                                                    <input type="radio" name="jawaban{{ $data->id }}" value="{{ $key }}"
                                                                         class="w-4 h-4 text-blue-500">
                                                                     <span>{{ $jawaban }}</span>
                                                                 </label>
@@ -60,16 +60,18 @@
                                             </div>
                                             <div class="flex flex-col gap-3">
                                                 <div id="previewContainer{{ $data->id }}" class="ml-3 hidden overflow-hidden">
-                                                    <img id="previewImage{{ $data->id }}" src="" alt="Preview" class="w-24 h-24 rounded-lg shadow-md object-cover">
+                                                    <img id="previewImage{{ $data->id }}" src="" alt="Preview"
+                                                        class="w-24 h-24 rounded-lg shadow-md object-cover">
                                                 </div>
 
                                                 <div class="flex justify-start md:justify-end">
                                                     <label for="fileUpload{{ $data->id }}"
-                                                    class="bg-orange-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer text-center">
-                                                    Upload
+                                                        class="bg-orange-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 cursor-pointer text-center">
+                                                        Upload
                                                     </label>
-                                                    <input type="file" id="fileUpload{{ $data->id }}" class="hidden" name="upload_jawaban_{{ $data->id }}"
-                                                        accept="image/*" onchange="previewImage(event, {{ $data->id }})">
+                                                    <input type="file" id="fileUpload{{ $data->id }}" class="hidden"
+                                                        name="upload_jawaban_{{ $data->id }}" accept="image/*"
+                                                        onchange="previewImage(event, {{ $data->id }})">
                                                 </div>
                                             </div>
                                         </div>
@@ -102,7 +104,9 @@
             <img src="{{ asset('dist/assets/img/clock.gif') }}" alt="" class="w-36 mx-auto">
             <p class="text-center">Yakin ingin akhiri quiz?</p>
             <div class="modal-action">
-                <button class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300" onclick="closeModal('my_modal_1')">
+                <button
+                    class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300"
+                    onclick="closeModal('my_modal_1')">
                     Tidak
                 </button>
                 <button
@@ -119,10 +123,13 @@
     <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
             <h3 class="text-lg text-center mb-8">Selamat Anda Lulus</h3>
-            <h1 class="text-center text-8xl font-bold mb-12">90</h1>
+            <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
             <div class="flex justify-center items-center gap-3">
-                {{-- <a href="{{ route('index.quiz') }}" class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
-                <a href="{{ route('materi2') }}" class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a> --}}
+                {{-- <a href="{{ route('index.quiz') }}"
+                    class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
+                <a href="{{ route('materi2') }}"
+                    class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
+                --}}
             </div>
         </div>
     </div>
@@ -144,7 +151,7 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 let reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     previewImage.src = e.target.result;
                     previewContainer.classList.remove("hidden"); // Tampilkan preview
                 };
@@ -152,33 +159,31 @@
             }
         }
 
-
         function submitQuiz() {
-            let materi_id = document.getElementById("materi_id").value;
+            let materi_id = $("#materi_id").val();
             let jawaban = [];
             let fileReadPromises = [];
 
             // Iterasi semua radio button yang dipilih
-            document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
-                let quiz_id = el.name.replace("jawaban", "");
-                let pilihan = el.value;
+            $("input[type='radio']:checked").each(function () {
+                let quiz_id = $(this).attr("name").replace("jawaban", "");
+                let pilihan = $(this).val();
 
                 // Cek apakah ada file yang diupload
-                let fileInput = document.querySelector(`input[name='upload_jawaban_${quiz_id}']`);
-                let file_upload = fileInput && fileInput.files.length > 0;
+                let fileInput = $("input[name='upload_jawaban_" + quiz_id + "']");
+                let file_upload = fileInput.length > 0 && fileInput[0].files.length > 0;
 
                 let jawabanItem = {
-                    nomor: parseInt(quiz_id),
+                    quiz_id: parseInt(quiz_id),
                     pilihan: pilihan,
-                    file_upload: file_upload
                 };
 
                 // Jika ada file, baca sebagai Data URL
                 if (file_upload) {
-                    let file = fileInput.files[0];
+                    let file = fileInput[0].files[0];
                     let filePromise = new Promise((resolve) => {
                         let reader = new FileReader();
-                        reader.onload = function(e) {
+                        reader.onload = function (e) {
                             jawabanItem.file = e.target.result; // Simpan file sebagai Data URL
                             resolve();
                         };
@@ -190,7 +195,7 @@
                 jawaban.push(jawabanItem);
             });
 
-            // Tunggu semua file dibaca
+            // Tunggu semua file selesai dibaca
             Promise.all(fileReadPromises).then(() => {
                 // Buat objek data untuk dikirim
                 let data = {
@@ -198,25 +203,30 @@
                     jawaban: jawaban
                 };
 
-                // Kirim data dengan fetch
-                fetch("{{ route('user.quiz.store') }}", {
-                    method: "POST",
+                $.ajax({
+                    url: "{{ route('user.quiz.store') }}",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                        "X-CSRF-TOKEN": $("input[name=_token]").val()
                     },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    closeModal("my_modal_1");
-                    setTimeout(() => {
-                        openModal("my_modal_2");
-                    }, 300);
-                })
-                .catch(error => console.error("Error:", error));
+                    success: function (response) {
+                        closeModal("my_modal_1");
+                        console.log(response); // Debug: cek respons di console
+                        document.getElementById("skor").innerText = response;
+                        setTimeout(() => {
+                            openModal("my_modal_2");
+                        }, 300);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
             });
         }
+
     </script>
 
 

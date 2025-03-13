@@ -62,6 +62,7 @@ class QuizController extends Controller
                 $fileName = GlobalFunction::saveImage($request->file('file'), $randName, 'quiz');
                 $validatedData['file'] = $fileName;
             }
+            $validatedData['skor'] = 0;
             Quiz::create($validatedData);
             return redirect()->route('quiz.show')->with('success', 'Data berhasil disimpan.');
         } catch (Exception $e) {
@@ -101,6 +102,7 @@ class QuizController extends Controller
 
                 $validatedData['file'] = $fileName;
             }
+            $validatedData['skor'] = 0;
 
             Quiz::updateOrCreate(['id' => $id], $validatedData);
             return redirect()->route('quiz.show')->with('success', 'Data berhasil disimpan.');

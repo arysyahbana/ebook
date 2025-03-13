@@ -9,7 +9,8 @@
                 <h6>Edit Data Quiz</h6>
                 <div class="card mb-4">
                     <div class="card-body px-5 pt-5 pb-2">
-                        <form action="{{ route('quiz.update', $quiz->id) }}" method="post" enctype="multipart/form-data" id="quizForm">
+                        <form action="{{ route('quiz.update', $quiz->id) }}" method="post" enctype="multipart/form-data"
+                            id="quizForm">
                             @csrf
 
                             <label for="tipe_soal">Tipe Soal</label>
@@ -24,7 +25,8 @@
                             <select class="form-select mb-3" name="materi">
                                 <option selected hidden value="">--- Pilih Kategori ---</option>
                                 @foreach ($materi as $data)
-                                    <option value="{{ $data->id }}" @selected($quiz->materi == $data->id)>{{ $data->nama_materi }}</option>
+                                    <option value="{{ $data->id }}" @selected($quiz->materi == $data->id)>{{ $data->nama_materi }}
+                                    </option>
                                 @endforeach
                                 <option value="Semua Materi">Semua Materi</option>
                             </select>
@@ -35,23 +37,29 @@
                             </div>
 
                             <label for="soal">Soal</label>
-                            <textarea class="form-control mb-3" name="soal" id="soal" cols="20" rows="5">{{ trim($quiz->soal) }}</textarea>
+                            <textarea class="form-control mb-3" name="soal" id="soal" cols="20"
+                                rows="5">{{ trim($quiz->soal) }}</textarea>
 
-                            <label for="skor">Skor</label>
-                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0" placeholder="Masukkan skor" value="{{ $quiz->skor }}">
+                            {{-- <label for="skor">Skor</label>
+                            <input type="number" class="form-control mb-3" name="skor" id="skor" min="0"
+                                placeholder="Masukkan skor" value="{{ $quiz->skor }}"> --}}
 
                             <div id="answerContainer">
                                 <label>Jawaban</label>
                                 @foreach ($quiz->pilihan ?? [] as $key => $jawaban)
                                     <div class="d-flex gap-3 align-items-center">
                                         <div class="form-check col-6">
-                                            <input class="form-check-input" type="radio" name="jawaban_benar" value="{{ $key }}" @checked($quiz->jawaban_benar == $key)>
-                                            <input type="text" class="form-control d-inline answer-input" name="pilihan[{{ $key }}]" value="{{ $jawaban }}">
+                                            <input class="form-check-input" type="radio" name="jawaban_benar" value="{{ $key }}"
+                                                @checked($quiz->jawaban_benar == $key)>
+                                            <input type="text" class="form-control d-inline answer-input"
+                                                name="pilihan[{{ $key }}]" value="{{ $jawaban }}">
                                         </div>
-                                        <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
+                                        <button type="button" class="btn btn-danger remove-answer"><i
+                                                class="fa fa-minus"></i></button>
                                     </div>
                                 @endforeach
-                                <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i> Tambah Jawaban</button>
+                                <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
+                                    Tambah Jawaban</button>
                             </div>
 
                             <div class="card-footer d-flex justify-content-end">
@@ -100,12 +108,12 @@
                 const newAnswer = document.createElement("div");
                 newAnswer.classList.add("d-flex", "gap-3", "align-items-center", "mt-2");
                 newAnswer.innerHTML = `
-                    <div class="form-check col-6">
-                        <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
-                        <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]" placeholder="Jawaban ${letter.toUpperCase()}">
-                    </div>
-                    <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
-                `;
+                        <div class="form-check col-6">
+                            <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
+                            <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]" placeholder="Jawaban ${letter.toUpperCase()}">
+                        </div>
+                        <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
+                    `;
                 answerContainer.appendChild(newAnswer);
             });
 

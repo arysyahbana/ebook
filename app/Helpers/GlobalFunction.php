@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
 class GlobalFunction
@@ -23,9 +24,7 @@ class GlobalFunction
         $path = public_path('dist/assets/img/' . $path);
         if (file_exists($path . $filename)) {
             unlink($path . $filename);
-        } else {
-            // return false;
-        }
+        } 
     }
 
     public static function pemisahKoma($data)
@@ -67,4 +66,27 @@ class GlobalFunction
             // return false;
         }
     }
+
+    public static function convertBase64ToImage(string $base64)
+    {
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64, $matches)) {
+            $extension = $matches[1];
+            $base64Str = preg_replace('/^data:image\/\w+;base64,/', '', $base64);
+        } else {
+            return false;
+        }
+
+        $base64Str = str_replace(' ', '+', $base64Str);
+        $imageData = base64_decode($base64Str);
+
+        if (!$imageData) {
+            return false;
+        }
+
+        $tempFile = tempnam(sys_get_temp_dir(), 'img_') . '.' . $extension;
+        file_put_contents($tempFile, $imageData);
+
+        return new UploadedFile($tempFile, 'image.' . $extension, mime_content_type($tempFile), null, true);
+    }
+
 }

@@ -39,9 +39,9 @@
                             <textarea class="form-control mb-3" name="soal" id="soal" cols="20"
                                 rows="5">{{ old('soal') }}</textarea>
 
-                            <label for="skor">Skor</label>
+                            {{-- <label for="skor">Skor</label>
                             <input type="number" class="form-control mb-3" name="skor" id="skor" min="0"
-                                placeholder="Masukkan skor" value="{{ old('skor') }}">
+                                placeholder="Masukkan skor" value="{{ old('skor') }}"> --}}
 
                             <div id="answerContainer">
                                 <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
