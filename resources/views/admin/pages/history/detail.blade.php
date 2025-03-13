@@ -27,6 +27,15 @@
                         <div class="tab-content mt-3">
                             <div class="tab-pane fade show active" id="materi1" role="tabpanel">
                                 <div class="table-responsive p-0">
+                                    {{-- Total Skor --}}
+                                    <div class="d-flex flex-column flex-md-row justify-content-end">
+                                        <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                            <h5 class="mb-0">Total Skor</h5>
+                                            <span class="badge bg-success fs-4 mt-1">90</span>
+                                        </div>
+                                    </div>
+                                    {{-- end Total Skor --}}
+
                                     {{-- soal 1 --}}
                                     <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
                                         <div class="d-flex flex-column flex-md-row gap-3">
@@ -78,13 +87,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
-                                                    <h5 class="mb-0">Skor</h5>
-                                                    <span class="badge bg-success fs-4 mt-1">20</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,13 +142,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div>
-                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
-                                                    <h5 class="mb-0">Skor</h5>
-                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
-                                                </div>
-                                            </div>
                                         </div>
                                         <hr class="my-4">
                                     </div>
@@ -156,6 +151,15 @@
 
                             <div class="tab-pane fade" id="materi2" role="tabpanel">
                                 <div class="table-responsive p-0">
+                                    {{-- Total Skor --}}
+                                    <div class="d-flex flex-column flex-md-row justify-content-end">
+                                        <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                            <h5 class="mb-0">Total Skor</h5>
+                                            <span class="badge bg-success fs-4 mt-1">90</span>
+                                        </div>
+                                    </div>
+                                    {{-- end Total Skor --}}
+
                                     {{-- soal--}}
                                     <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
                                         <div class="d-flex flex-column flex-md-row gap-3">
@@ -204,13 +208,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div>
-                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
-                                                    <h5 class="mb-0">Skor</h5>
-                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
-                                                </div>
-                                            </div>
                                         </div>
                                         <hr class="my-4">
                                     </div>
@@ -220,6 +217,15 @@
 
                             <div class="tab-pane fade" id="materi3" role="tabpanel">
                                 <div class="table-responsive p-0">
+                                    {{-- Total Skor --}}
+                                    <div class="d-flex flex-column flex-md-row justify-content-end">
+                                        <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                            <h5 class="mb-0">Total Skor</h5>
+                                            <span class="badge bg-success fs-4 mt-1">90</span>
+                                        </div>
+                                    </div>
+                                    {{-- end Total Skor --}}
+
                                     {{-- soal --}}
                                     <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
                                         <div class="d-flex flex-column flex-md-row gap-3">
@@ -268,13 +274,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div>
-                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
-                                                    <h5 class="mb-0">Skor</h5>
-                                                    <span class="badge bg-danger fs-4 mt-1">0</span>
-                                                </div>
-                                            </div>
                                         </div>
                                         <hr class="my-4">
                                     </div>
@@ -284,6 +283,15 @@
 
                             <div class="tab-pane fade" id="semuamateri" role="tabpanel">
                                 <div class="table-responsive p-0">
+                                    {{-- Total Skor --}}
+                                    <div class="d-flex flex-column flex-md-row justify-content-end">
+                                        <div class="card bg-light text-center shadow-sm px-4 py-2">
+                                            <h5 class="mb-0">Total Skor</h5>
+                                            <span class="badge bg-success fs-4 mt-1">90</span>
+                                        </div>
+                                    </div>
+                                    {{-- end Total Skor --}}
+
                                      {{-- soal --}}
                                     <div class="border-start border-4 border-primary ps-3 ps-sm-4 mt-4 mb-5">
                                         <div class="d-flex flex-column flex-md-row gap-3">
@@ -335,13 +343,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                               <div class="card bg-light text-center shadow-sm px-4 py-2">
-                                                    <h5 class="mb-0">Skor</h5>
-                                                    <span class="badge bg-success fs-4 mt-1">20</span>
                                                 </div>
                                             </div>
                                         </div>

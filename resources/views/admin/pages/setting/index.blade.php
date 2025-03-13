@@ -90,6 +90,9 @@
                                                                 cols="20" rows="5">
                                                                             {{ $index->deskripsi }}
                                                                         </textarea>
+
+                                                            <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" />
+
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" class="btn btn-sm btn-success">Update</button>
@@ -156,8 +159,11 @@
 
                         <x-admin.input type="text" placeholder="Judul" label="Judul" name="judul" />
 
+
                         <label>Deskripsi</label>
                         <textarea class="form-control mb-3" name="deskripsi" id="deskripsi" cols="20" rows="5"></textarea>
+
+                        <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" />
 
                     </div>
                     <div class="modal-footer">
