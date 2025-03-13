@@ -85,6 +85,10 @@
                                                                 &nbsp;
                                                                 <i class="bi bi-x text-danger h5"></i>
                                                             </div>
+
+                                                            <div class="mt-5">
+                                                                <a href="{{ asset('dist/assets/img/apple-icon.png') }}" class="btn btn-primary" target="_blank">Lihat Berkas</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,6 +141,10 @@
                                                                 <label class="form-check-label" for="j2e">asdasdad</label>
                                                                 &nbsp;
                                                                 <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+
+                                                            <div class="mt-5">
+                                                                <a href="{{ asset('dist/assets/img/apple-icon.png') }}" class="btn btn-primary" target="_blank">Lihat Berkas</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -204,6 +212,10 @@
                                                                 &nbsp;
                                                                 <i class="bi bi-x text-danger h5"></i>
                                                             </div>
+
+                                                            <div class="mt-5">
+                                                                <a href="{{ asset('dist/assets/img/apple-icon.png') }}" class="btn btn-primary" target="_blank">Lihat Berkas</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -269,6 +281,10 @@
                                                                 <label class="form-check-label" for="j2e">asdasdad</label>
                                                                 &nbsp;
                                                                 <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+
+                                                            <div class="mt-5">
+                                                                <a href="{{ asset('dist/assets/img/apple-icon.png') }}" class="btn btn-primary" target="_blank">Lihat Berkas</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -340,6 +356,10 @@
                                                                 <label class="form-check-label" for="e">asdasdad</label>
                                                                 &nbsp;
                                                                 <i class="bi bi-x text-danger h5"></i>
+                                                            </div>
+
+                                                            <div class="mt-5">
+                                                                <a href="{{ asset('dist/assets/img/apple-icon.png') }}" class="btn btn-primary" target="_blank">Lihat Berkas</a>
                                                             </div>
                                                         </div>
                                                     </div>

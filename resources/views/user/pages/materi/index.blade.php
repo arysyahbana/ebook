@@ -47,9 +47,8 @@
                 @guest
                     <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
                         aria-labelledby="materi{{ $data->id }}-tab">
-                        <h1>
-                            Silahkan Login Dulu bos
-                        </h1>
+                        <img src="{{ asset('dist/assets/img/logindulu.png') }}" alt="" class="mx-auto mb-0">
+                        <h1 class="text-center text-2xl font-bold text-sky-500">Silahkan Login Dulu Untuk Mengakses Materi dan Quiz</h1>
                     </div>
                 @else
                     {{-- materi 1 --}}
