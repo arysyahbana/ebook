@@ -14,4 +14,13 @@ class jawabanMahasiswa extends Model
     protected $casts = [
         'jawaban' => 'array',
     ];
+
+    public function rMateri(){
+        return $this->belongsTo(Materi::class,'materi','id');
+    }
+
+    public function rUser()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

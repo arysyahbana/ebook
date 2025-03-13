@@ -70,7 +70,7 @@
                                                         Upload
                                                     </label>
                                                     <input type="file" id="fileUpload{{ $data->id }}" class="hidden"
-                                                        name="upload_jawaban_{{ $data->id }}" accept="image/*"
+                                                        name="upload_jawaban_{{ $data->id }}" accept="image/*" required
                                                         onchange="previewImage(event, {{ $data->id }})">
                                                 </div>
                                             </div>
@@ -122,17 +122,17 @@
     <!-- Modal Kedua -->
     <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
-            <h3 class="text-lg text-center mb-8">Selamat Anda Lulus</h3>
+            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
             <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
             <div class="flex justify-center items-center gap-3">
-                {{-- <a href="{{ route('index.quiz') }}"
+                <a id="ulang-btn" href="#"
                     class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
-                <a href="{{ route('materi2') }}"
+                <a id="lanjut-btn" href="#"
                     class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
-                --}}
             </div>
         </div>
     </div>
+
 
     {{-- js modal --}}
     <script>
@@ -163,6 +163,7 @@
             let materi_id = $("#materi_id").val();
             let jawaban = [];
             let fileReadPromises = [];
+            let kkm = {{ $kkm }};
 
             // Iterasi semua radio button yang dipilih
             $("input[type='radio']:checked").each(function () {
@@ -214,8 +215,28 @@
                     },
                     success: function (response) {
                         closeModal("my_modal_1");
-                        console.log(response); // Debug: cek respons di console
-                        document.getElementById("skor").innerText = response;
+
+                        let skor = response.skor;
+                        let isLastMateri = response.isLastMateri;
+
+                        document.getElementById("skor").innerText = skor;
+
+                        if (skor >= kkm) {
+                            if(isLastMateri){
+                                document.getElementById("modal-message").innerText = "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
+                            }else{
+                                document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
+                            }
+
+                            let nextUrl = "{{ route('index') }}" 
+                            
+                            document.getElementById("lanjut-btn").href = nextUrl;
+                        } else {
+                            document.getElementById("modal-message").innerText = "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
+                            document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
+                            document.getElementById('lanjut-btn').hidden = true
+                        }
+
                         setTimeout(() => {
                             openModal("my_modal_2");
                         }, 300);

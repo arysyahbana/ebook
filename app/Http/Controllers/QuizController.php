@@ -6,6 +6,7 @@ use App\Helpers\GlobalFunction;
 use App\Models\jawabanMahasiswa;
 use App\Models\Materi;
 use App\Models\Quiz;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Str;
 
@@ -15,8 +16,9 @@ class QuizController extends Controller
     {
         $page = 'Quiz';
         $quiz = Quiz::where('materi', $id)->get();
-        $materi = Materi::select('judul_materi')->where('id', $id)->first();
-        return view('user.pages.quiz.index', compact('page', 'quiz', 'materi'));
+        $materi = Materi::select('judul_materi', 'id')->where('id', $id)->first();
+        $kkm = Setting::value('kkm') ?? 75;
+        return view('user.pages.quiz.index', compact('page', 'quiz', 'materi', 'kkm'));
     }
     public function quizall()
     {
@@ -28,58 +30,84 @@ class QuizController extends Controller
     {
         $user = auth()->user();
         $materiId = $request->materi_id;
-        $skorSementara = 0;
         $jawabanMahasiswa = [];
+        $jumlahBenar = 0;
+        $totalSoal = count($request->jawaban);
 
-        $cekJawabanLama = jawabanMahasiswa::where('materi', $materiId)->where('user_id',$user->id)->get();
-        if ($cekJawabanLama->isNotEmpty()) {
-            foreach ($cekJawabanLama as $tempJawaban) {
-                foreach ($tempJawaban->jawaban as $jawaban) {
+        // Ambil semua quiz_id dari jawaban yang dikirim
+        $quizIds = collect($request->jawaban)->pluck('quiz_id');
+
+        // Ambil jawaban benar dan skor dari database dalam satu query
+        $quizData = Quiz::whereIn('id', $quizIds)->pluck('jawaban_benar', 'id');
+
+        foreach ($request->jawaban as $jawaban) {
+            // Proses jika ada file gambar
+            if (!empty($jawaban['file'])) {
+                $image = GlobalFunction::convertBase64ToImage($jawaban['file']);
+                $fileName = GlobalFunction::saveImage($image, Str::uuid()->toString(), "jawaban_mahasiswa/{$user->id}");
+                $jawaban['file'] = $fileName;
+            }
+
+            // Cek apakah jawaban benar
+            if (isset($quizData[$jawaban['quiz_id']]) && $quizData[$jawaban['quiz_id']] == $jawaban['pilihan']) {
+                $jumlahBenar++;
+            }
+
+            $jawabanMahasiswa[] = $jawaban;
+        }
+
+        $skor = $totalSoal > 0 ? (100 / $totalSoal) * $jumlahBenar : 0;
+
+        // Ambil data jawaban lama sekaligus
+        $jawabanLama = JawabanMahasiswa::where('user_id', $user->id)
+            ->where('materi', $materiId)
+            ->first();
+
+        $totalMengerjakan = ($jawabanLama->total_mengerjakan ?? 0) + 1;
+        $kkm = Setting::value('kkm') ?? 75;
+
+        // Batasi skor maksimal jika lebih dari 1 kali mengerjakan
+        if ($totalMengerjakan > 1 && $skor > $kkm) {
+            $skor = $kkm;
+        }
+
+        $lastMateriId = Materi::max('id');
+
+        if ($jawabanLama && $jawabanLama->nilai > $skor) {
+            foreach ($jawabanMahasiswa as $jawaban) {
+                if (!empty($jawaban['file'])) {
                     GlobalFunction::deleteImage($jawaban['file'], "jawaban_mahasiswa/{$user->id}/");
+                }
+            }
+            return response()->json([
+                'skor' => $skor,
+                'isLastMateri' => $materiId == $lastMateriId,
+            ]);
+        }
+
+        // Jika ada jawaban lama, hapus file lama sebelum menyimpan yang baru
+        if ($jawabanLama) {
+            foreach ($jawabanLama->jawaban as $oldJawaban) {
+                if (!empty($oldJawaban['file'])) {
+                    GlobalFunction::deleteImage($oldJawaban['file'], "jawaban_mahasiswa/{$user->id}/");
                 }
             }
         }
 
-        foreach ($request->jawaban as $jawaban) {
-            if (!empty($jawaban['file'])) {
-                $image = GlobalFunction::convertBase64ToImage($jawaban['file']);
-                $randName = Str::uuid()->toString();
-                $fileName = GlobalFunction::saveImage($image, $randName, "jawaban_mahasiswa/{$user->id}");
-                $jawaban['file'] = $fileName;
-            }
-
-            $cekHasil = Quiz::select('jawaban_benar', 'skor')->find($jawaban['quiz_id']);
-            if ($cekHasil && $cekHasil->jawaban_benar == $jawaban['pilihan']) {
-                $skorSementara += $cekHasil->skor;
-            }
-
-            $jawabanMahasiswa[] = $jawaban; 
-        }
-
-        // $totalSoal = count($request->jawaban);
-
-        // $skor = $skorSementara/$totalSoal;
-
-        $totalMengerjakan = jawabanMahasiswa::where('user_id', $user->id)
-            ->where('materi', $materiId)
-            ->value('total_mengerjakan') ?? 0; 
-
-        $totalMengerjakan += 1; 
-
-        $data = [
-            'user_id' => $user->id,
-            'materi' => $materiId,
-            'jawaban' => $jawabanMahasiswa,
-            'nilai' => $skorSementara,
-            'total_mengerjakan' => $totalMengerjakan,
-        ];
-
+        // Simpan atau update jawaban
         JawabanMahasiswa::updateOrCreate(
             ['materi' => $materiId, 'user_id' => $user->id],
-            $data
+            [
+                'jawaban' => $jawabanMahasiswa,
+                'nilai' => $skor,
+                'total_mengerjakan' => $totalMengerjakan,
+            ]
         );
-        
-        return response()->json($skorSementara);
-    }
 
+
+        return response()->json([
+            'skor' => $skor,
+            'isLastMateri' => $materiId == $lastMateriId,
+        ]);
+    }
 }

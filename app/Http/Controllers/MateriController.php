@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\jawabanMahasiswa;
 use App\Models\Materi;
 use App\Models\Quiz;
+use App\Models\Setting;
 
 class MateriController extends Controller
 {
@@ -15,27 +16,39 @@ class MateriController extends Controller
         $quizSemuaMateri = Quiz::where('materi', 'semuaMateri')->get();
 
         $filledMateri = $user
-            ? jawabanMahasiswa::where('user_id', $user->id)->pluck('materi')->toArray()
+            ? jawabanMahasiswa::where('user_id', $user->id)->pluck('nilai', 'materi')->toArray()
             : [];
 
+
+        $kkm = Setting::value('kkm') ?? 100;
         // Ubah array menjadi lookup table agar pengecekan lebih cepat
         $filledMateriLookup = array_flip($filledMateri);
 
-        $materiData = $materi->map(function ($item, $index) use ($filledMateriLookup, $materi) {
+        $materiData = $materi->map(function ($item, $index) use ($filledMateri, $materi, $kkm) {
             if ($index === 0) {
                 // Materi pertama selalu aktif
                 $item->isActive = true;
                 $item->isDisabled = false;
             } else {
                 $prevMateriId = $materi[$index - 1]->id;
-                $prevMateriFilled = isset($filledMateriLookup[$prevMateriId]);
+                // Perbaikan pengecekan: cek apakah materi sebelumnya sudah memenuhi KKM
+                $prevMateriFilled = isset($filledMateri[$prevMateriId]) && $filledMateri[$prevMateriId] >= $kkm;
+
                 $item->isActive = $prevMateriFilled;
                 $item->isDisabled = !$prevMateriFilled;
             }
             return $item;
         });
-        $allMateriFilled = count($filledMateri) === $materi->count();
-        $quizSemuaMateriDisabled = !$allMateriFilled;
+
+        // Cek apakah semua materi sudah memenuhi KKM
+        $allMateriFilled = count(array_filter($filledMateri, fn($nilai) => $nilai >= $kkm)) === $materi->count();
+        $quizSemuaMateriDone = $user
+            ? jawabanMahasiswa::where('user_id', $user->id)
+                ->where('materi', 'semuaMateri')
+                ->exists()
+            : false;
+        $quizSemuaMateriDisabled = !$allMateriFilled && !$quizSemuaMateriDone;
+        $kkm = Setting::value('kkm') ?? 75;
 
         $page = 'Materi1';
         return view('user.pages.materi.index', compact(
@@ -43,7 +56,8 @@ class MateriController extends Controller
             'materiData',
             'materi',
             'quizSemuaMateri',
-            'quizSemuaMateriDisabled'
+            'quizSemuaMateriDisabled',
+            'kkm'
         ));
     }
 

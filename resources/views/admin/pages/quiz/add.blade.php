@@ -70,7 +70,7 @@
             const addAnswerButton = document.getElementById("addAnswer");
             const form = document.getElementById("quizForm");
             const warningModal = new bootstrap.Modal(document.getElementById("warningModal"));
-            let answerIndex = 1;
+            let answerIndex = 0;
 
             function toggleFields() {
                 const selectedType = typeSelect.value;

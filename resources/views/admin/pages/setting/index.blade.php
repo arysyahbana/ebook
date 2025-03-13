@@ -24,6 +24,7 @@
                                     <x-admin.th>Cover</x-admin.th>
                                     <x-admin.th>Judul</x-admin.th>
                                     <x-admin.th>Deskripsi</x-admin.th>
+                                    <x-admin.th>KKM</x-admin.th>
                                     <x-admin.th>Action</x-admin.th>
                                 </tr>
                                 @endslot
@@ -36,11 +37,12 @@
                                                     style="max-width: 100px" class="img-fluid img-thumbnail">
                                             </a>
                                         </x-admin.td>
-                                        <x-admin.td>{{ $index->judul }}</x-admin.td>
+                                        <x-admin.td>{{ $index->judul ?? '' }}</x-admin.td>
                                         <x-admin.td
-                                            style="word-wrap: break-word; word-break: break-word; white-space: normal; min-width: 300px">
-                                            {{ $index->deskripsi }}
-                                        </x-admin.td>
+                                        style="word-wrap: break-word; word-break: break-word; white-space: normal; min-width: 300px">
+                                        {{ $index->deskripsi }}
+                                    </x-admin.td>
+                                    <x-admin.td>{{ $index->kkm ?? '' }}</x-admin.td>
                                         <x-admin.td>
                                             <a href="#" class="btn bg-gradient-info" data-bs-toggle="modal"
                                                 data-bs-target="#editSetting"><i class="fa fa-pencil"
@@ -91,7 +93,7 @@
                                                                             {{ $index->deskripsi }}
                                                                         </textarea>
 
-                                                            <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" />
+                                                            <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" value="{{ $index->kkm }}" />
 
                                                         </div>
                                                         <div class="modal-footer">

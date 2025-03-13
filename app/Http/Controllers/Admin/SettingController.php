@@ -16,6 +16,7 @@ class SettingController extends Controller
             'cover' => $imageRule . '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'judul' => 'required',
             'deskripsi' => 'required',
+            'kkm' => 'required'
         ], [
             'cover.required' => 'Cover wajib diisi.',
             'cover.image' => 'File harus berupa gambar.',
@@ -23,6 +24,7 @@ class SettingController extends Controller
             'cover.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
             'judul.required' => 'Judul wajib diisi.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'kkm.required' => 'Nilai KKM wajib diisi.',
         ]);
     }
     public function index()

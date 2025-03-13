@@ -16,20 +16,20 @@
                         <div class="table-responsive p-0">
                             <x-admin.table id="datatable">
                                 @slot('header')
-                                    <tr>
-                                        <x-admin.th>No</x-admin.th>
-                                        <x-admin.th>Nama</x-admin.th>
-                                        <x-admin.th>Nim</x-admin.th>
-                                        <x-admin.th>Nilai Akhir</x-admin.th>
-                                        <x-admin.th>Action</x-admin.th>
-                                    </tr>
+                                <tr>
+                                    <x-admin.th>No</x-admin.th>
+                                    <x-admin.th>Nama</x-admin.th>
+                                    <x-admin.th>Nim</x-admin.th>
+                                    <x-admin.th>Nilai Akhir</x-admin.th>
+                                    <x-admin.th>Action</x-admin.th>
+                                </tr>
                                 @endslot
-
+                                @foreach ($historys as $key => $history)
                                     <tr>
-                                        <x-admin.td>1</x-admin.td>
-                                        <x-admin.td>Budiono Siregar</x-admin.td>
-                                        <x-admin.td>1212121212</x-admin.td>
-                                        <x-admin.td>90</x-admin.td>
+                                        <x-admin.td>{{ $loop->iteration }}</x-admin.td>
+                                        <x-admin.td>{{ $history->name }}</x-admin.td>
+                                        <x-admin.td>{{ $history->nim }}</x-admin.td>
+                                        <x-admin.td>{{ $history->rJawaban[$key]->nilai }}</x-admin.td>
                                         <x-admin.td>
                                             <a href="{{ route('history.detail') }}" class="btn bg-gradient-primary">
                                                 <i class="fa fa-eye"></i>
@@ -38,6 +38,7 @@
                                         </x-admin.td>
 
                                     </tr>
+                                @endforeach
                             </x-admin.table>
                         </div>
                     </div>

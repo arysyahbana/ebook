@@ -19,7 +19,6 @@ class QuizController extends Controller
             'materi' => 'required',
             'file' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'soal' => 'required',
-            'skor' => 'required|integer',
             'pilihan' => 'sometimes|array',
             'jawaban_benar' => 'sometimes',
         ], [
@@ -29,8 +28,6 @@ class QuizController extends Controller
             'file.mimes' => 'Format file harus jpeg, png, jpg, gif, atau svg.',
             'file.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
             'soal.required' => 'Isi materi wajib diisi.',
-            'skor.required' => 'Skor wajib diisi.',
-            'skor.integer' => 'Skor harus berupa angka.',
             'pilihan.array' => 'Pilihan harus berupa array.',
             'jawaban_benar.required' => 'Jawaban benar wajib diisi.',
         ]);

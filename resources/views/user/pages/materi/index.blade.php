@@ -233,12 +233,12 @@
     <!-- Modal Kedua -->
     <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
-            <h3 class="text-lg text-center mb-8">Selamat Anda Lulus</h3>
-            <h1 class="text-center text-8xl font-bold mb-12">90</h1>
+            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
+            <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
             <div class="flex justify-center items-center gap-3">
-                <a href="javascript:void(0);" onclick="switchTab('quizall-styled-tab')"
+                <a id="ulang-btn" href="#"
                     class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
-                <a href="javascript:void(0);" onclick="switchTab('materi1-styled-tab')"
+                <a id="lanjut-btn" href="#"
                     class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
             </div>
         </div>
@@ -271,9 +271,9 @@
 
 
         function submitQuiz() {
-            let materi_id = document.getElementById("materi_id").value;
             let jawaban = [];
             let fileReadPromises = [];
+            let kkm = {{ $kkm }};
 
             // Iterasi semua radio button yang dipilih
             document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
@@ -285,9 +285,8 @@
                 let file_upload = fileInput && fileInput.files.length > 0;
 
                 let jawabanItem = {
-                    nomor: parseInt(quiz_id),
+                    quiz_id: parseInt(quiz_id),
                     pilihan: pilihan,
-                    file_upload: file_upload
                 };
 
                 // Jika ada file, baca sebagai Data URL
@@ -311,27 +310,50 @@
             Promise.all(fileReadPromises).then(() => {
                 // Buat objek data untuk dikirim
                 let data = {
-                    materi_id: parseInt(materi_id),
+                    materi_id: 'semuaMateri',
                     jawaban: jawaban
                 };
 
                 // Kirim data dengan fetch
-                fetch("{{ route('user.quiz.store') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                $.ajax({
+                    url: "{{ route('user.quiz.store') }}",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        "X-CSRF-TOKEN": $("input[name=_token]").val()
+                    },
+                    success: function(response) {
                         closeModal("my_modal_1");
+
+                        let skor = response.skor;
+                        let isLastMateri = response.isLastMateri;
+
+                        document.getElementById("skor").innerText = skor;
+
+                        if (skor >= kkm) {
+                            document.getElementById("modal-message").innerText =
+                                "Selamat Anda Lulus, Silahkan Lihat Leaderboard";
+
+                            let nextUrl = "{{ route('index') }}"
+
+                            document.getElementById("lanjut-btn").href = nextUrl;
+                        } else {
+                            document.getElementById("modal-message").innerText =
+                                "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
+                            document.getElementById("ulang-btn").href =
+                                "{{ route('index') }}";
+                        }
+
                         setTimeout(() => {
                             openModal("my_modal_2");
                         }, 300);
-                    })
-                    .catch(error => console.error("Error:", error));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
             });
         }
 

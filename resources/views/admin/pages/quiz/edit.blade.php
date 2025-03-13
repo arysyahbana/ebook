@@ -45,7 +45,8 @@
                                 placeholder="Masukkan skor" value="{{ $quiz->skor }}"> --}}
 
                             <div id="answerContainer">
-                                <label>Jawaban</label>
+                                <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
+                                    Tambah Jawaban</button>
                                 @foreach ($quiz->pilihan ?? [] as $key => $jawaban)
                                     <div class="d-flex gap-3 align-items-center">
                                         <div class="form-check col-6">
@@ -58,8 +59,6 @@
                                                 class="fa fa-minus"></i></button>
                                     </div>
                                 @endforeach
-                                <button type="button" id="addAnswer" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
-                                    Tambah Jawaban</button>
                             </div>
 
                             <div class="card-footer d-flex justify-content-end">
@@ -108,12 +107,12 @@
                 const newAnswer = document.createElement("div");
                 newAnswer.classList.add("d-flex", "gap-3", "align-items-center", "mt-2");
                 newAnswer.innerHTML = `
-                        <div class="form-check col-6">
-                            <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
-                            <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]" placeholder="Jawaban ${letter.toUpperCase()}">
-                        </div>
-                        <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
-                    `;
+                            <div class="form-check col-6">
+                                <input class="form-check-input" type="radio" name="jawaban_benar" value="${letter}">
+                                <input type="text" class="form-control d-inline answer-input" name="pilihan[${letter}]" placeholder="Jawaban ${letter.toUpperCase()}">
+                            </div>
+                            <button type="button" class="btn btn-danger remove-answer"><i class="fa fa-minus"></i></button>
+                        `;
                 answerContainer.appendChild(newAnswer);
             });
 
