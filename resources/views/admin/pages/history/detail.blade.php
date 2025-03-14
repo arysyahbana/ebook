@@ -157,8 +157,8 @@
                                         </div>
                                         {{-- end soal --}}
                                     </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                     </div>
                 </div>
