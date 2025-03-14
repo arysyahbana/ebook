@@ -10,10 +10,10 @@
                 <div class="card mb-4">
                     <div class="card-body p-5">
                         <div class="table-responsive p-0">
-                            <form action="#" method="post">
+                            <form action="{{ route('profile.update',$user->id) }}" method="post">
                                 @csrf
                                 <x-admin.input type="text" placeholder="Nama"
-                                    label="Nama" name="nama"
+                                    label="Nama" name="name"
                                     value="{{ $user->name ?? '' }}" />
                                 <x-admin.input type="text" placeholder="Nim"
                                     label="Nim" name="nim"
@@ -29,7 +29,7 @@
                                     value="{{ $user->email ?? '' }}" />
                                 <Label>Jenis Kelamin</Label>
                                 <select class="form-select mb-3"
-                                    aria-label="Default select example" name="gender">
+                                    aria-label="Default select example" name="jenis_kelamin">
                                     <option hidden value="">--- Pilih Jenis Kelamin ---
                                     </option>
                                     <option value="Pria"

@@ -16,7 +16,8 @@
 
                     <div class="px-12 pt-5 pb-12">
                         <div class="border-l-4 border-sky-500 pl-6 mt-6">
-                            <form class="max-w-1/2 mx-auto">
+                            <form class="max-w-1/2 mx-auto" action="{{ route('profile.update',$user->id) }}" method="POST">
+                                @csrf
                                 <div class="mb-5">
                                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
                                     <input type="text" id="name" name="name" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" value="{{ $user->name ?? '' }}" />
@@ -31,7 +32,7 @@
                                 </div>
                                 <div class="mb-5">
                                     <label for="hp" class="block mb-2 text-sm font-medium text-gray-900">No Hp</label>
-                                    <input type="number" id="hp" name="hp" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" value="{{ $user->no_hp ?? '' }}" />
+                                    <input type="number" id="hp" name="no_hp" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" value="{{ $user->no_hp ?? '' }}" />
                                 </div>
                                 <div class="mb-5">
                                     <label for="jenis_kelamin" class="block mb-2 text-sm font-medium text-gray-900">Jenis Kelamin</label>
@@ -50,13 +51,13 @@
                                 </div>
                                 <div class="mb-5">
                                     <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Alamat</label>
-                                    <textarea name="address" id="address" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
+                                    <textarea name="alamat" id="address" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
                                         {{ $user->alamat ?? '' }}
                                     </textarea>
                                 </div>
                                 <div class="mb-5">
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Your password</label>
-                                    <input type="password" id="password" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" />
+                                    <input name="password" type="password" id="password" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" />
                                 </div>
                                 <div class="flex justify-end">
                                     <button type="submit" class="text-white bg-sky-500 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update</button>
