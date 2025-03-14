@@ -10,7 +10,8 @@
                         <div class="bg-[#F3F3F3] flex w-[10%] pb-1 lg:pb-4">
                             <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
                                 data-aos="zoom-in" data-aos-duration="1700">
-                                <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white">01</div>
+                                <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white"><i
+                                                class="fas fa-book"></i></div>
                             </div>
                         </div>
                         <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz {{ $materi->judul_materi ?? '' }}</p>
@@ -228,8 +229,8 @@
                                 document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
                             }
 
-                            let nextUrl = "{{ route('index') }}" 
-                            
+                            let nextUrl = "{{ route('index') }}"
+
                             document.getElementById("lanjut-btn").href = nextUrl;
                         } else {
                             document.getElementById("modal-message").innerText = "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
