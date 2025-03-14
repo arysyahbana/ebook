@@ -55,7 +55,8 @@ class HistoryController extends Controller
                 $answer = collect($answersLookup)->firstWhere('quiz_id', $quiz->id);
 
                 $quiz->jawabanMahasiswa = $answer ? $answer['pilihan'] : null;
-                $quiz->fileJawabanMahasiswa = $answer ? $answer['file'] : null;
+                // $quiz->fileJawabanMahasiswa = $answer ? $answer['file'] : null;
+                $quiz->fileJawabanMahasiswa = isset($answer['file']) ? $answer['file'] : null;
             });
 
             $score = $studentScores->get($materi->id, collect());
@@ -70,7 +71,9 @@ class HistoryController extends Controller
         $quizzes->each(function ($quiz) use ($answersLookup, $studentScores) {
             $answer = collect($answersLookup)->firstWhere('quiz_id', $quiz->id);
             $quiz->jawabanMahasiswa = $answer ? $answer['pilihan'] : null;
-            $quiz->fileJawabanMahasiswa = $answer ? $answer['file'] : null;
+            // $quiz->fileJawabanMahasiswa = $answer ? $answer['file'] : null;
+            $quiz->fileJawabanMahasiswa = isset($answer['file']) ? $answer['file'] : null;
+
 
             $score = $studentScores->get($quiz->materi, collect());
             $quiz->nilaiMahasiswa = $score->isNotEmpty() ? $score->first()->nilai : null;
