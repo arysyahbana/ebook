@@ -48,7 +48,8 @@
                     <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
                         aria-labelledby="materi{{ $data->id }}-tab">
                         <img src="{{ asset('dist/assets/img/logindulu.png') }}" alt="" class="mx-auto mb-0">
-                        <h1 class="text-center text-2xl font-bold text-sky-500">Silahkan Login Dulu Untuk Mengakses Materi dan Quiz</h1>
+                        <h1 class="text-center text-2xl font-bold text-sky-500">Silahkan Login Dulu Untuk Mengakses Materi dan
+                            Quiz</h1>
                     </div>
                 @else
                     {{-- materi 1 --}}
@@ -335,7 +336,7 @@
                             document.getElementById("modal-message").innerText =
                                 "Selamat Anda Lulus, Silahkan Lihat Leaderboard";
 
-                            let nextUrl = "{{ route('index') }}"
+                            let nextUrl = "{{ route('index.leaderboard') }}"
 
                             document.getElementById("lanjut-btn").href = nextUrl;
                         } else {
@@ -343,6 +344,7 @@
                                 "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
                             document.getElementById("ulang-btn").href =
                                 "{{ route('index') }}";
+                            document.getElementById('lanjut-btn').hidden = true
                         }
 
                         setTimeout(() => {

@@ -32,7 +32,7 @@
                                         <p class="text-lg px-12 mt-1">{{$leaderBoard->nim}}</p>
                                     </div>
                                     <div class="mx-12 bg-gradient-to-b from-teal-500 to-green-400 shadow-xl rounded-full">
-                                        <p class="text-white p-5 text-3xl font-semibold">{{$leaderBoard->rata}}</p>
+                                        <p class="text-white p-5 text-3xl font-semibold">{{App\Helpers\GlobalFunction::pembulatan($leaderBoard->rata)}}</p>
                                     </div>
                                 </div>
                             </div>

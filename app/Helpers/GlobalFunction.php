@@ -89,4 +89,8 @@ class GlobalFunction
         return new UploadedFile($tempFile, 'image.' . $extension, mime_content_type($tempFile), null, true);
     }
 
+    public static function pembulatan($angka){
+        return number_format($angka, 2, ',', '.');
+    }
+
 }

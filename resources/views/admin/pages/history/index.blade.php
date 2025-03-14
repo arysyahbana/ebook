@@ -26,12 +26,13 @@
                                 @endslot
                                 @foreach ($historys as $key => $history)
                                     <tr>
+                                        {{-- {{ dd($key) }} --}}
                                         <x-admin.td>{{ $loop->iteration }}</x-admin.td>
                                         <x-admin.td>{{ $history->name }}</x-admin.td>
                                         <x-admin.td>{{ $history->nim }}</x-admin.td>
-                                        <x-admin.td>{{ $history->rJawaban[$key]->nilai }}</x-admin.td>
+                                        <x-admin.td>{{ optional($history->rJawaban->first())->nilai ?? '-' }}</x-admin.td>
                                         <x-admin.td>
-                                            <a href="{{ route('history.detail') }}" class="btn bg-gradient-primary">
+                                            <a href="{{ route('history.detail',$history->id) }}" class="btn bg-gradient-primary">
                                                 <i class="fa fa-eye"></i>
                                                 <span class="text-capitalize ms-1">Detail</span>
                                             </a>

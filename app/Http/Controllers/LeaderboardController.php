@@ -26,7 +26,7 @@ class LeaderboardController extends Controller
 
             $jawabanArray = [];
             foreach ($jawabanCollection as $jawaban) {
-                if ($jawaban->rMateri->nama_materi !== 'semuaMateri') {
+                if ($jawaban->rMateri && $jawaban->rMateri->nama_materi !== 'semuaMateri') {
                     $jawabanArray[] = (object) [
                         'nama_materi' => $jawaban->rMateri->nama_materi,
                         'nilai' => $jawaban->nilai,
@@ -65,12 +65,14 @@ class LeaderboardController extends Controller
 
         $jawabanArray = [];
         foreach ($jawabanCollection as $jawaban) {
-            $jawabanArray[] = (object) [
-                'nama_materi' => $jawaban->rMateri->nama_materi,
-                'nilai' => $jawaban->nilai,
-            ];
-        }
+            if ($jawaban->rMateri && $jawaban->rMateri->nama_materi !== 'semuaMateri') {
 
+                $jawabanArray[] = (object) [
+                    'nama_materi' => $jawaban->rMateri->nama_materi,
+                    'nilai' => $jawaban->nilai,
+                ];
+            }
+        }
         $history = (object) [
             'nama_user' => $user->name,
             'nim' => $user->nim,
