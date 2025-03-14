@@ -37,6 +37,9 @@ class ProfileController extends Controller
         if($data['password']){
             $data['password'] = Hash::make($data['password']);
         }
+        else{
+            unset($data['password']);
+        }
         $user->update($data);
         return redirect()->back()->with('success','Profile berhasil diupdate');
     }
