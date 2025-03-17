@@ -16,14 +16,18 @@ class GenericExport implements FromCollection, WithHeadings, WithStyles
     protected $endColumn;
     protected $path;
 
-    public function __construct($model, array $columns, $endColumn, $path = '', array $relations = [])
+    protected $defaultRelations = [];
+
+    public function __construct($model, array $columns, $endColumn, $path = '', array $relations = [], array $defaultRelations = [])
     {
         $this->model = $model;
         $this->columns = $columns;
         $this->relations = $relations;
         $this->endColumn = $endColumn;
         $this->path = $path;
+        $this->defaultRelations = $defaultRelations;
     }
+
 
     public function collection()
     {
@@ -54,13 +58,17 @@ class GenericExport implements FromCollection, WithHeadings, WithStyles
                     }
                 } else {
                     foreach ($fields as $field) {
-                        $data["$relation.$field"] = null;
+                        // Jika ada nilai default untuk relasi tersebut, gunakan nilai default, jika tidak null
+                        $data["$relation.$field"] = isset($this->defaultRelations[$relation][$field])
+                            ? $this->defaultRelations[$relation][$field]
+                            : null;
                     }
                 }
             }
             return $data;
         });
     }
+
 
     public function headings(): array
     {

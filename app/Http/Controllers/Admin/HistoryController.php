@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\GenericExport;
 use App\Http\Controllers\Controller;
 use App\Models\jawabanMahasiswa;
 use App\Models\Materi;
 use App\Models\Quiz;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HistoryController extends Controller
 {
@@ -79,5 +81,18 @@ class HistoryController extends Controller
             $quiz->nilaiMahasiswa = $score->isNotEmpty() ? $score->first()->nilai : null;
             $quiz->userId = $score->isNotEmpty() ? $score->first()->user_id : null;
         });
+    }
+
+    public function download()
+    {
+        $columns = ['nilai',];
+        $relations = [
+            'rUser' => ['name','nim'],
+            'rMateri' => ['judul_materi']
+        ];
+        $defaultRelations = [
+            'rMateri' => ['judul_materi' => 'Semua Materi']
+        ];
+        return Excel::download(new GenericExport(jawabanMahasiswa::class, $columns, 'E', 'history',$relations,$defaultRelations), 'History.xlsx');
     }
 }

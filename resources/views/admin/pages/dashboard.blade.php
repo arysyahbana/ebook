@@ -12,7 +12,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Materi</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    1
+                                    {{ $materi ?? 0 }}
                                 </h5>
                             </div>
                         </div>
@@ -31,9 +31,9 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Quiz</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Quiz</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    2
+                                    {{ $quiz ?? 0 }}
                                 </h5>
                             </div>
                         </div>
