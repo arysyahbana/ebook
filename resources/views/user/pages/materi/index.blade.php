@@ -1,6 +1,25 @@
 @extends('user.layouts.app')
 @section('title', 'Materi')
 @section('content')
+    <style>
+        #countdown-timer {
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            #countdown-timer {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+
     <div class="grid grid-cols-1 gap-4 mx-4">
         <div class="mb-4 border-b border-gray-200">
             <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-styled-tab"
@@ -42,7 +61,7 @@
             </ul>
         </div>
 
-        <div id="default-styled-tab-content">
+        <div id="default-styled-tab-content" class="text-slate-800">
             @foreach ($materi as $data)
                 @guest
                     <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
@@ -52,7 +71,6 @@
                             Quiz</h1>
                     </div>
                 @else
-                    {{-- materi 1 --}}
                     <div class="hidden p-4 rounded-lg" id="styled-materi-{{ $data->id }}" role="tabpanel"
                         aria-labelledby="materi{{ $data->id }}-tab">
                         <div class="bg-white w-full rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up"
@@ -102,7 +120,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- end materi 1 --}}
                 @endguest
             @endforeach
 
@@ -121,6 +138,7 @@
                                     </div>
                                 </div>
                                 <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Seluruh Materi</p>
+                                <div id="countdown-timer" class="text-xl font-semibold text-red-500 ml-4"></div>
                             </div>
 
                             <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
@@ -370,4 +388,102 @@
             }
         }
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get necessary elements
+            const countdownElement = document.getElementById("countdown-timer");
+            const quizTabButton = document.getElementById("quizall-styled-tab");
+            const quizTabContent = document.getElementById("styled-quizall");
+
+            // Set duration (in seconds)
+            let duration = 600; // Change to your desired time (e.g., 600 = 10 minutes)
+            let timer;
+
+            // Function to handle tab switching
+            function handleTabSwitch() {
+                const tabButtons = document.querySelectorAll("[data-tabs-target]");
+
+                tabButtons.forEach(button => {
+                    button.addEventListener("click", function() {
+                        const target = this.getAttribute("data-tabs-target");
+
+                        // If quiz-all tab is clicked, start the timer
+                        if (target === "#styled-quizall") {
+                            startCountdown();
+                        }
+                    });
+                });
+            }
+
+            // Function to start the countdown
+            function startCountdown() {
+                // Clear any existing timer
+                if (timer) clearInterval(timer);
+
+                // Reset duration
+                duration = 10; // Reset to your desired time
+
+                // Update countdown immediately
+                updateCountdown();
+
+                // Start the timer
+                timer = setInterval(updateCountdown, 1000);
+            }
+
+            // Function to update countdown
+            function updateCountdown() {
+                let minutes = Math.floor(duration / 60);
+                let seconds = duration % 60;
+                countdownElement.textContent = `Sisa Waktu: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+                if (duration > 0) {
+                    duration--;
+                } else {
+                    clearInterval(timer);
+
+                    // Disable quiz tab button
+                    quizTabButton.classList.add("opacity-50", "cursor-not-allowed");
+                    quizTabButton.setAttribute("disabled", "disabled");
+                    quizTabButton.setAttribute("title", "Quiz sudah selesai");
+
+                    // Get the last material tab ID
+                    const lastMaterialTab = document.querySelector('[id^="materi"][id$="-styled-tab"]:not([disabled])');
+                    const lastMaterialTarget = lastMaterialTab ? lastMaterialTab.getAttribute("data-tabs-target") : null;
+
+                    // Redirect to the last material tab
+                    if (lastMaterialTarget) {
+                        // Hide current tab content
+                        quizTabContent.classList.add("hidden");
+
+                        // Show last material tab content
+                        document.querySelector(lastMaterialTarget).classList.remove("hidden");
+
+                        // Set aria-selected attributes
+                        quizTabButton.setAttribute("aria-selected", "false");
+                        lastMaterialTab.setAttribute("aria-selected", "true");
+
+                        // Scroll to the tab
+                        lastMaterialTab.scrollIntoView({ behavior: 'smooth' });
+                    }
+
+                    // Auto-submit the form
+                    document.getElementById("quizForm").submit();
+
+                    // Show alert
+                    openModal("my_modal_2");
+                }
+            }
+
+            // Initialize tab switching
+            handleTabSwitch();
+
+            // Check if the quiz tab is already selected on page load
+            if (quizTabContent && !quizTabContent.classList.contains("hidden")) {
+                startCountdown();
+            }
+        });
+    </script>
+
+
 @endsection

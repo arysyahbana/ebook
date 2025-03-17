@@ -33,7 +33,7 @@ class UserController extends Controller
         $store->nim = $request->nim;
         $store->email = $request->email;
         $store->role = $request->role;
-        $store->no_hp = GlobalFunction::formatPhoneNumber($request->no_hp);
+        $store->no_hp = $request->no_hp;
         $store->alamat = $request->alamat;
         $store->jenis_kelamin = $request->gender;
         $store->status = 'Accept';
@@ -57,7 +57,7 @@ class UserController extends Controller
         $update->nim = $request->nim;
         $update->email = $request->email;
         $update->role = $request->role;
-        $update->no_hp = GlobalFunction::formatPhoneNumber($request->no_hp);
+        $update->no_hp = $request->no_hp;
         $update->alamat = $request->alamat;
         $update->jenis_kelamin = $request->gender;
         if ($request->password != null) {
