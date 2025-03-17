@@ -37,7 +37,6 @@ Route::middleware(['auth', 'role:Mahasiswa'])->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get('/quiz/{id}', [QuizController::class, 'index'])->name('user.index.quiz');
-        Route::get('/quiz-all', [QuizController::class, 'quizall'])->name('user.quiz.all');
         Route::post('/quiz-store', [QuizController::class, 'store'])->name('user.quiz.store');
     });
 });

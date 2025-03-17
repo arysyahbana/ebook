@@ -76,11 +76,14 @@
                                                                             @endif
                                                                         </div>
                                                                     @endforeach
-                                                                    <div class="mt-5">
-                                                                        <a href="{{ asset('dist/assets/img/jawaban_mahasiswa/' . $data->userId . '/' . $quiz->fileJawabanMahasiswa) }}"
-                                                                            class="btn btn-primary" target="_blank">Lihat
-                                                                            Berkas</a>
-                                                                    </div>
+                                                                    @if ($quiz->fileJawabanMahasiswa)
+                                                                        <div class="mt-5">
+                                                                            <a href="{{ asset('dist/assets/img/jawaban_mahasiswa/' . $data->userId . '/' . $quiz->fileJawabanMahasiswa) }}"
+                                                                                class="btn btn-primary"
+                                                                                target="_blank">Lihat
+                                                                                Berkas</a>
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>

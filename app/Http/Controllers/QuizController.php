@@ -20,11 +20,6 @@ class QuizController extends Controller
         $kkm = Setting::value('kkm') ?? 75;
         return view('user.pages.quiz.index', compact('page', 'quiz', 'materi', 'kkm'));
     }
-    public function quizall()
-    {
-        $page = 'Quizall';
-        return view('user.pages.quiz.quizall', compact('page'));
-    }
 
     public function store(Request $request)
     {
