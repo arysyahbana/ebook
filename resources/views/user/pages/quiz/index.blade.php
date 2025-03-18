@@ -161,28 +161,33 @@
         }
 
         function submitQuiz() {
-            let materi_id = $("#materi_id").val();
             let jawaban = [];
             let fileReadPromises = [];
             let kkm = {{ $kkm }};
 
+            // Ambil semua quiz_id dari elemen radio button (misalnya dari name="jawaban1", "jawaban2", dst.)
+            let allQuizIds = Array.from(document.querySelectorAll("input[type='radio']"))
+                .map(el => parseInt(el.name.replace("jawaban", "")))
+                .filter((value, index, self) => self.indexOf(value) === index); // Unik ID
+
             // Iterasi semua radio button yang dipilih
-            $("input[type='radio']:checked").each(function () {
-                let quiz_id = $(this).attr("name").replace("jawaban", "");
-                let pilihan = $(this).val();
+            document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
+                let quiz_id = parseInt(el.name.replace("jawaban", ""));
+                let pilihan = el.value;
 
                 // Cek apakah ada file yang diupload
-                let fileInput = $("input[name='upload_jawaban_" + quiz_id + "']");
-                let file_upload = fileInput.length > 0 && fileInput[0].files.length > 0;
+                let fileInput = document.querySelector(`input[name='upload_jawaban_${quiz_id}']`);
+                let file_upload = fileInput && fileInput.files.length > 0;
 
                 let jawabanItem = {
-                    quiz_id: parseInt(quiz_id),
+                    quiz_id: quiz_id,
                     pilihan: pilihan,
+                    file: null
                 };
 
                 // Jika ada file, baca sebagai Data URL
                 if (file_upload) {
-                    let file = fileInput[0].files[0];
+                    let file = fileInput.files[0];
                     let filePromise = new Promise((resolve) => {
                         let reader = new FileReader();
                         reader.onload = function (e) {
@@ -197,14 +202,29 @@
                 jawaban.push(jawabanItem);
             });
 
-            // Tunggu semua file selesai dibaca
+            // Tambahkan jawaban default jika tidak dijawab
+            allQuizIds.forEach(quiz_id => {
+                if (!jawaban.some(j => j.quiz_id === quiz_id)) {
+                    jawaban.push({
+                        quiz_id: quiz_id,
+                        pilihan: "z",
+                        file: null
+                    });
+                }
+            });
+
+            // Tunggu semua file dibaca
             Promise.all(fileReadPromises).then(() => {
                 // Buat objek data untuk dikirim
                 let data = {
-                    materi_id: parseInt(materi_id),
+                    materi_id: 'semuaMateri',
                     jawaban: jawaban
                 };
 
+                // console.log("Data yang dikirim (Object):", data);
+                // console.log("Data yang dikirim (JSON String):", JSON.stringify(data));
+
+                // Kirim data dengan fetch
                 $.ajax({
                     url: "{{ route('user.quiz.store') }}",
                     type: "POST",
@@ -214,7 +234,7 @@
                     headers: {
                         "X-CSRF-TOKEN": $("input[name=_token]").val()
                     },
-                    success: function (response) {
+                    success: function(response) {
                         closeModal("my_modal_1");
 
                         let skor = response.skor;
@@ -242,7 +262,7 @@
                             openModal("my_modal_2");
                         }, 300);
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Error:", error);
                     }
                 });

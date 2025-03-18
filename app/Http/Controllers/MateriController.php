@@ -44,11 +44,28 @@ class MateriController extends Controller
         $allMateriFilled = count(array_filter($filledMateri, fn($nilai) => $nilai >= $kkm)) === $materi->count();
         $quizSemuaMateriDone = $user
             ? jawabanMahasiswa::where('user_id', $user->id)
-                ->where('materi', 'semuaMateri')
-                ->exists()
+            ->where('materi', 'semuaMateri')
+            ->exists()
             : false;
         $quizSemuaMateriDisabled = !$allMateriFilled && !$quizSemuaMateriDone;
         $kkm = Setting::value('kkm') ?? 75;
+
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            $quizAllCheck = jawabanMahasiswa::where('user_id', $user->id)
+                ->where('materi', 'semuaMateri')
+                ->first();
+
+            // Jika datanya tidak ditemukan, buat object dengan total_mengerjakan = 0
+            if (!$quizAllCheck) {
+                $quizAllCheck = (object) ['total_mengerjakan' => 0];
+            }
+        } else {
+            // Jika user belum login, buat object dummy
+            $quizAllCheck = (object) ['total_mengerjakan' => 0];
+        }
+
 
         $page = 'Materi1';
         return view('user.pages.materi.index', compact(
@@ -57,8 +74,8 @@ class MateriController extends Controller
             'materi',
             'quizSemuaMateri',
             'quizSemuaMateriDisabled',
-            'kkm'
+            'kkm',
+            'quizAllCheck'
         ));
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\jawabanMahasiswa;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -37,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('settings', $settings);
         } else {
             View::share('settings', null);
+            View::share('quizAllCheck', (object) ['total_mengerjakan' => 0]);
         }
     }
 }

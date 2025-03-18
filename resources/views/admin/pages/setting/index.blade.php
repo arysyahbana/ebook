@@ -95,6 +95,8 @@
 
                                                             <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" value="{{ $index->kkm }}" />
 
+                                                            <x-admin.input type="time" step="1" placeholder="Batas Waktu Quiz Seluruh Materi" label="Batas Waktu Quiz Seluruh Materi" name="batas_waktu" value="{{ $index->batas_waktu }}" />
+
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" class="btn btn-sm btn-success">Update</button>
@@ -166,6 +168,8 @@
                         <textarea class="form-control mb-3" name="deskripsi" id="deskripsi" cols="20" rows="5"></textarea>
 
                         <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz" name="kkm" />
+
+                        <x-admin.input type="time" placeholder="Batas Waktu Quiz Seluruh Materi" label="Batas Waktu Quiz Seluruh Materi" name="batas_waktu" />
 
                     </div>
                     <div class="modal-footer">

@@ -48,14 +48,20 @@
                     <li role="presentation">
                         <button
                             class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300
-                        {{ $quizSemuaMateriDisabled ? 'opacity-50 cursor-not-allowed' : '' }}"
-                            id="quizall-styled-tab" data-tabs-target="#styled-quizall" type="button" role="tab"
-                            aria-controls="quizall" aria-selected="false" {{ $quizSemuaMateriDisabled ? 'disabled' : '' }}
-                            title="{{ $quizSemuaMateriDisabled ? 'Selesaikan semua materi terlebih dahulu' : '' }}">
+                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            id="quizall-styled-tab"
+                            data-tabs-target="#styled-quizall"
+                            type="button"
+                            role="tab"
+                            aria-controls="quizall"
+                            aria-selected="false"
+                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'disabled' : '' }}
+                            title="{{ !auth()->check() ? 'Login terlebih dahulu' : ($quizAllCheck->total_mengerjakan >= 1 ? 'Sudah pernah mengerjakan quiz ini' : '') }}">
                             <i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Semua Materi
                         </button>
                     </li>
                     {{-- end quiz all --}}
+                    {{-- {{ dd($quizAllCheck) }} --}}
                 @endif
 
             </ul>
@@ -137,8 +143,10 @@
                                                 class="fas fa-book"></i></div>
                                     </div>
                                 </div>
-                                <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz Seluruh Materi</p>
-                                <div id="countdown-timer" class="text-xl font-semibold text-red-500 ml-4"></div>
+                                <p class="text-5xl font-semibold text-sky-500 px-12 w-full"> Quiz Seluruh Materi</p>
+                                <div class="flex justify-end w-full px-5">
+                                    <div id="countdown-timer" class="bg-slate-100 text-xl font-semibold text-green-500 px-10 py-2 rounded-lg shadow"></div>
+                                </div>
                             </div>
 
                             <div class="px-4 sm:px-12 pt-5 pb-12 text-slate-800">
@@ -254,13 +262,25 @@
             <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
             <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
             <div class="flex justify-center items-center gap-3">
-                <a id="ulang-btn" href="#"
-                    class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
+                {{-- <a id="ulang-btn" href="#"
+                    class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a> --}}
                 <a id="lanjut-btn" href="#"
                     class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
             </div>
         </div>
     </div>
+
+    <!-- Modal Waktu Habis -->
+    {{-- <div id="my_modal_3" class="modal">
+        <div class="modal-box bg-white text-slate-700">
+            <h3 class="text-lg text-center mb-8">Waktu Ujian Sudah Habis</h3>
+            <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
+            <div class="flex justify-center items-center gap-3">
+                <a href="{{ route('index.leaderboard') }}"
+                    class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
+            </div>
+        </div>
+    </div> --}}
 
     {{-- js modal --}}
     <script>
@@ -287,15 +307,22 @@
             }
         }
 
+        let batas_waktu = "{{ $settings->batas_waktu }}";
+        let isTimeUp = false;
 
         function submitQuiz() {
             let jawaban = [];
             let fileReadPromises = [];
             let kkm = {{ $kkm }};
 
+            // Ambil semua quiz_id dari elemen radio button (misalnya dari name="jawaban1", "jawaban2", dst.)
+            let allQuizIds = Array.from(document.querySelectorAll("input[type='radio']"))
+                .map(el => parseInt(el.name.replace("jawaban", "")))
+                .filter((value, index, self) => self.indexOf(value) === index); // Unik ID
+
             // Iterasi semua radio button yang dipilih
             document.querySelectorAll("input[type='radio']:checked").forEach((el) => {
-                let quiz_id = el.name.replace("jawaban", "");
+                let quiz_id = parseInt(el.name.replace("jawaban", ""));
                 let pilihan = el.value;
 
                 // Cek apakah ada file yang diupload
@@ -303,8 +330,9 @@
                 let file_upload = fileInput && fileInput.files.length > 0;
 
                 let jawabanItem = {
-                    quiz_id: parseInt(quiz_id),
+                    quiz_id: quiz_id,
                     pilihan: pilihan,
+                    file: null
                 };
 
                 // Jika ada file, baca sebagai Data URL
@@ -312,7 +340,7 @@
                     let file = fileInput.files[0];
                     let filePromise = new Promise((resolve) => {
                         let reader = new FileReader();
-                        reader.onload = function(e) {
+                        reader.onload = function (e) {
                             jawabanItem.file = e.target.result; // Simpan file sebagai Data URL
                             resolve();
                         };
@@ -324,6 +352,17 @@
                 jawaban.push(jawabanItem);
             });
 
+            // Tambahkan jawaban default jika tidak dijawab
+            allQuizIds.forEach(quiz_id => {
+                if (!jawaban.some(j => j.quiz_id === quiz_id)) {
+                    jawaban.push({
+                        quiz_id: quiz_id,
+                        pilihan: "z",
+                        file: null
+                    });
+                }
+            });
+
             // Tunggu semua file dibaca
             Promise.all(fileReadPromises).then(() => {
                 // Buat objek data untuk dikirim
@@ -331,6 +370,9 @@
                     materi_id: 'semuaMateri',
                     jawaban: jawaban
                 };
+
+                // console.log("Data yang dikirim (Object):", data);
+                // console.log("Data yang dikirim (JSON String):", JSON.stringify(data));
 
                 // Kirim data dengan fetch
                 $.ajax({
@@ -350,20 +392,22 @@
 
                         document.getElementById("skor").innerText = skor;
 
-                        if (skor >= kkm) {
+                        if (isTimeUp && skor < kkm) {
+                            document.getElementById("modal-message").innerText =
+                                "Waktu Habis! Skor Anda: " + skor + ". Silakan lanjutkan.";
+                        } else if (isTimeUp && skor >= kkm) {
+                            document.getElementById("modal-message").innerText =
+                                "Waktu Habis! Selamat Anda Lulus, Silahkan Lihat Leaderboard";
+                        } else if (skor >= kkm) {
                             document.getElementById("modal-message").innerText =
                                 "Selamat Anda Lulus, Silahkan Lihat Leaderboard";
-
-                            let nextUrl = "{{ route('index.leaderboard') }}"
-
-                            document.getElementById("lanjut-btn").href = nextUrl;
                         } else {
                             document.getElementById("modal-message").innerText =
-                                "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
-                            document.getElementById("ulang-btn").href =
-                                "{{ route('index') }}";
-                            document.getElementById('lanjut-btn').hidden = true
+                                "Maaf nilai Anda Tidak Mencapai KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
                         }
+
+                        let nextUrl = "{{ route('index.leaderboard') }}";
+                        document.getElementById("lanjut-btn").href = nextUrl;
 
                         setTimeout(() => {
                             openModal("my_modal_2");
@@ -387,18 +431,111 @@
                 }, 300); // Delay biar transisi lebih smooth
             }
         }
+
+        function initQuizCountdown() {
+            // Timer variables
+            let timer;
+            let duration;
+            let isTimeUp = false;
+
+            const countdownElement = document.getElementById("countdown-timer");
+            const quizTabButton = document.getElementById("quizall-styled-tab");
+            const quizTabContent = document.getElementById("styled-quizall");
+
+            // Tab materi lainnya
+            const materiTabs = document.querySelectorAll("[id^='materi'][id$='-styled-tab']");
+
+            // Tambahkan event listener untuk quiz tab
+            quizTabButton.addEventListener("click", function() {
+                startCountdown();
+                disableMateriTabs(); // Disable tab materi lainnya saat quiz dimulai
+            });
+
+            // Start the countdown if the quiz tab is active on load
+            if (quizTabContent && !quizTabContent.classList.contains("hidden")) {
+                startCountdown();
+                disableMateriTabs(); // Disable tab materi lainnya saat quiz dimulai
+            }
+
+            function disableMateriTabs() {
+                materiTabs.forEach(tab => {
+                    tab.classList.add("opacity-50", "cursor-not-allowed");
+                    tab.setAttribute("disabled", "disabled");
+                    tab.setAttribute("title", "Tidak dapat diakses selama quiz berlangsung");
+                });
+            }
+
+            function enableMateriTabs() {
+                materiTabs.forEach(tab => {
+                    tab.classList.remove("opacity-50", "cursor-not-allowed");
+                    tab.removeAttribute("disabled");
+                    tab.removeAttribute("title");
+                });
+            }
+
+            function startCountdown() {
+                if (timer) clearInterval(timer);
+                isTimeUp = false;
+
+                // Ambil waktu dari Blade
+                let waktu = batas_waktu;
+
+                // Parsing waktu
+                let parts = waktu.split(":").map(Number);
+                duration = parts.length === 3 ? (parts[0] * 3600 + parts[1] * 60 + parts[2])
+                        : parts.length === 2 ? (parts[0] * 60 + parts[1])
+                        : parseInt(waktu);
+
+                if (isNaN(duration) || duration <= 0) duration = 10;
+
+                // Update countdown pertama kali
+                updateCountdown();
+
+                // Update countdown setiap detik
+                timer = setInterval(updateCountdown, 1000);
+            }
+
+            function updateCountdown() {
+                const minutes = Math.floor(duration / 60);
+                const seconds = duration % 60;
+
+                countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+                if (duration > 0) {
+                    duration--;
+                } else {
+                    clearInterval(timer);
+                    isTimeUp = true;
+
+                    // Disable quiz tab button
+                    quizTabButton.classList.add("opacity-50", "cursor-not-allowed");
+                    quizTabButton.setAttribute("disabled", "disabled");
+                    quizTabButton.setAttribute("title", "Quiz sudah selesai");
+
+                    // Enable kembali tab materi setelah quiz selesai
+                    enableMateriTabs();
+
+                    // Panggil fungsi submitQuiz (jika ada)
+                    submitQuiz();
+                }
+            }
+        }
+
+        // Initialize countdown ketika DOM siap
+        document.addEventListener("DOMContentLoaded", function() {
+            initQuizCountdown();
+        });
     </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Get necessary elements
             const countdownElement = document.getElementById("countdown-timer");
             const quizTabButton = document.getElementById("quizall-styled-tab");
             const quizTabContent = document.getElementById("styled-quizall");
 
-            // Set duration (in seconds)
-            let duration = 600; // Change to your desired time (e.g., 600 = 10 minutes)
-            let timer;
+            let timer; // Timer variable
+            let duration; // Duration in seconds
 
             // Function to handle tab switching
             function handleTabSwitch() {
@@ -408,7 +545,7 @@
                     button.addEventListener("click", function() {
                         const target = this.getAttribute("data-tabs-target");
 
-                        // If quiz-all tab is clicked, start the timer
+                        // Start countdown if the quiz tab is clicked
                         if (target === "#styled-quizall") {
                             startCountdown();
                         }
@@ -421,21 +558,41 @@
                 // Clear any existing timer
                 if (timer) clearInterval(timer);
 
-                // Reset duration
-                duration = 10; // Reset to your desired time
+                // Get duration from Blade (in HH:MM:SS, MM:SS, or seconds format)
+                let waktu = "{{ $settings->batas_waktu }}";
+                console.log("Waktu dari Blade:", waktu);
+
+                // Parse duration
+                let parts = waktu.split(":").map(Number); // Convert to numbers
+
+                if (parts.length === 3) {
+                    // Format HH:MM:SS
+                    duration = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } else if (parts.length === 2) {
+                    // Format MM:SS
+                    duration = parts[0] * 60 + parts[1];
+                } else {
+                    // Assume seconds only
+                    duration = parseInt(waktu);
+                }
+
+                // Validate duration
+                if (isNaN(duration) || duration <= 0) duration = 10;
 
                 // Update countdown immediately
                 updateCountdown();
 
-                // Start the timer
+                // Start the countdown every second
                 timer = setInterval(updateCountdown, 1000);
             }
 
-            // Function to update countdown
+            // Function to update countdown display
             function updateCountdown() {
-                let minutes = Math.floor(duration / 60);
-                let seconds = duration % 60;
-                countdownElement.textContent = `Sisa Waktu: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+                const minutes = Math.floor(duration / 60);
+                const seconds = duration % 60;
+
+                // Display countdown with proper formatting
+                countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
                 if (duration > 0) {
                     duration--;
@@ -447,43 +604,19 @@
                     quizTabButton.setAttribute("disabled", "disabled");
                     quizTabButton.setAttribute("title", "Quiz sudah selesai");
 
-                    // Get the last material tab ID
-                    const lastMaterialTab = document.querySelector('[id^="materi"][id$="-styled-tab"]:not([disabled])');
-                    const lastMaterialTarget = lastMaterialTab ? lastMaterialTab.getAttribute("data-tabs-target") : null;
-
-                    // Redirect to the last material tab
-                    if (lastMaterialTarget) {
-                        // Hide current tab content
-                        quizTabContent.classList.add("hidden");
-
-                        // Show last material tab content
-                        document.querySelector(lastMaterialTarget).classList.remove("hidden");
-
-                        // Set aria-selected attributes
-                        quizTabButton.setAttribute("aria-selected", "false");
-                        lastMaterialTab.setAttribute("aria-selected", "true");
-
-                        // Scroll to the tab
-                        lastMaterialTab.scrollIntoView({ behavior: 'smooth' });
-                    }
-
-                    // Auto-submit the form
-                    document.getElementById("quizForm").submit();
-
-                    // Show alert
-                    openModal("my_modal_2");
+                    // Optionally auto-submit the quiz
+                    submitQuiz();
                 }
             }
 
             // Initialize tab switching
             handleTabSwitch();
 
-            // Check if the quiz tab is already selected on page load
+            // Start countdown if the quiz tab is already active on load
             if (quizTabContent && !quizTabContent.classList.contains("hidden")) {
                 startCountdown();
             }
         });
-    </script>
-
+    </script> --}}
 
 @endsection

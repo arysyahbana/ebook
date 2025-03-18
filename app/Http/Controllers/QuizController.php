@@ -23,6 +23,7 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
+        // return response()->json($request->all());
         $user = auth()->user();
         $materiId = $request->materi_id;
         $jawabanMahasiswa = [];
