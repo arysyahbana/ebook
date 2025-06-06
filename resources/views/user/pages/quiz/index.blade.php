@@ -217,7 +217,7 @@
             Promise.all(fileReadPromises).then(() => {
                 // Buat objek data untuk dikirim
                 let data = {
-                    materi_id: 'semuaMateri',
+                    materi_id: document.getElementById('materi_id').value,
                     jawaban: jawaban
                 };
 

@@ -307,7 +307,7 @@
             }
         }
 
-        let batas_waktu = "{{ $settings->batas_waktu }}";
+        let batas_waktu = "{{ $settings->batas_waktu ?? '' }}";
         let isTimeUp = false;
 
         function submitQuiz() {
