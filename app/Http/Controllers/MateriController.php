@@ -13,7 +13,7 @@ class MateriController extends Controller
     {
         $materi = Materi::with('rQuiz')->get();
         $user = auth()->user();
-        $quizSemuaMateri = Quiz::where('materi', 'semuaMateri')->get();
+        $quizSemuaMateri = Quiz::where('materi', 'semuaMateri')->inRandomOrder()->get();
 
         $filledMateri = $user
             ? jawabanMahasiswa::where('user_id', $user->id)->pluck('nilai', 'materi')->toArray()
@@ -44,8 +44,8 @@ class MateriController extends Controller
         $allMateriFilled = count(array_filter($filledMateri, fn($nilai) => $nilai >= $kkm)) === $materi->count();
         $quizSemuaMateriDone = $user
             ? jawabanMahasiswa::where('user_id', $user->id)
-            ->where('materi', 'semuaMateri')
-            ->exists()
+                ->where('materi', 'semuaMateri')
+                ->exists()
             : false;
         $quizSemuaMateriDisabled = !$allMateriFilled && !$quizSemuaMateriDone;
         $kkm = Setting::value('kkm') ?? 75;
@@ -68,6 +68,7 @@ class MateriController extends Controller
 
 
         $page = 'Materi1';
+
         return view('user.pages.materi.index', compact(
             'page',
             'materiData',
