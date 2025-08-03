@@ -15,6 +15,9 @@ RUN docker-php-ext-install pdo pdo_mysql zip
 # Tambahkan Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Tamahkan konfigurasi PHP
+COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Install Node.js 20
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
