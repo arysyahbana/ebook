@@ -18,9 +18,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Tamahkan konfigurasi PHP
 COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
-# Install Node.js 20
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
+# Install Node.js 20 buka komen pas pertama kali build
+# RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+#     && apt-get install -y nodejs
 
 # Buat direktori Laravel yang perlu permission
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
