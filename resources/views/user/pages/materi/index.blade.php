@@ -259,8 +259,16 @@
     <!-- Modal Kedua -->
     <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
-            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
+            <!-- Tempat GIF -->
+            <img id="result-gif" src="" alt="Result" class="w-48 mx-auto mb-6 hidden">
+
             <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
+
+            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
+
+            <!-- Audio -->
+            <audio id="result-sound"></audio>
+
             <div class="flex justify-center items-center gap-3">
                 {{-- <a id="ulang-btn" href="#"
                     class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a> --}}
@@ -269,18 +277,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal Waktu Habis -->
-    {{-- <div id="my_modal_3" class="modal">
-        <div class="modal-box bg-white text-slate-700">
-            <h3 class="text-lg text-center mb-8">Waktu Ujian Sudah Habis</h3>
-            <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
-            <div class="flex justify-center items-center gap-3">
-                <a href="{{ route('index.leaderboard') }}"
-                    class="bg-sky-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-all duration-300 text-sm">Lanjutkan</a>
-            </div>
-        </div>
-    </div> --}}
 
     {{-- js modal --}}
     <script>
@@ -392,18 +388,41 @@
 
                         document.getElementById("skor").innerText = skor;
 
+                        let gifEl = document.getElementById("result-gif");
+                        let soundEl = document.getElementById("result-sound");
+
                         if (isTimeUp && skor < kkm) {
                             document.getElementById("modal-message").innerText =
                                 "Waktu Habis! Skor Anda: " + skor + ". Silakan lanjutkan.";
+
+                            gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
+                            soundEl.play();
                         } else if (isTimeUp && skor >= kkm) {
                             document.getElementById("modal-message").innerText =
                                 "Waktu Habis! Selamat Anda Lulus, Silahkan Lihat Leaderboard";
+                             // Set GIF & Sound untuk berhasil
+                            gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
+                            soundEl.play();
                         } else if (skor >= kkm) {
                             document.getElementById("modal-message").innerText =
                                 "Selamat Anda Lulus, Silahkan Lihat Leaderboard";
+                             // Set GIF & Sound untuk berhasil
+                            gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
+                            soundEl.play();
                         } else {
                             document.getElementById("modal-message").innerText =
                                 "Maaf nilai Anda Tidak Mencapai KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
+
+                            gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
+                            soundEl.play();
                         }
 
                         let nextUrl = "{{ route('index.leaderboard') }}";
@@ -527,96 +546,25 @@
         });
     </script>
 
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get necessary elements
-            const countdownElement = document.getElementById("countdown-timer");
-            const quizTabButton = document.getElementById("quizall-styled-tab");
-            const quizTabContent = document.getElementById("styled-quizall");
-
-            let timer; // Timer variable
-            let duration; // Duration in seconds
-
-            // Function to handle tab switching
-            function handleTabSwitch() {
-                const tabButtons = document.querySelectorAll("[data-tabs-target]");
-
-                tabButtons.forEach(button => {
-                    button.addEventListener("click", function() {
-                        const target = this.getAttribute("data-tabs-target");
-
-                        // Start countdown if the quiz tab is clicked
-                        if (target === "#styled-quizall") {
-                            startCountdown();
-                        }
-                    });
-                });
-            }
-
-            // Function to start the countdown
-            function startCountdown() {
-                // Clear any existing timer
-                if (timer) clearInterval(timer);
-
-                // Get duration from Blade (in HH:MM:SS, MM:SS, or seconds format)
-                let waktu = "{{ $settings->batas_waktu }}";
-                console.log("Waktu dari Blade:", waktu);
-
-                // Parse duration
-                let parts = waktu.split(":").map(Number); // Convert to numbers
-
-                if (parts.length === 3) {
-                    // Format HH:MM:SS
-                    duration = parts[0] * 3600 + parts[1] * 60 + parts[2];
-                } else if (parts.length === 2) {
-                    // Format MM:SS
-                    duration = parts[0] * 60 + parts[1];
-                } else {
-                    // Assume seconds only
-                    duration = parseInt(waktu);
-                }
-
-                // Validate duration
-                if (isNaN(duration) || duration <= 0) duration = 10;
-
-                // Update countdown immediately
-                updateCountdown();
-
-                // Start the countdown every second
-                timer = setInterval(updateCountdown, 1000);
-            }
-
-            // Function to update countdown display
-            function updateCountdown() {
-                const minutes = Math.floor(duration / 60);
-                const seconds = duration % 60;
-
-                // Display countdown with proper formatting
-                countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-                if (duration > 0) {
-                    duration--;
-                } else {
-                    clearInterval(timer);
-
-                    // Disable quiz tab button
-                    quizTabButton.classList.add("opacity-50", "cursor-not-allowed");
-                    quizTabButton.setAttribute("disabled", "disabled");
-                    quizTabButton.setAttribute("title", "Quiz sudah selesai");
-
-                    // Optionally auto-submit the quiz
-                    submitQuiz();
-                }
-            }
-
-            // Initialize tab switching
-            handleTabSwitch();
-
-            // Start countdown if the quiz tab is already active on load
-            if (quizTabContent && !quizTabContent.classList.contains("hidden")) {
-                startCountdown();
+    <script>
+    // Saat tab diklik, simpan ID tab
+    document.querySelectorAll('button[role="tab"]').forEach(tab => {
+        tab.addEventListener('click', function () {
+            if (!this.disabled) {
+                sessionStorage.setItem('activeTabId', this.id);
             }
         });
-    </script> --}}
+    });
 
+    // Saat halaman dimuat, kembalikan tab aktif
+    document.addEventListener('DOMContentLoaded', function () {
+        const activeTabId = sessionStorage.getItem('activeTabId');
+        if (activeTabId) {
+            const tabToActivate = document.getElementById(activeTabId);
+            if (tabToActivate && !tabToActivate.disabled) {
+                tabToActivate.click();
+            }
+        }
+    });
+    </script>
 @endsection

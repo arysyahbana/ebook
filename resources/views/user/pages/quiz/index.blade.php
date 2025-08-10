@@ -123,8 +123,16 @@
     <!-- Modal Kedua -->
     <div id="my_modal_2" class="modal">
         <div class="modal-box bg-white text-slate-700">
-            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
+            <!-- Tempat GIF -->
+            <img id="result-gif" src="" alt="Result" class="w-48 mx-auto mb-6 hidden">
+
             <h1 class="text-center text-8xl font-bold mb-12" id="skor"></h1>
+
+            <h3 class="text-lg text-center mb-8" id="modal-message"></h3>
+
+            <!-- Audio -->
+            <audio id="result-sound"></audio>
+
             <div class="flex justify-center items-center gap-3">
                 <a id="ulang-btn" href="#"
                     class="bg-red-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 text-sm">Ulangi</a>
@@ -242,6 +250,9 @@
 
                         document.getElementById("skor").innerText = skor;
 
+                        let gifEl = document.getElementById("result-gif");
+                        let soundEl = document.getElementById("result-sound");
+
                         if (skor >= kkm) {
                             if(isLastMateri){
                                 document.getElementById("modal-message").innerText = "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
@@ -249,13 +260,25 @@
                                 document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
                             }
 
+                            // Set GIF & Sound untuk berhasil
+                            gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
+                            soundEl.play();
+                            document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
                             let nextUrl = "{{ route('index') }}"
 
                             document.getElementById("lanjut-btn").href = nextUrl;
                         } else {
-                            document.getElementById("modal-message").innerText = "Maaf nilai Anda Tidak Mencapat KKM, Jika Sudah Pernah Menyelesaikan Quiz Dan Nilai Diatas KKM maka Yang Disimpan Nilai Dan Jawaban Lama";
+                            document.getElementById("modal-message").innerText = "Maaf, nilai Anda belum mencapai KKM. Nilai tertinggi dari percobaan sebelumnya akan tetap disimpan.";
                             document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
                             document.getElementById('lanjut-btn').hidden = true
+
+                            // Set GIF & Sound untuk gagal
+                            gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
+                            gifEl.classList.remove("hidden");
+                            soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
+                            soundEl.play();
                         }
 
                         setTimeout(() => {
