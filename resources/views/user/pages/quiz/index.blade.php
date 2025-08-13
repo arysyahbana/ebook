@@ -98,6 +98,17 @@
         </div>
     </div>
 
+    <!-- Loading Overlay -->
+    <div id="loading-overlay"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="flex flex-col items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"><path fill="none" stroke="#1095FF" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"><animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate></path></svg>
+            <p class="text-white">Mengupload jawaban...</p>
+        </div>
+    </div>
+
+
+
     <!-- Modal Pertama -->
     <div id="my_modal_1" class="modal">
         <div class="modal-box bg-white text-slate-800 relative">
@@ -168,7 +179,37 @@
             }
         }
 
+        function showLoadingOverlay(minTime = 0) {
+            const el = document.getElementById("loading-overlay");
+            el.dataset.startTime = Date.now();
+            el.dataset.minTime = minTime;
+            el.classList.remove("opacity-0", "pointer-events-none");
+            el.classList.add("opacity-100", "pointer-events-auto");
+        }
+
+        function hideLoadingOverlay(callback) {
+            const el = document.getElementById("loading-overlay");
+            const startTime = parseInt(el.dataset.startTime || Date.now());
+            const minTime = parseInt(el.dataset.minTime || 0);
+            const elapsed = Date.now() - startTime;
+            const remainingDelay = Math.max(0, minTime - elapsed);
+
+            setTimeout(() => {
+                el.classList.add("opacity-0", "pointer-events-none");
+                el.classList.remove("opacity-100", "pointer-events-auto");
+
+                if (typeof callback === "function") {
+                    callback(); // jalankan aksi setelah loading hilang
+                }
+            }, remainingDelay);
+        }
+
+
+
         function submitQuiz() {
+            closeModal("my_modal_1");
+            showLoadingOverlay(1000);
+
             let jawaban = [];
             let fileReadPromises = [];
             let kkm = {{ $kkm }};
@@ -243,49 +284,53 @@
                         "X-CSRF-TOKEN": $("input[name=_token]").val()
                     },
                     success: function(response) {
-                        closeModal("my_modal_1");
+                        hideLoadingOverlay(function() {
+                            closeModal("my_modal_1");
 
-                        let skor = response.skor;
-                        let isLastMateri = response.isLastMateri;
+                            let skor = response.skor;
+                            let isLastMateri = response.isLastMateri;
 
-                        document.getElementById("skor").innerText = skor;
+                            document.getElementById("skor").innerText = skor;
 
-                        let gifEl = document.getElementById("result-gif");
-                        let soundEl = document.getElementById("result-sound");
+                            let gifEl = document.getElementById("result-gif");
+                            let soundEl = document.getElementById("result-sound");
 
-                        if (skor >= kkm) {
-                            if(isLastMateri){
-                                document.getElementById("modal-message").innerText = "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
-                            }else{
-                                document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
+                            if (skor >= kkm) {
+                                if(isLastMateri){
+                                    document.getElementById("modal-message").innerText = "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
+                                }else{
+                                    document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
+                                }
+
+                                // Set GIF & Sound untuk berhasil
+                                gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
+                                gifEl.classList.remove("hidden");
+                                soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
+                                soundEl.play();
+                                document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
+                                let nextUrl = "{{ route('index') }}"
+
+                                document.getElementById("lanjut-btn").href = nextUrl;
+                            } else {
+                                document.getElementById("modal-message").innerText = "Maaf, nilai Anda belum mencapai KKM. Nilai tertinggi dari percobaan sebelumnya akan tetap disimpan.";
+                                document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
+                                document.getElementById('lanjut-btn').hidden = true
+
+                                // Set GIF & Sound untuk gagal
+                                gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
+                                gifEl.classList.remove("hidden");
+                                soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
+                                soundEl.play();
                             }
 
-                            // Set GIF & Sound untuk berhasil
-                            gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
-                            gifEl.classList.remove("hidden");
-                            soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
-                            soundEl.play();
-                            document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
-                            let nextUrl = "{{ route('index') }}"
-
-                            document.getElementById("lanjut-btn").href = nextUrl;
-                        } else {
-                            document.getElementById("modal-message").innerText = "Maaf, nilai Anda belum mencapai KKM. Nilai tertinggi dari percobaan sebelumnya akan tetap disimpan.";
-                            document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
-                            document.getElementById('lanjut-btn').hidden = true
-
-                            // Set GIF & Sound untuk gagal
-                            gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
-                            gifEl.classList.remove("hidden");
-                            soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
-                            soundEl.play();
-                        }
-
-                        setTimeout(() => {
-                            openModal("my_modal_2");
-                        }, 300);
+                            setTimeout(() => {
+                                openModal("my_modal_2");
+                            }, 300);
+                        });
                     },
                     error: function(xhr, status, error) {
+                        hideLoadingOverlay();
+
                         console.error("Error:", error);
                     }
                 });
