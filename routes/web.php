@@ -93,4 +93,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+// route tab
+Route::post('/save-last-tab', function (\Illuminate\Http\Request $request) {
+    session(['last_tab' => $request->tab]);
+    return response()->json(['status' => 'ok']);
+})->name('save.last.tab');
+
+
 require __DIR__ . '/auth.php';

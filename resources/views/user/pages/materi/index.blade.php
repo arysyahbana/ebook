@@ -31,12 +31,15 @@
                     {{-- materi 1 --}}
                     <li class="me-2" role="presentation">
                         <button
-                            class="inline-block p-4 border-b-2 rounded-t-lg {{ $data->isActive ? 'active' : 'opacity-50 cursor-not-allowed' }}"
-                            id="materi{{ $data->id }}-styled-tab" data-tabs-target="#styled-materi-{{ $data->id }}"
-                            type="button" role="tab" aria-controls="materi{{ $data->id }}"
+                            class="inline-block p-4 border-b-2 rounded-t-lg
+                                {{ $data->isActive ? 'active' : '' }}
+                                {{ $data->isDisabled ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            id="materi{{ $data->id }}-styled-tab"
+                            data-tabs-target="#styled-materi-{{ $data->id }}"
+                            type="button" role="tab"
+                            aria-controls="materi{{ $data->id }}"
                             aria-selected="{{ $data->isActive ? 'true' : 'false' }}"
-                            {{ $data->isDisabled ? 'disabled' : '' }}
-                            title="{{ $data->isDisabled ? 'Selesaikan materi sebelumnya terlebih dahulu' : '' }}">
+                            {{ $data->isDisabled ? 'disabled' : '' }}>
                             <i class="fas fa-book"></i>&nbsp;&nbsp;{{ $data->nama_materi }}
                         </button>
                     </li>
@@ -47,16 +50,16 @@
                     {{-- quiz all --}}
                     <li role="presentation">
                         <button
-                            class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300
-                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            class="inline-block p-4 border-b-2 rounded-t-lg
+                                {{ session('last_tab') == 'quizall' ? 'active' : '' }}
+                                {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'opacity-50 cursor-not-allowed' : '' }}"
                             id="quizall-styled-tab"
                             data-tabs-target="#styled-quizall"
                             type="button"
                             role="tab"
                             aria-controls="quizall"
-                            aria-selected="false"
-                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'disabled' : '' }}
-                            title="{{ !auth()->check() ? 'Login terlebih dahulu' : ($quizAllCheck->total_mengerjakan >= 1 ? 'Sudah pernah mengerjakan quiz ini' : '') }}">
+                            aria-selected="{{ session('last_tab') == 'quizall' ? 'true' : 'false' }}"
+                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'disabled' : '' }}>
                             <i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Semua Materi
                         </button>
                     </li>
@@ -504,17 +507,13 @@
             // Tab materi lainnya
             const materiTabs = document.querySelectorAll("[id^='materi'][id$='-styled-tab']");
 
-            // Tambahkan event listener untuk quiz tab
-            quizTabButton.addEventListener("click", function() {
-                startCountdown();
-                disableMateriTabs(); // Disable tab materi lainnya saat quiz dimulai
-            });
-
-            // Start the countdown if the quiz tab is active on load
-            if (quizTabContent && !quizTabContent.classList.contains("hidden")) {
-                startCountdown();
-                disableMateriTabs(); // Disable tab materi lainnya saat quiz dimulai
-            }
+             // Ambil waktu dari Blade (batas waktu total)
+            let waktu = batas_waktu;
+            let parts = waktu.split(":").map(Number);
+            let totalDuration = parts.length === 3 ? (parts[0] * 3600 + parts[1] * 60 + parts[2])
+                : parts.length === 2 ? (parts[0] * 60 + parts[1])
+                : parseInt(waktu);
+            if (isNaN(totalDuration) || totalDuration <= 0) totalDuration = 10;
 
             function disableMateriTabs() {
                 materiTabs.forEach(tab => {
@@ -536,47 +535,55 @@
                 if (timer) clearInterval(timer);
                 isTimeUp = false;
 
-                // Ambil waktu dari Blade
-                let waktu = batas_waktu;
+                let startTime = localStorage.getItem("quizStartTime");
+                if (!startTime) {
+                    // simpan waktu mulai (detik)
+                    localStorage.setItem("quizStartTime", Date.now());
+                    startTime = localStorage.getItem("quizStartTime");
+                }
 
-                // Parsing waktu
-                let parts = waktu.split(":").map(Number);
-                duration = parts.length === 3 ? (parts[0] * 3600 + parts[1] * 60 + parts[2])
-                        : parts.length === 2 ? (parts[0] * 60 + parts[1])
-                        : parseInt(waktu);
+                timer = setInterval(() => {
+                    let elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+                    duration = totalDuration - elapsed;
 
-                if (isNaN(duration) || duration <= 0) duration = 10;
+                    if (duration <= 0) {
+                        clearInterval(timer);
+                        isTimeUp = true;
+                        countdownElement.textContent = "Waktu Habis!";
+                        localStorage.removeItem("quizStartTime");
 
-                // Update countdown pertama kali
-                updateCountdown();
+                        // Disable quiz tab button
+                        quizTabButton.classList.add("opacity-50", "cursor-not-allowed");
+                        quizTabButton.setAttribute("disabled", "disabled");
+                        quizTabButton.setAttribute("title", "Quiz sudah selesai");
 
-                // Update countdown setiap detik
-                timer = setInterval(updateCountdown, 1000);
+                        // Enable materi kembali
+                        enableMateriTabs();
+
+                        // Auto submit quiz
+                        submitQuiz();
+                        return;
+                    }
+
+                    const minutes = Math.floor(duration / 60);
+                    const seconds = duration % 60;
+                    countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+                }, 1000);
             }
 
-            function updateCountdown() {
-                const minutes = Math.floor(duration / 60);
-                const seconds = duration % 60;
-
-                countdownElement.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-                if (duration > 0) {
-                    duration--;
-                } else {
-                    clearInterval(timer);
-                    isTimeUp = true;
-
-                    // Disable quiz tab button
-                    quizTabButton.classList.add("opacity-50", "cursor-not-allowed");
-                    quizTabButton.setAttribute("disabled", "disabled");
-                    quizTabButton.setAttribute("title", "Quiz sudah selesai");
-
-                    // Enable kembali tab materi setelah quiz selesai
-                    enableMateriTabs();
-
-                    // Panggil fungsi submitQuiz (jika ada)
-                    submitQuiz();
+             // Event klik tab quiz
+            quizTabButton.addEventListener("click", function () {
+                if (!localStorage.getItem("quizStartTime")) {
+                    localStorage.setItem("quizStartTime", Date.now());
                 }
+                startCountdown();
+                disableMateriTabs();
+            });
+
+            // 🚀 Saat refresh, kalau quizStartTime ada → langsung lanjut countdown
+            if (localStorage.getItem("quizStartTime")) {
+                // otomatis pindah ke tab quiz
+                quizTabButton.click();
             }
         }
 
@@ -586,25 +593,27 @@
         });
     </script>
 
-    {{-- <script>
-    // Saat tab diklik, simpan ID tab
-    document.querySelectorAll('button[role="tab"]').forEach(tab => {
-        tab.addEventListener('click', function () {
-            if (!this.disabled) {
-                sessionStorage.setItem('activeTabId', this.id);
-            }
-        });
-    });
+    {{-- tab disabled --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabButtons = document.querySelectorAll("[role='tab']");
 
-    // Saat halaman dimuat, kembalikan tab aktif
-    document.addEventListener('DOMContentLoaded', function () {
-        const activeTabId = sessionStorage.getItem('activeTabId');
-        if (activeTabId) {
-            const tabToActivate = document.getElementById(activeTabId);
-            if (tabToActivate && !tabToActivate.disabled) {
-                tabToActivate.click();
-            }
-        }
-    });
-    </script> --}}
+            tabButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    if (!btn.disabled) {
+                        fetch("{{ route('save.last.tab') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({ tab: btn.id.includes("quizall") ? "quizall" : btn.id })
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
 @endsection
