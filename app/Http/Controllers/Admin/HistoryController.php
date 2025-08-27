@@ -16,16 +16,20 @@ class HistoryController extends Controller
     public function index()
     {
         $page = 'History';
+        // $historys = User::select('id', 'name', 'nim')
+        //     ->where('role', 'Mahasiswa')
+        //     ->whereHas('rJawaban', function ($query) {
+        //         $query->where('materi', 'semuaMateri');
+        //     })
+        //     ->with([
+        //         'rJawaban' => function ($query) {
+        //             $query->where('materi', 'semuaMateri');
+        //         }
+        //     ])
+        //     ->get();
         $historys = User::select('id', 'name', 'nim')
             ->where('role', 'Mahasiswa')
-            ->whereHas('rJawaban', function ($query) {
-                $query->where('materi', 'semuaMateri');
-            })
-            ->with([
-                'rJawaban' => function ($query) {
-                    $query->where('materi', 'semuaMateri');
-                }
-            ])
+            ->with('rJawaban')
             ->get();
 
         return view('admin.pages.history.index', compact('page', 'historys'));
