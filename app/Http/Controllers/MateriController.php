@@ -11,6 +11,11 @@ class MateriController extends Controller
 {
     public function index()
     {
+        $statusQuiz = Setting::value('status_quiz');
+        if($statusQuiz == 0){
+            $page = 'website down';
+            return view('user.pages.materi.webDown',compact('page'));
+        }
         $materi = Materi::with('rQuiz')->get();
         $user = auth()->user();
         $quizSemuaMateri = Quiz::where('materi', 'semuaMateri')->inRandomOrder()->get();

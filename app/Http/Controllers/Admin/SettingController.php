@@ -13,6 +13,7 @@ class SettingController extends Controller
     private function validateData(Request $request, $imageRule = 'required')
     {
         return $request->validate([
+            'status_quiz' => 'required|in:0,1',
             'cover' => $imageRule . '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'judul' => 'required',
             'deskripsi' => 'required',
