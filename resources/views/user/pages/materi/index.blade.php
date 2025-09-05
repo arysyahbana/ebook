@@ -52,14 +52,14 @@
                         <button
                             class="inline-block p-4 border-b-2 rounded-t-lg
                                 {{ session('last_tab') == 'quizall' ? 'active' : '' }}
-                                {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                {{ (!auth()->check() || !$allMateriFinished || $quizAllCheck->total_mengerjakan >= 1) ? 'opacity-50 cursor-not-allowed' : '' }}"
                             id="quizall-styled-tab"
                             data-tabs-target="#styled-quizall"
                             type="button"
                             role="tab"
                             aria-controls="quizall"
                             aria-selected="{{ session('last_tab') == 'quizall' ? 'true' : 'false' }}"
-                            {{ (!auth()->check() || $quizAllCheck->total_mengerjakan >= 1) ? 'disabled' : '' }}>
+                            {{ (!auth()->check() || !$allMateriFinished || $quizAllCheck->total_mengerjakan >= 1) ? 'disabled' : '' }}>
                             <i class="fas fa-book"></i>&nbsp;&nbsp;Quiz Semua Materi
                         </button>
                     </li>
@@ -208,7 +208,7 @@
                                                                 class="hidden"
                                                                 name="upload_jawaban_{{ $semuaMateri->id }}"
                                                                 accept="image/*"
-                                                                onchange="previewImage(event, {{ $semuaMateri->id }})">
+                                                                onchange="previewImage(event, {{ $semuaMateri->id }})" required>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -12,9 +12,9 @@ class MateriController extends Controller
     public function index()
     {
         $statusQuiz = Setting::value('status_quiz');
-        if($statusQuiz == 0){
+        if ($statusQuiz == 0) {
             $page = 'website down';
-            return view('user.pages.materi.webDown',compact('page'));
+            return view('user.pages.materi.webDown', compact('page'));
         }
         $materi = Materi::with('rQuiz')->get();
         $user = auth()->user();
@@ -49,8 +49,8 @@ class MateriController extends Controller
         $allMateriFilled = count(array_filter($filledMateri, fn($nilai) => $nilai >= $kkm)) === $materi->count();
         $quizSemuaMateriDone = $user
             ? jawabanMahasiswa::where('user_id', $user->id)
-                ->where('materi', 'semuaMateri')
-                ->exists()
+            ->where('materi', 'semuaMateri')
+            ->exists()
             : false;
         $quizSemuaMateriDisabled = !$allMateriFilled && !$quizSemuaMateriDone;
         $kkm = Setting::value('kkm') ?? 75;
@@ -66,9 +66,18 @@ class MateriController extends Controller
             if (!$quizAllCheck) {
                 $quizAllCheck = (object) ['total_mengerjakan' => 0];
             }
+
+            $materiIds = $materiData->pluck('id')->map(fn($id) => (string) $id);
+            $sudahDikerjakan = jawabanMahasiswa::where('user_id', $user->id)
+                ->whereIn('materi', $materiIds) // penting: karena field "materi" bisa string
+                ->pluck('materi')
+                ->toArray();
+
+            $allMateriFinished = collect($materiIds)->diff($sudahDikerjakan)->isEmpty();
         } else {
             // Jika user belum login, buat object dummy
             $quizAllCheck = (object) ['total_mengerjakan' => 0];
+            $allMateriFinished = false;
         }
 
 
@@ -81,7 +90,8 @@ class MateriController extends Controller
             'quizSemuaMateri',
             'quizSemuaMateriDisabled',
             'kkm',
-            'quizAllCheck'
+            'quizAllCheck',
+            'allMateriFinished'
         ));
     }
 }
