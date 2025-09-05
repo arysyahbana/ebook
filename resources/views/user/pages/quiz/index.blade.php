@@ -11,7 +11,7 @@
                             <div class="bg-gradient-to-b from-sky-500 to-sky-300 shadow-xl w-[90%] flex items-center justify-center p-5 rounded-s-lg"
                                 data-aos="zoom-in" data-aos-duration="1700">
                                 <div class="text-3xl md:text-4xl lg:text-6xl font-bold text-white"><i
-                                                class="fas fa-book"></i></div>
+                                        class="fas fa-book"></i></div>
                             </div>
                         </div>
                         <p class="text-5xl font-semibold text-sky-500 px-12"> Quiz {{ $materi->judul_materi ?? '' }}</p>
@@ -30,15 +30,18 @@
                                                     <div>{{ $loop->iteration }}</div>
                                                     <div class="flex-1">
                                                         @if ($data->file)
-                                                            <div class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
-                                                                <img src="{{ asset('dist/assets/img/quiz/' . $data->file) }}" alt=""
-                                                                    class="w-full h-full object-cover">
+                                                            <div
+                                                                class="overflow-hidden max-h-[30rem] max-w-[30rem] rounded-xl mb-5">
+                                                                <img src="{{ asset('dist/assets/img/quiz/' . $data->file) }}"
+                                                                    alt="" class="w-full h-full object-cover">
                                                             </div>
                                                         @endif
 
                                                         <p>{{ $data->soal }}</p>
 
-                                                        {{-- @if ($data->tipe_soal == 'Uraian' || $data->tipe_soal == 'Uraian
+                                                        {{-- @if ($data->tipe_soal == 'Uraian' ||
+    $data->tipe_soal ==
+        'Uraian
                                                         Bergambar')
                                                         <div class="mt-2">
                                                             <textarea
@@ -49,7 +52,8 @@
                                                         @foreach ($data->pilihan as $key => $jawaban)
                                                             <div class="mt-2 space-y-2">
                                                                 <label class="flex items-center gap-2">
-                                                                    <input type="radio" name="jawaban{{ $data->id }}" value="{{ $key }}"
+                                                                    <input type="radio" name="jawaban{{ $data->id }}"
+                                                                        value="{{ $key }}"
                                                                         class="w-4 h-4 text-blue-500">
                                                                     <span>{{ $jawaban }}</span>
                                                                 </label>
@@ -60,7 +64,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex flex-col gap-3">
-                                                <div id="previewContainer{{ $data->id }}" class="ml-3 hidden overflow-hidden">
+                                                <div id="previewContainer{{ $data->id }}"
+                                                    class="ml-3 hidden overflow-hidden">
                                                     <img id="previewImage{{ $data->id }}" src="" alt="Preview"
                                                         class="w-24 h-24 rounded-lg shadow-md object-cover">
                                                 </div>
@@ -102,7 +107,14 @@
     <div id="loading-overlay"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"><path fill="none" stroke="#1095FF" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"><animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+                <path fill="none" stroke="#1095FF" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385"
+                    stroke-dashoffset="0"
+                    d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
+                    <animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685"
+                        keySplines="0 0 1 1" repeatCount="indefinite"></animate>
+                </path>
+            </svg>
             <p class="text-white">Mengupload jawaban...</p>
         </div>
     </div>
@@ -171,7 +183,7 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 let reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     previewImage.src = e.target.result;
                     previewContainer.classList.remove("hidden"); // Tampilkan preview
                 };
@@ -204,9 +216,19 @@
             }, remainingDelay);
         }
 
+        function validateFiles() {
+            let missing = Array.from(document.querySelectorAll("input[type='file']"))
+                .some(el => el.hasAttribute("required") && el.files.length === 0);
 
+            if (missing) {
+                alert("Ada soal yang wajib upload file, silakan lengkapi dulu.");
+                return false;
+            }
+            return true;
+        }
 
         function submitQuiz() {
+            if (!validateFiles()) return;
             closeModal("my_modal_1");
             showLoadingOverlay(1000);
 
@@ -239,7 +261,7 @@
                     let file = fileInput.files[0];
                     let filePromise = new Promise((resolve) => {
                         let reader = new FileReader();
-                        reader.onload = function (e) {
+                        reader.onload = function(e) {
                             jawabanItem.file = e.target.result; // Simpan file sebagai Data URL
                             resolve();
                         };
@@ -289,31 +311,54 @@
 
                             let skor = response.skor;
                             let isLastMateri = response.isLastMateri;
+                            let status = response.status;
 
                             document.getElementById("skor").innerText = skor;
 
                             let gifEl = document.getElementById("result-gif");
                             let soundEl = document.getElementById("result-sound");
 
+                            if (!status) {
+                                document.getElementById("modal-message").innerText = response
+                                    .message;
+                                document.getElementById("skor").innerText = '';
+                                document.getElementById("ulang-btn").href =
+                                    "{{ route('user.index.quiz', $materi->id) }}";
+                                document.getElementById('lanjut-btn').hidden = true
+                                gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
+                                gifEl.classList.remove("hidden");
+                                soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
+                                soundEl.play();
+                                setTimeout(() => {
+                                    openModal("my_modal_2");
+                                }, 300);
+                                return;
+                            }
+
                             if (skor >= kkm) {
-                                if(isLastMateri){
-                                    document.getElementById("modal-message").innerText = "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
-                                }else{
-                                    document.getElementById("modal-message").innerText = "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
+                                if (isLastMateri) {
+                                    document.getElementById("modal-message").innerText =
+                                        "Selamat Anda Lulus Silahkan Kerjakan Quiz Seluruh Materi";
+                                } else {
+                                    document.getElementById("modal-message").innerText =
+                                        "Selamat Anda Lulus, Silahkan Pelajari Materi Berikutnya";
                                 }
 
                                 // Set GIF & Sound untuk berhasil
-                                gifEl.src = "{{ asset('dist/assets/img/berhasil.gif')}}";
+                                gifEl.src = "{{ asset('dist/assets/img/berhasil.gif') }}";
                                 gifEl.classList.remove("hidden");
                                 soundEl.src = "{{ asset('dist/assets/img/berhasil.mp3') }}";
                                 soundEl.play();
-                                document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
+                                document.getElementById("ulang-btn").href =
+                                    "{{ route('user.index.quiz', $materi->id) }}";
                                 let nextUrl = "{{ route('index') }}"
 
                                 document.getElementById("lanjut-btn").href = nextUrl;
                             } else {
-                                document.getElementById("modal-message").innerText = "Maaf, nilai Anda belum mencapai KKM. Nilai tertinggi dari percobaan sebelumnya akan tetap disimpan.";
-                                document.getElementById("ulang-btn").href = "{{ route('user.index.quiz', $materi->id) }}";
+                                document.getElementById("modal-message").innerText =
+                                    "Maaf, nilai Anda belum mencapai KKM. Nilai tertinggi dari percobaan sebelumnya akan tetap disimpan.";
+                                document.getElementById("ulang-btn").href =
+                                    "{{ route('user.index.quiz', $materi->id) }}";
                                 document.getElementById('lanjut-btn').hidden = true
 
                                 // Set GIF & Sound untuk gagal
@@ -336,7 +381,6 @@
                 });
             });
         }
-
     </script>
 
 

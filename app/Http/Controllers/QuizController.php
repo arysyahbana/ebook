@@ -23,7 +23,10 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
-        // return response()->json($request->all());
+        if(!$request->has('jawaban.*.file') && !$request->has('jawaban.*.pilihan')){
+            return response()->json(['message' => 'Jawaban tidak boleh kosong','status'=>false]);
+        }
+
         $user = auth()->user();
         $materiId = $request->materi_id;
         $jawabanMahasiswa = [];
