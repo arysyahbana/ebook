@@ -165,6 +165,24 @@
         </div>
     </div>
 
+    {{-- Modal Required File --}}
+    <div id="missing_file_modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white text-slate-800 rounded-lg shadow-lg w-96 relative p-6">
+            <h3 class="text-lg font-bold text-center mb-4">Upload Belum Lengkap</h3>
+            <img src="{{ asset('dist/assets/img/warning.gif') }} " class="w-36 mx-auto" alt="Warning"
+                class="w-28 mx-auto mb-4">
+            <p class="text-center mb-6">Ada soal yang wajib upload file, silakan lengkapi dulu.</p>
+            <div class="flex justify-center">
+                <button
+                    class="bg-red-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300"
+                    onclick="document.getElementById('missing_file_modal').classList.add('hidden')">
+                    Oke, Saya Lengkapi
+                </button>
+            </div>
+        </div>
+    </div>
+
+
 
     {{-- js modal --}}
     <script>
@@ -221,7 +239,8 @@
                 .some(el => el.hasAttribute("required") && el.files.length === 0);
 
             if (missing) {
-                alert("Ada soal yang wajib upload file, silakan lengkapi dulu.");
+                closeModal('my_modal_1');
+                document.getElementById('missing_file_modal').classList.remove('hidden');
                 return false;
             }
             return true;
