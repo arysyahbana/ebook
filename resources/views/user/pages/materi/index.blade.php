@@ -305,7 +305,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div>=
 
     {{-- js modal --}}
     <script>
@@ -374,7 +374,7 @@
         }
 
         function submitQuiz() {
-            validateFiles();
+            if (!validateFiles()) return;
             closeModal("my_modal_1");
             showLoadingOverlay(1000);
 
