@@ -287,6 +287,8 @@
                         reader.readAsDataURL(file);
                     });
                     fileReadPromises.push(filePromise);
+                }else{
+                    alert('Ada soal yang wajib upload file, silakan lengkapi dulu.');
                 }
 
                 jawaban.push(jawabanItem);
@@ -330,29 +332,11 @@
 
                             let skor = response.skor;
                             let isLastMateri = response.isLastMateri;
-                            let status = response.status;
 
                             document.getElementById("skor").innerText = skor;
 
                             let gifEl = document.getElementById("result-gif");
                             let soundEl = document.getElementById("result-sound");
-
-                            if (!status) {
-                                document.getElementById("modal-message").innerText = response
-                                    .message;
-                                document.getElementById("skor").innerText = '';
-                                document.getElementById("ulang-btn").href =
-                                    "{{ route('user.index.quiz', $materi->id) }}";
-                                document.getElementById('lanjut-btn').hidden = true
-                                gifEl.src = "{{ asset('dist/assets/img/gagal.gif') }}";
-                                gifEl.classList.remove("hidden");
-                                soundEl.src = "{{ asset('dist/assets/img/gagal.mp3') }}";
-                                soundEl.play();
-                                setTimeout(() => {
-                                    openModal("my_modal_2");
-                                }, 300);
-                                return;
-                            }
 
                             if (skor >= kkm) {
                                 if (isLastMateri) {
