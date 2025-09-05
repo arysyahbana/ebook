@@ -374,6 +374,7 @@
         }
 
         function submitQuiz() {
+            validateFiles();
             closeModal("my_modal_1");
             showLoadingOverlay(1000);
 
