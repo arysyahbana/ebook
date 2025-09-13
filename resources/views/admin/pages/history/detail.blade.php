@@ -76,14 +76,23 @@
                                                                             @endif
                                                                         </div>
                                                                     @endforeach
-                                                                    @if ($quiz->fileJawabanMahasiswa)
-                                                                        <div class="mt-5">
+                                                                    <div class="d-flex gap-3 mt-5">
+                                                                        @if ($quiz->fileJawabanMahasiswa)
                                                                             <a href="{{ asset('dist/assets/img/jawaban_mahasiswa/' . $data->userId . '/' . $quiz->fileJawabanMahasiswa) }}"
                                                                                 class="btn btn-primary"
-                                                                                target="_blank">Lihat
-                                                                                Berkas</a>
-                                                                        </div>
-                                                                    @endif
+                                                                                target="_blank">
+                                                                                Lihat Berkas
+                                                                            </a>
+                                                                        @endif
+
+                                                                        {{-- lihat semua berkas mahasiswa --}}
+                                                                        <a href="3"
+                                                                            class="btn btn-info"
+                                                                            data-bs-toggle="modal" data-bs-target="#modalSemuaMahasiswa-{{ $data->id }}">
+                                                                            Lihat Berkas Semua Mahasiswa
+                                                                        </a>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -92,6 +101,55 @@
                                                 <hr class="my-4">
                                             </div>
                                             {{-- end soal 1 --}}
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modalSemuaMahasiswa-{{ $data->id }}" tabindex="-1" aria-labelledby="modalSemuaMahasiswaLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl"> {{-- modal besar --}}
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalSemuaMahasiswaLabel">Berkas Semua Mahasiswa - Quiz Materi</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="d-flex flex-wrap gap-3 justify-content-start">
+
+                                                            <!-- Item 1 -->
+                                                            <div class="text-center" style="width: 150px;">
+                                                                <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                                    <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                        class="img-fluid rounded mb-2"
+                                                                        alt="Tono">
+                                                                </a>
+                                                                <p class="mb-0">Tono</p>
+                                                            </div>
+
+                                                            <!-- Item 2 -->
+                                                            <div class="text-center" style="width: 150px;">
+                                                                <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                                    <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                        class="img-fluid rounded mb-2"
+                                                                        alt="Siti">
+                                                                </a>
+                                                                <p class="mb-0">Siti</p>
+                                                            </div>
+
+                                                            <!-- Item 3 -->
+                                                            <div class="text-center" style="width: 150px;">
+                                                                <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                                    <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                        class="img-fluid rounded mb-2"
+                                                                        alt="Budi">
+                                                                </a>
+                                                                <p class="mb-0">Budi</p>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </div>
 
@@ -146,10 +204,16 @@
                                                                         @endif
                                                                     </div>
                                                                 @endforeach
-                                                                <div class="mt-5">
+                                                                <div class="d-flex gap-3 mt-5">
                                                                     <a href="{{ asset('dist/assets/img/jawaban_mahasiswa/' . $data->userId . '/' . $semuaMateri->fileJawabanMahasiswa) }}"
                                                                         class="btn btn-primary" target="_blank">Lihat
                                                                         Berkas</a>
+                                                                    {{-- lihat semua berkas mahasiswa --}}
+                                                                    <a href="3"
+                                                                        class="btn btn-info"
+                                                                        data-bs-toggle="modal" data-bs-target="#modalSemuaMahasiswaAll">
+                                                                        Lihat Berkas Semua Mahasiswa
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -159,6 +223,55 @@
                                             <hr class="my-4">
                                         </div>
                                         {{-- end soal --}}
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modalSemuaMahasiswaAll" tabindex="-1" aria-labelledby="modalSemuaMahasiswaLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl"> {{-- modal besar --}}
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalSemuaMahasiswaLabel">Berkas Semua Mahasiswa - Quiz Seluruh Materi</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="d-flex flex-wrap gap-3 justify-content-start">
+
+                                                    <!-- Item 1 -->
+                                                    <div class="text-center" style="width: 150px;">
+                                                        <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                            <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                class="img-fluid rounded mb-2"
+                                                                alt="Tono">
+                                                        </a>
+                                                        <p class="mb-0">Tono</p>
+                                                    </div>
+
+                                                    <!-- Item 2 -->
+                                                    <div class="text-center" style="width: 150px;">
+                                                        <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                            <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                class="img-fluid rounded mb-2"
+                                                                alt="Siti">
+                                                        </a>
+                                                        <p class="mb-0">Siti</p>
+                                                    </div>
+
+                                                    <!-- Item 3 -->
+                                                    <div class="text-center" style="width: 150px;">
+                                                        <a href="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}" target="_blank">
+                                                            <img src="{{ asset('dist/media/soft-ui-dashboard-screen-profile.png') }}"
+                                                                class="img-fluid rounded mb-2"
+                                                                alt="Budi">
+                                                        </a>
+                                                        <p class="mb-0">Budi</p>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
