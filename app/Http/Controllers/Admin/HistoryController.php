@@ -51,7 +51,22 @@ class HistoryController extends Controller
         $quizSemuaMateri = Quiz::where('materi', 'semuaMateri')->get();
         $this->attachStudentDataToQuiz($quizSemuaMateri, $answersLookup, $studentScores);
 
-        return view('admin.pages.history.detail', compact('page', 'quiz', 'quizSemuaMateri'));
+        $allUsers = User::pluck('name', 'id');
+        $imageAllStudent = jawabanMahasiswa::all()
+            ->map(function ($jm) use ($allUsers) {
+                return collect($jm->jawaban)->map(function ($item) use ($jm, $allUsers) {
+                    return (object) [
+                        'file' => $item['file'],
+                        'pilihan' => $item['pilihan'],
+                        'quiz_id' => $item['quiz_id'],
+                        'user_id' => $jm->user_id,
+                        'name' => $allUsers[$jm->user_id] ?? '-',
+                    ];
+                });
+            })
+            ->flatten(1);
+
+        return view('admin.pages.history.detail', compact('page', 'quiz', 'quizSemuaMateri', 'imageAllStudent'));
     }
 
     private function attachStudentData($materials, $answersLookup, $studentScores)
@@ -91,12 +106,12 @@ class HistoryController extends Controller
     {
         $columns = ['nilai',];
         $relations = [
-            'rUser' => ['name','nim'],
+            'rUser' => ['name', 'nim'],
             'rMateri' => ['judul_materi']
         ];
         $defaultRelations = [
             'rMateri' => ['judul_materi' => 'Semua Materi']
         ];
-        return Excel::download(new GenericExport(jawabanMahasiswa::class, $columns, 'E', 'history',$relations,$defaultRelations), 'History.xlsx');
+        return Excel::download(new GenericExport(jawabanMahasiswa::class, $columns, 'E', 'history', $relations, $defaultRelations), 'History.xlsx');
     }
 }
