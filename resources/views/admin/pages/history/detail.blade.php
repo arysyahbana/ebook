@@ -125,7 +125,7 @@
                                                                                     class="img-fluid rounded mb-2"
                                                                                     alt="{{ $imageStudent->name }}">
                                                                             </a>
-                                                                            <p class="mb-0">{{ $imageStudent->name }} - {{ json_encode($imageStudent) }}</p>
+                                                                            <p class="mb-0">{{ $imageStudent->name }}</p>
                                                                         </div>
                                                                     @endif
                                                                 @endforeach
