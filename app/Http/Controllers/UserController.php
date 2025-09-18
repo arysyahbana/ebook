@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\GenericExport;
 use App\Helpers\GlobalFunction;
+use App\Models\jawabanMahasiswa;
 use App\Models\User;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -70,6 +72,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         $destroy = User::find($id);
+        jawabanMahasiswa::where('user_id', $destroy->id)->delete();
+        $path = public_path('dist/assets/img/jawaban_mahasiswa/' . $destroy->id);
+        if (File::exists($path)) {
+            File::deleteDirectory($path);
+        }
         $destroy->delete();
         return redirect()->route('users.show')->with('success', 'Data user berhasil dihapus.');
     }
