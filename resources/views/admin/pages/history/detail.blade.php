@@ -87,7 +87,7 @@
                                                                         {{-- lihat semua berkas mahasiswa --}}
                                                                         <a href="3" class="btn btn-info"
                                                                             data-bs-toggle="modal"
-                                                                            data-bs-target="#modalSemuaMahasiswa-{{ $data->id }}">
+                                                                            data-bs-target="#modalSemuaMahasiswa-{{ $quiz->id }}">
                                                                             Lihat Berkas Semua Mahasiswa
                                                                         </a>
                                                                     </div>
@@ -102,7 +102,7 @@
                                             {{-- end soal 1 --}}
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="modalSemuaMahasiswa-{{ $data->id }}"
+                                            <div class="modal fade" id="modalSemuaMahasiswa-{{ $quiz->id }}"
                                                 tabindex="-1" aria-labelledby="modalSemuaMahasiswaLabel"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog modal-xl"> {{-- modal besar --}}
@@ -125,7 +125,7 @@
                                                                                     class="img-fluid rounded mb-2"
                                                                                     alt="{{ $imageStudent->name }}">
                                                                             </a>
-                                                                            <p class="mb-0">{{ $imageStudent->name }}</p>
+                                                                            <p class="mb-0">{{ $imageStudent->name }} - {{ json_encode($imageStudent) }}</p>
                                                                         </div>
                                                                     @endif
                                                                 @endforeach
