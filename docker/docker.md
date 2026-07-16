@@ -60,6 +60,8 @@ services:
       - /var/www/html/node_modules
 ```
 
+> Lihat juga masalah #4 di bawah — folder `public/build` butuh penanganan serupa tapi dengan named volume, bukan anonymous volume.
+
 ⚠️ Kalau volume ini sudah pernah dibuat kosong (dari percobaan run sebelum fix ini dipasang), volume lama harus dihapus dulu:
 ```bash
 docker compose down -v --remove-orphans
@@ -98,6 +100,40 @@ docker compose up -d
       echo "WARNING: db:seed reported an error (likely data already seeded). Continuing startup."
   fi
   ```
+
+### 4. 500 error intermiten — `ViteManifestNotFoundException: Vite manifest not found at public/build/manifest.json`
+**Penyebab:** sama seperti kasus `vendor/`, folder `public/build/` (hasil `npm run build` di Dockerfile) ketimpa oleh bind mount `./:/var/www/html`, karena di host tidak ada folder itu (biasanya di-`.gitignore`).
+
+**Beda dengan `vendor/node_modules`:** folder ini perlu bisa diakses oleh **service `app` maupun `nginx`** (PHP baca `manifest.json`, nginx serve file JS/CSS statis-nya). Anonymous volume per-service tidak cukup — harus pakai **named volume** yang dipasang di kedua service.
+
+**Fix:** di `docker-compose.yml`:
+
+```yaml
+services:
+  app:
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
+      - public_build:/var/www/html/public/build   # <- shared dengan nginx
+
+  nginx:
+    volumes:
+      - ./:/var/www/html
+      - public_build:/var/www/html/public/build   # <- volume yang sama
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  mysql_data:
+  public_build:
+```
+
+⚠️ Kalau volume `public_build` sempat kebuat kosong dari percobaan sebelumnya, harus di-reset:
+```bash
+docker compose down -v --remove-orphans
+docker compose build --no-cache
+docker compose up -d
+```
 
 ## Kredensial default (development)
 
