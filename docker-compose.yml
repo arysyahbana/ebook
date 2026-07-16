@@ -21,6 +21,8 @@ services:
       QUEUE_CONNECTION: sync
     volumes:
       - ./:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
     depends_on:
       mysql:
         condition: service_healthy
