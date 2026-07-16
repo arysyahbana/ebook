@@ -14,19 +14,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        DB::table('users')->upsert(
             [
-                'name' => 'Admin',
-                'nim' => '111111',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('123'),
-                'role' => 'Admin',
-                'no_hp' => '',
-                'alamat' => '',
-                'jenis_kelamin' => 'Pria',
-                'remember_token' => null,
+                [
+                    'name' => 'Admin',
+                    'nim' => '111111',
+                    'email' => 'admin@gmail.com',
+                    'password' => Hash::make('123'),
+                    'role' => 'Admin',
+                    'no_hp' => '',
+                    'alamat' => '',
+                    'jenis_kelamin' => 'Pria',
+                    'remember_token' => null,
+                ],
             ],
-        ]);
-
+            ['nim'], // kolom unique yang jadi acuan
+            ['name', 'email', 'password', 'role', 'no_hp', 'alamat', 'jenis_kelamin', 'remember_token']
+        );
     }
 }
