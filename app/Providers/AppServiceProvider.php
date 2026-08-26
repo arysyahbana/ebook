@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\jawabanMahasiswa;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
         //     $this->app['url']->forceScheme('http');
         // }
 
-        $this->app['request']->server->set('HTTPS', env('HTTPS'));
+        // $this->app['request']->server->set('HTTPS', env('HTTPS'));
+
+        URL::forceScheme('https');
 
         if (Schema::hasTable('settings')) {
             $settings = Setting::first();
