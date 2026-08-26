@@ -10,8 +10,8 @@
                 <div class="card mb-4">
                     @if (!$index)
                         <div class="card-header pb-0 d-flex justify-content-between">
-                            <a href="#" class="btn bg-gradient-warning" data-bs-toggle="modal"
-                                data-bs-target="#addSetting"><i class="fa fa-plus" aria-hidden="true"></i><span
+                            <a href="#" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#addSetting"><i
+                                    class="fa fa-plus" aria-hidden="true"></i><span
                                     class="text-capitalize ms-1">Tambah</span></a>
                         </div>
                     @endif
@@ -19,22 +19,22 @@
                         <div class="table-responsive p-0">
                             <x-admin.table id="datatable">
                                 @slot('header')
-                                    <tr>
-                                        <x-admin.th>No</x-admin.th>
-                                        <x-admin.th>Cover</x-admin.th>
-                                        <x-admin.th>Judul</x-admin.th>
-                                        <x-admin.th>Deskripsi</x-admin.th>
-                                        <x-admin.th>KKM</x-admin.th>
-                                        <x-admin.th>Action</x-admin.th>
-                                    </tr>
+                                <tr>
+                                    <x-admin.th>No</x-admin.th>
+                                    <x-admin.th>Cover</x-admin.th>
+                                    <x-admin.th>Judul</x-admin.th>
+                                    <x-admin.th>Deskripsi</x-admin.th>
+                                    <x-admin.th>KKM</x-admin.th>
+                                    <x-admin.th>Action</x-admin.th>
+                                </tr>
                                 @endslot
                                 @if ($index)
                                     <tr>
                                         <x-admin.td>1</x-admin.td>
                                         <x-admin.td>
                                             <a href="{{ asset('dist/assets/img/cover/' . $index->cover) }}" target="_blank">
-                                                <img src="{{ asset('dist/assets/img/cover/' . $index->cover) }}"
-                                                    alt="" style="max-width: 100px" class="img-fluid img-thumbnail">
+                                                <img src="{{ asset('dist/assets/img/cover/' . $index->cover) }}" alt=""
+                                                    style="max-width: 100px" class="img-fluid img-thumbnail">
                                             </a>
                                         </x-admin.td>
                                         <x-admin.td>{{ $index->judul ?? '' }}</x-admin.td>
@@ -46,12 +46,10 @@
                                         <x-admin.td>
                                             <a href="#" class="btn bg-gradient-info" data-bs-toggle="modal"
                                                 data-bs-target="#editSetting"><i class="fa fa-pencil"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Edit</span></a>
+                                                    aria-hidden="true"></i><span class="text-capitalize ms-1">Edit</span></a>
                                             <a href="" class="btn bg-gradient-danger" data-bs-toggle="modal"
                                                 data-bs-target="#hapusSetting"><i class="fa fa-trash"
-                                                    aria-hidden="true"></i><span
-                                                    class="text-capitalize ms-1">Hapus</span></a>
+                                                    aria-hidden="true"></i><span class="text-capitalize ms-1">Hapus</span></a>
                                         </x-admin.td>
 
                                         <!-- Modal Edit Setting -->
@@ -72,10 +70,13 @@
                                                         @csrf
                                                         <div class="modal-body">
                                                             <div class="mb-3">
-                                                                <label for="formFile" class="form-label">Nonaktifkan Website</label>
+                                                                <label for="formFile" class="form-label">Nonaktifkan
+                                                                    Website</label>
                                                                 <select class="form-control" name="status_quiz" id="">
-                                                                    <option class="form-control" value="0" {{ $index->status_quiz == 0 ? 'selected' : '' }}>Tidak Aktif</option>
-                                                                    <option class="form-control" value="1" {{ $index->status_quiz == 1 ? 'selected' : '' }}>Aktif</option>
+                                                                    <option class="form-control" value="0" {{ $index->status_quiz == 0 ? 'selected' : '' }}>Tidak Aktif
+                                                                    </option>
+                                                                    <option class="form-control" value="1" {{ $index->status_quiz == 1 ? 'selected' : '' }}>Aktif
+                                                                    </option>
                                                                 </select>
                                                             </div>
 
@@ -99,13 +100,13 @@
                                                                 name="judul" value="{{ $index->judul }}" />
 
                                                             <label>Deskripsi</label>
-                                                            <textarea class="form-control mb-3" name="deskripsi" id="deskripsi" cols="20" rows="5">
-                                                                            {{ $index->deskripsi }}
-                                                                        </textarea>
+                                                            <textarea class="form-control mb-3" name="deskripsi" id="deskripsi"
+                                                                cols="20" rows="5">
+                                                                                    {{ $index->deskripsi }}
+                                                                                </textarea>
 
-                                                            <x-admin.input type="number" placeholder="KKM Quiz"
-                                                                label="KKM Quiz" name="kkm"
-                                                                value="{{ $index->kkm }}" />
+                                                            <x-admin.input type="number" placeholder="KKM Quiz" label="KKM Quiz"
+                                                                name="kkm" value="{{ $index->kkm }}" />
 
                                                             <x-admin.input type="time" step="1"
                                                                 placeholder="Batas Waktu Quiz Seluruh Materi"
@@ -114,8 +115,7 @@
 
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-success">Update</button>
+                                                            <button type="submit" class="btn btn-sm btn-success">Update</button>
                                                             <button type="button" class="btn btn-sm btn-secondary"
                                                                 data-bs-dismiss="modal">Batal</button>
                                                         </div>
@@ -143,8 +143,8 @@
                                                         <p>Yakin ingin menghapus data?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a href="{{ route('setting.destroy', $index->id) }}"
-                                                            type="submit" class="btn btn-sm btn-danger">Hapus</a>
+                                                        <a href="{{ route('setting.destroy', $index->id) }}" type="submit"
+                                                            class="btn btn-sm btn-danger">Hapus</a>
                                                         <button type="button" class="btn btn-sm btn-secondary"
                                                             data-bs-dismiss="modal">Batal</button>
                                                     </div>
@@ -173,6 +173,13 @@
                 <form action="{{ route('setting.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="status_quiz" class="form-label">Status Quiz</label>
+                            <select class="form-control" name="status_quiz" id="status_quiz">
+                                <option value="0">Tidak Aktif</option>
+                                <option value="1" selected>Aktif</option>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Cover</label>
                             <input class="form-control" type="file" id="formFile" name="cover">
